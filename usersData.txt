@@ -1,0 +1,4 @@
+#user settings
+#CCnumber;address;pass;department;cell;user;expDate;
+
+123456789   Coimbra 123456789   DEI 919191919   joao    21/10/2019

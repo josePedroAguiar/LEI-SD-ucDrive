@@ -3,12 +3,32 @@ import java.net.*;
 import java.io.*;
 import java.util.*;
 
+
 public class Server {
 	private static int serverPort = 6001;
 
+	
 	public static void main(String args[]) {
 		int numero = 0;
+		try {
+			File myObj = new File("usersData.txt");
+			Scanner myReader = new Scanner(myObj);
+			while (myReader.hasNextLine()) {
+			  String data = myReader.nextLine();
+			  if (data.length()!=0&&data.charAt(0)!='#'){
+				User user=new User(data);
+			  }
 
+			  
+				  
+			}
+			myReader.close();
+		  } catch (FileNotFoundException e) {
+			System.out.println("An error occurred.");
+			e.printStackTrace();
+		  }
+
+		
 		try (ServerSocket listenSocket = new ServerSocket(serverPort)) {
 			System.out.println("A escuta no porto 6000");
 			System.out.println("LISTEN SOCKET=" + listenSocket);
@@ -21,6 +41,26 @@ public class Server {
 		} catch (IOException e) {
 			System.out.println("Listen:" + e.getMessage());
 		}
+	}
+}
+class User{
+	String username;
+	String expData;
+	long cellNumber;
+	public User(String data)
+	{	
+		String[] arrOfStr=data.split("\\t");
+		if(arrOfStr.length>2){
+			username=arrOfStr[0];
+			expData=arrOfStr[1];
+			try{
+			cellNumber=Long.parseLong(arrOfStr[2]);}
+			catch(NumberFormatException e){
+				System.out.println("Cell number is invalid");
+			}
+
+		}
+		System.out.println(cellNumber);
 	}
 }
 
