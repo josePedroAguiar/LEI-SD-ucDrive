@@ -1,12 +1,13 @@
-
 // TCPServer2.java: Multithreaded server
 import java.net.*;
 import java.io.*;
 import java.util.*;
 
+
 public class Server {
 	private static int serverPort = 6001;
 
+	
 	public static void main(String args[]) {
 		int numero = 0;
 		try {
@@ -24,7 +25,7 @@ public class Server {
 			System.out.println("An error occurred.");
 			e.printStackTrace();
 		}
-
+		
 		try (ServerSocket listenSocket = new ServerSocket(serverPort)) {
 			System.out.println("A escuta no porto 6000");
 			System.out.println("LISTEN SOCKET=" + listenSocket);
