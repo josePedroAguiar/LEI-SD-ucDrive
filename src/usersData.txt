@@ -1,5 +1,5 @@
 #user settings
-#CCnumber   address     pass    department  cell    user    expDate
+#CCnumber   address     pass    department  cell    user    expDate;
 
 002094143	Avenida Melissa Soares, S/N 9292-373 Olhão	jW$5x2&0	DEI	299865476	leonardo borges	2022/04/14
 583062247	Av Barbosa, 19 5964-102 Porto Santo	gi=L8*iV	DEI	297258219	nádia miranda	2022/04/17
@@ -11,3 +11,5 @@
 246774362	R. de Miranda, 139 2884-053 Vila Real de Santo António	=i#ZRjGz	DEI	935047920	afonso mota-santos	2022/03/21
 529246657	Rua Vítor Cardoso, 469 8310-778 Faro	NbNgvYPm	DEI	962522556	constança neves	2022/04/09
 368141275	Alameda da Universidade, S/N 8319-652 São Salvador de Lordelo	XNikPbq0	DEI	933727466	salomé henriques	2022/03/24
+
+

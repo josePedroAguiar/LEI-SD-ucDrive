@@ -3,30 +3,22 @@ import java.net.*;
 import java.io.*;
 import java.util.*;
 
+/*class myNameComparator implements Comparator<User>
+{
+	public int compare(User s1, User s2)
+	{
+		return s1.username.compareTo(s2.username);
+	}
+}*/
 
 public class Server {
 	private static int serverPort = 6001;
+	//TreeSet<User> tree= new TreeSet<User>(new myNameComparator());
 
-	
-	public static void main(String args[]) {
+
+	public static void main( String[] args ) {
 		int numero = 0;
-		try {
-			File myObj = new File("usersData.txt");
-			Scanner myReader = new Scanner(myObj);
-			while (myReader.hasNextLine()) {
-			  String data = myReader.nextLine();
-			  if (data.length()!=0&&data.charAt(0)!='#'){
-				User user=new User(data);
-			  }
 
-			  
-				  
-			}
-			myReader.close();
-		  } catch (FileNotFoundException e) {
-			System.out.println("An error occurred.");
-			e.printStackTrace();
-		  }
 
 		
 		try (ServerSocket listenSocket = new ServerSocket(serverPort)) {
@@ -44,23 +36,52 @@ public class Server {
 	}
 }
 class User{
-	String username;
-	String expData;
+	long ccNumber;
+	boolean athetication=false;
+	boolean valid;
+	String address;
+	String pass;
+	String department;
 	long cellNumber;
+	String username;
+	Data expDate;
 	public User(String data)
 	{	
 		String[] arrOfStr=data.split("\\t");
-		if(arrOfStr.length>2){
-			username=arrOfStr[0];
-			expData=arrOfStr[1];
-			try{
-			cellNumber=Long.parseLong(arrOfStr[2]);}
-			catch(NumberFormatException e){
-				System.out.println("Cell number is invalid");
-			}
+		System.out.println(arrOfStr.length);
+		if(arrOfStr.length==7){
 
+			address=arrOfStr[1];
+			pass=arrOfStr[2];
+			department=arrOfStr[3];
+			username=arrOfStr[5];
+			try{
+				ccNumber=Long.parseLong(arrOfStr[0]);
+				cellNumber=Long.parseLong(arrOfStr[4]);
+				String[]date=arrOfStr[6].split("/");
+				if(date.length==3)
+					expDate=new Data(Integer.parseInt(date[0]),Integer.parseInt(date[1]),Integer.parseInt(date[2]));
+				else{
+					System.out.println("ERROR:Date is invalid (i.e.: DD/M/YY-numeric)");
+					valid=false;
+					return;}
+
+			}
+			catch(NumberFormatException e){
+				System.out.println("ERROR:Data(CC-Number,Phone-Number,Date) of "+username+" is invalid");
+				valid=false;
+				return;
+			}
+			valid=true;
 		}
-		System.out.println(cellNumber);
+		else {
+			valid=false;
+		}
+
+	}
+
+	public User () {
+
 	}
 }
 
@@ -86,24 +107,67 @@ class Connection extends Thread {
 	// =============================
 	public void run() {
 		String resposta;
+		HashSet<User> hs = new HashSet();
+		try {
+			File myObj = new File("usersData.txt");
+			Scanner myReader = new Scanner(myObj);
+			while (myReader.hasNextLine()) {
+				String data = myReader.nextLine();
+				if (data.length()!=0&&data.charAt(0)!='#'){
+					User user=new User(data);
+					if(user.valid)
+						hs.add(user);
+
+
+				}
+			}
+			/*
+			Iterator<User> iter = hs.iterator();
+			while (iter.hasNext()) {
+
+				// Printing all elements inside objects
+				System.out.println(iter.next().username);
+			}
+			*/
+			myReader.close();
+		} catch (FileNotFoundException e) {
+			System.out.println("An error occurred.");
+			e.printStackTrace();
+		}
 		try {
 			while (true) {
-                PropertyValues properties = new PropertyValues();
-		        properties.getPropValues();
-				String received = in.readUTF();
-				System.out.println("T[" + thread_number + "] Recebeu: " + received);
+				User currentUser=new User();
+				while ( !currentUser.athetication ){
+					String received = in.readUTF();
+					Iterator<User> iter = hs.iterator();
+					while (iter.hasNext()) {
+						currentUser=iter.next();
+						if(currentUser.username.equals("")&&currentUser.pass.equals(""))
+						{
+							currentUser.athetication=true;
+							break;
+						}
+						if(currentUser.username.equals("")&&currentUser.pass.equals(""))
+						{continue;}
+					}
+					System.out.println("T[" + thread_number + "] Recebeu: " + received);
+					out.writeUTF("Tenta outra vez");
+				}
+
 
                 // an echo server
                 
-				String menu = "**********MENU**********\n" 
-                    + "1- ALTERAR PASSWORD\n"
-                    + "2- CONFIG IP E PORTOS\n" 
-                    + "3- LISTAR FICHEIROS DA DIRETORIA DO SERVIDOR\n"
-                    + "4- MUDAR DIRETORIA DO SERVIDOR\n"
-					+ "5- LISTAR FICHEIROS DA DIRETORIA DO CLIENTE\n"
-                    + "6- MUDAR DIRETORIA DO CLIENTE\n"
-					+ "7- DESCARREGAR FICHEIRO\n"
-                    + "8- CARREGAR FICHEIRO\n";
+				String menu = """
+						**********MENU**********
+						1- ALTERAR PASSWORD
+						2- CONFIG IP E PORTOS
+						3- LISTAR FICHEIROS DA DIRETORIA DO SERVIDOR
+						4- MUDAR DIRETORIA DO SERVIDOR
+						5- LISTAR FICHEIROS DA DIRETORIA DO CLIENTE
+						6- MUDAR DIRETORIA DO CLIENTE
+						7- DESCARREGAR FICHEIRO
+						8- CARREGAR FICHEIRO
+						""";
 
 				out.writeUTF(menu);
 
