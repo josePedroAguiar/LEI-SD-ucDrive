@@ -10,7 +10,35 @@ import java.util.*;
 		return s1.username.compareTo(s2.username);
 	}
 }*/
+class RandomString {
+	//https://www.geeksforgeeks.org/generate-random-string-of-given-size-in-java/
+	// function to generate a random string of length n
+	static String getAlphaNumericString ( int n ) {
 
+		// chose a Character random from this String
+		String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+									+ "0123456789"
+									+ "abcdefghijklmnopqrstuvxyz";
+
+		// create StringBuffer size of AlphaNumericString
+		StringBuilder sb = new StringBuilder(n);
+
+		for (int i = 0; i < n; i++) {
+
+			// generate a random number between
+			// 0 to AlphaNumericString variable length
+			int index
+					= ( int ) (AlphaNumericString.length()
+							   * Math.random());
+
+			// add Character one by one in end of sb
+			sb.append(AlphaNumericString
+					.charAt(index));
+		}
+
+		return sb.toString();
+	}
+}
 public class Server {
 	private static int serverPort = 6001;
 	//TreeSet<User> tree= new TreeSet<User>(new myNameComparator());
@@ -20,7 +48,7 @@ public class Server {
 		int numero = 0;
 
 
-		
+
 		try (ServerSocket listenSocket = new ServerSocket(serverPort)) {
 			System.out.println("A escuta no porto 6000");
 			System.out.println("LISTEN SOCKET=" + listenSocket);
@@ -46,7 +74,7 @@ class User{
 	String username;
 	Data expDate;
 	public User(String data)
-	{	
+	{
 		String[] arrOfStr=data.split("\\t");
 		System.out.println(arrOfStr.length);
 		if(arrOfStr.length==7){
@@ -139,24 +167,31 @@ class Connection extends Thread {
 				User currentUser=new User();
 				while ( !currentUser.athetication ){
 					String received = in.readUTF();
+					String[] data = received.split("\\t");
+					if (data.length==2){
 					Iterator<User> iter = hs.iterator();
 					while (iter.hasNext()) {
 						currentUser=iter.next();
-						if(currentUser.username.equals("")&&currentUser.pass.equals(""))
+						if(currentUser.username.equals(data[0])&&currentUser.pass.equals(data[1]))
 						{
 							currentUser.athetication=true;
 							break;
 						}
-						if(currentUser.username.equals("")&&currentUser.pass.equals(""))
-						{continue;}
+
+					}
+					if(currentUser.username.equals(data[0])&&currentUser.pass.equals(data[1]))
+					{continue;}
 					}
 					System.out.println("T[" + thread_number + "] Recebeu: " + received);
 					out.writeUTF("Tenta outra vez");
 				}
 
+				out.writeUTF("Login com sucesso|"+RandomString
+						.getAlphaNumericString(10)+ currentUser.username);
+
 
                 // an echo server
-                
+
 				String menu = """
 						**********MENU**********
 						1- ALTERAR PASSWORD
