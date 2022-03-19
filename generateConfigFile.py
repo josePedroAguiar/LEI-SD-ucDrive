@@ -13,8 +13,9 @@ if __name__ == "__main__":
     fac_dep = ["FCTUC - DEEC", "FCTUC - DEI", "FCTUC - DEQ", "FCTUC - DARQ",
                "FCTUC - DEM", "FCTUC - DF", "FCTUC - DQ", "FCTUC - DM"]
 
-    with open("C:/Users/Tiago Oliveira/OneDrive - Universidade de Coimbra/3º Ano/SD/ucDrive/src/userdata.txt",
-              "w") as f:
+    with open("src/userdata.txt", "w") as f:
+        f.write("#user settings\n#CCnumber\taddress\tpass\tdepartment\tcell\tuser\texpDate\n\n")
+
         for _ in range(10):
             password = ""
             CCNumber = ""
@@ -31,6 +32,6 @@ if __name__ == "__main__":
                 if i < 7:
                     phoneNumber += r.choice(s.digits)
 
-            info = username + "\t" + password + "\t" + address + "\t" + department + "\t" + phoneNumber + "\t" + CCNumber + "\t" + expDate + "\n"
+            info = CCNumber + "\t" + address + "\t" + password + "\t" + department + "\t" + phoneNumber + "\t" + username + "\t" + expDate + "\n"
             print(info, end="")
             f.write(info)
