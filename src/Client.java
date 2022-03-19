@@ -16,18 +16,20 @@ public class Client {
 			
 			// 3o passo
 			try (Scanner sc = new Scanner(System.in)) {
-				while (true) {
-                    
-                    System.out.print("Username: ");
-                    String texto = sc.nextLine();
-                    System.out.print("Password: ");
+				String resposta;
+				String[] respostaAndToken;
+				do {
+					System.out.print("Username: ");
+					String texto = sc.nextLine();
+					System.out.print("Password: ");
 					texto += "\t"+sc.nextLine();
+					out.writeUTF(texto);
+					resposta= in.readUTF();
+					respostaAndToken=resposta.split("\\|");
+					System.out.println(respostaAndToken[0]);
+				}while ( !respostaAndToken[0].equals("Login com sucesso") );
+				while (true) {
 
-                    out.writeUTF(texto);
-
-                    String menu = in.readUTF();
-                    System.out.println(menu);
-                    
 					// WRITE INTO THE SOCKET
 					//out.writeUTF(texto);
 					
@@ -35,7 +37,7 @@ public class Client {
 					String data = in.readUTF();
 					
 					// DISPLAY WHAT WAS READ
-					System.out.println("Received: " + data);
+					System.out.println("Received: \n" + data);
 				}
 			}
 			
