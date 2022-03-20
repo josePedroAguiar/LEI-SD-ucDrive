@@ -1,8 +1,8 @@
-
 // TCPServer2.java: Multithreaded server
 
 import java.net.*;
 import java.io.*;
+import java.nio.file.*;
 import java.util.*;
 
 /*class myNameComparator implements Comparator<User>
@@ -18,9 +18,7 @@ class RandomString {
     static String getAlphaNumericString(int n) {
 
         // chose a Character random from this String
-        String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-                + "0123456789"
-                + "abcdefghijklmnopqrstuvxyz";
+        String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" + "0123456789" + "abcdefghijklmnopqrstuvxyz";
 
         // create StringBuffer size of AlphaNumericString
         StringBuilder sb = new StringBuilder(n);
@@ -29,12 +27,10 @@ class RandomString {
 
             // generate a random number between
             // 0 to AlphaNumericString variable length
-            int index = (int) (AlphaNumericString.length()
-                    * Math.random());
+            int index = (int) (AlphaNumericString.length() * Math.random());
 
             // add Character one by one in end of sb
-            sb.append(AlphaNumericString
-                    .charAt(index));
+            sb.append(AlphaNumericString.charAt(index));
         }
 
         return sb.toString();
@@ -49,7 +45,7 @@ public class Server {
 
         int serverPort = 6001;
         try (ServerSocket listenSocket = new ServerSocket(serverPort)) {
-            System.out.println("A escuta no porto 6000");
+            System.out.println("A escuta no porto " + serverPort);
             System.out.println("LISTEN SOCKET=" + listenSocket);
             while (true) {
                 Socket clientSocket = listenSocket.accept(); // BLOQUEANTE
@@ -64,6 +60,7 @@ public class Server {
 }
 
 class User {
+    Path dir;
     long ccNumber;
     boolean athetication = false;
     boolean valid;
@@ -76,7 +73,7 @@ class User {
 
     public User(String data) {
         String[] arrOfStr = data.split("\\t");
-        System.out.println(arrOfStr.length);
+        // System.out.println(arrOfStr.length);
         if (arrOfStr.length == 7) {
 
             address = arrOfStr[1];
@@ -90,13 +87,13 @@ class User {
                 if (date.length == 3)
                     expDate = new Data(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]));
                 else {
-                    System.out.println("ERROR:Date is invalid (i.e.: DD/M/YY-numeric)");
+                    System.out.println("ERROR: Date is invalid (i.e.: DD/M/YY-numeric)");
                     valid = false;
                     return;
                 }
 
             } catch (NumberFormatException e) {
-                System.out.println("ERROR:Data(CC-Number,Phone-Number,Date) of " + username + " is invalid");
+                System.out.println("ERROR: Data(CC-Number,Phone-Number,Date) of " + username + " is invalid");
                 valid = false;
                 return;
             }
@@ -118,8 +115,12 @@ class Connection extends Thread {
     DataOutputStream out;
     Socket clientSocket;
     int thread_number;
+    HashSet<User> hs = new HashSet<>();
+    File myObj = new File("usersData.txt");
 
     public Connection(Socket aClientSocket, int numero) {
+        readUsersData();    //abre o ficheiro com as infos dos users e guarda toda a info
+
         thread_number = numero;
         try {
             clientSocket = aClientSocket;
@@ -133,109 +134,143 @@ class Connection extends Thread {
 
     // =============================
     public void run() {
-        HashSet<User> hs = new HashSet<>();
-        File myObj = new File("usersData.txt");
+        try {
+
+            User currentUser = authentication(new User()); //autentica um novo utilizador
+
+            // an echo server
+            showMenu(currentUser);  //envia o menu para os clientes
+
+        } catch (EOFException e) {
+            updateFile();
+            System.out.println("EOF:" + e.getMessage());
+        } catch (IOException e) {
+            updateFile();
+            System.out.println("IO:" + e.getMessage());
+        }
+    }
+
+    private Path createDir(User user) {
+        Path path = Paths.get("/home/" + user.username + "/");
+        try {
+            Files.createDirectories(path);
+            return path;
+        } catch (NoSuchFileException e) {
+            System.out.println("Parent directory doesn't exist!");
+            e.printStackTrace();
+        } catch (FileAlreadyExistsException e) {
+            System.out.println("Directory already exists!");
+            e.printStackTrace();
+        } catch (IOException e) {
+            System.out.println("IO " + e.getMessage());
+            e.printStackTrace();
+        }
+        return Paths.get("/home/");
+    }
+
+    private void readUsersData() {
         try {
             Scanner myReader = new Scanner(myObj);
             while (myReader.hasNextLine()) {
                 String data = myReader.nextLine();
                 if (data.length() != 0 && data.charAt(0) != '#') {
                     User user = new User(data);
-                    if (user.valid)
+                    if (user.valid) {
+                        user.dir = createDir(user);
                         hs.add(user);
+                    }
                 }
             }
-            /*
-             * Iterator<User> iter = hs.iterator();
-             * while (iter.hasNext()) {
-             *
-             * // Printing all elements inside objects
-             * System.out.println(iter.next().username);
-             * }
-             */
+
             myReader.close();
         } catch (FileNotFoundException e) {
             System.out.println("An error occurred.");
             e.printStackTrace();
         }
-        try {
-            while (true) {
-                User currentUser = new User();
-                while (!currentUser.athetication) {
-                    String received = in.readUTF();
-                    String[] data = received.split("\\t");
-                    if (data.length == 2) {
-                        Iterator<User> iter = hs.iterator();
-                        while (iter.hasNext()) {
-                            currentUser = iter.next();
-                            if (currentUser.username.equals(data[0]) && currentUser.pass.equals(data[1])) {
-                                currentUser.athetication = true;
-                                break;
-                            }
-                            System.out.println(data[1]);
+    }
 
-                        }
-                        if (currentUser.username.equals(data[0]) && currentUser.pass.equals(data[1])) {
-                            continue;
-                        }
+    private void showMenu(User currentUser) throws IOException {
+        String menu = """
+                **********MENU**********
+                1- ALTERAR PASSWORD
+                2- CONFIG IP E PORTOS
+                3- LISTAR FICHEIROS DA DIRETORIA DO SERVIDOR
+                4- MUDAR DIRETORIA DO SERVIDOR
+                5- LISTAR FICHEIROS DA DIRETORIA DO CLIENTE
+                6- MUDAR DIRETORIA DO CLIENTE
+                7- DESCARREGAR FICHEIRO
+                8- CARREGAR FICHEIRO
+                9- SAIR
+                OPCAO:""";
+
+        out.writeUTF(menu);
+
+        String opt = in.readUTF();
+        System.out.println("Opcao: " + opt);
+        if ("1".equals(opt)) {
+            changePass(currentUser);
+            // depois de mudar a passe fecha a ligacao e pede uma nova autenticacao
+            // clientSocket.close();
+            //authentication(new User());
+
+            updateFile();
+            clientSocket.close();
+            System.exit(0);
+        } else if ("0".equals(opt)) {
+            updateFile();
+            clientSocket.close();
+            return;
+        }
+        showMenu(currentUser);
+    }
+
+    private User authentication(User currentUser) throws IOException {
+        while (!currentUser.athetication) {
+            String received = in.readUTF();
+            String[] data = received.split("\\t");
+            if (data.length == 2) {
+                for (User h : hs) {
+                    currentUser = h;
+                    if (currentUser.username.equals(data[0]) && currentUser.pass.equals(data[1])) {
+                        currentUser.athetication = true;
+                        break;
                     }
-                    System.out.println("T[" + thread_number + "] Recebeu: " + received);
-                    out.writeUTF("Tenta outra vez");
+                    //System.out.println(data[1]);
+
                 }
-
-                out.writeUTF("Login com sucesso|" + RandomString
-                        .getAlphaNumericString(10) + currentUser.username);
-
-                // an echo server
-                String menu = """
-                         **********MENU**********
-                         1- ALTERAR PASSWORD
-                         2- CONFIG IP E PORTOS
-                         3- LISTAR FICHEIROS DA DIRETORIA DO SERVIDOR
-                         4- MUDAR DIRETORIA DO SERVIDOR
-                         5- LISTAR FICHEIROS DA DIRETORIA DO CLIENTE
-                         6- MUDAR DIRETORIA DO CLIENTE
-                         7- DESCARREGAR FICHEIRO
-                         8- CARREGAR FICHEIRO
-                         0- SAIR
-                         OPCAO:""";
-
-                out.writeUTF(menu);
-
-                String opt = in.readUTF();
-                System.out.println("Opcao: " + opt);
-                if ("1".equals(opt)) {
-                    changePass(currentUser);
-                } else {
-                    updateFile(myObj, hs);
-                    clientSocket.close();
+                if (currentUser.username.equals(data[0]) && currentUser.pass.equals(data[1])) {
+                    continue;
                 }
             }
-        } catch (EOFException e) {
-            updateFile(myObj, hs);
-            System.out.println("EOF:" + e);
-        } catch (IOException e) {
-            updateFile(myObj, hs);
-            System.out.println("IO:" + e);
+            System.out.println("T[" + thread_number + "]: Utilizador nao autenticado.");
+            out.writeUTF("Tenta outra vez");
         }
+
+        out.writeUTF("Login com sucesso|" + RandomString.getAlphaNumericString(10) + currentUser.username);
+        return currentUser;
     }
 
-    private void changePass(User currentUser) throws IOException {
-
-        while (true) {
+    private void changePass(User currentUser) {
+        try {
             out.writeUTF("Nova password: ");
-            String newPass = in.readUTF();
-            if (!newPass.equals(currentUser.pass)) {
-                currentUser.pass = newPass;
-                out.writeUTF("Password atualizada!\n");
-                break;
-            }
-            out.writeUTF("Password ja utilizada!\nNova password: ");
-        }
+            while (true) {
 
+                String newPass = in.readUTF();
+                if (!newPass.equals(currentUser.pass)) {
+                    currentUser.pass = newPass;
+                    updateFile();
+                    out.writeUTF("Password atualizada!\n");
+                    break;
+                }
+                out.writeUTF("Password ja utilizada!\nNova password: ");
+
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    private void updateFile(File myObj, HashSet<User> hs) {
+    private void updateFile() {
         try (BufferedWriter br = new BufferedWriter(new FileWriter(myObj))) {
             Iterator<User> iter = hs.iterator();
             br.write("#user settings\n#CCnumber\taddress\tpass\tdepartment\tcell\tuser\texpDate\n\n");
@@ -248,8 +283,10 @@ class Connection extends Thread {
             System.out.println(myObj.getName() + " atualizado com sucesso!");
         } catch (FileNotFoundException ex) {
             // file does not exist
+            System.out.println("File not found!");
         } catch (IOException ex) {
             // I/O error
+            System.out.println("IO:" + ex);
         }
     }
 }

@@ -26,33 +26,10 @@ public class Client {
                     out.writeUTF(texto);
                     resposta = in.readUTF();
                     respostaAndToken = resposta.split("\\|");
-                    System.out.println(respostaAndToken[0]);
+                    System.out.println(respostaAndToken[0] + "\n");
                 } while (!respostaAndToken[0].equals("Login com sucesso"));
 
-                while (true) {
-                    // Receive Menu Options
-                    System.out.print(in.readUTF());
-
-                    int opt = sc.nextInt();
-                    System.out.println(opt);
-                    out.writeUTF(String.valueOf(opt));
-
-                    if (opt == 1) {
-                        String message = in.readUTF();
-                        System.out.print(message);
-                        while (true) {
-                            String pass = sc.next();
-                            out.writeUTF(pass);
-
-                            String[] data = in.readUTF().split("\n");
-                            if (data[0].equals("Password atualizada!")) {
-                                System.out.println(data[0]);
-                                break;
-                            }
-                            System.out.print(data[0] + data[1]);
-                        }
-                    }
-                }
+                receiveMenu(in, out, sc);
             }
 
         } catch (UnknownHostException e) {
@@ -61,6 +38,34 @@ public class Client {
             System.out.println("EOF:" + e.getMessage());
         } catch (IOException e) {
             System.out.println("IO:" + e.getMessage());
+        }
+    }
+
+    private static void receiveMenu(DataInputStream in, DataOutputStream out, Scanner sc) throws IOException {
+        // Receive Menu Options
+        System.out.print(in.readUTF());
+
+        int opt = sc.nextInt();
+        //System.out.println(opt);
+        out.writeUTF(String.valueOf(opt));
+
+        if (opt == 1) {
+            String message = in.readUTF();
+            System.out.print(message);
+            String[] data;
+            do {
+                String pass = sc.next();
+                out.writeUTF(pass);
+
+                data = in.readUTF().split("\n");
+                if (data.length == 2)
+                    System.out.print(data[0] + "\n" + data[1]);
+            } while (!data[0].equals("Password atualizada!"));
+            System.out.println(data[0]);
+            //depois de mudar a passe pede uma nova autenticacao
+            System.out.println("olaola");
+            receiveMenu(in, out, sc);
+            System.out.println("olaola");
         }
     }
 }
