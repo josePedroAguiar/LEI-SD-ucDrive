@@ -3,6 +3,8 @@ import java.util.Scanner;
 import java.io.*;
 
 public class Client {
+    static DataInputStream in;
+    static DataOutputStream out;
 
     public static void main(String[] args) {
         // 1o passo - criar socket
@@ -11,8 +13,8 @@ public class Client {
             System.out.println("SOCKET=" + s);
 
             // 2o passo
-            DataInputStream in = new DataInputStream(s.getInputStream());
-            DataOutputStream out = new DataOutputStream(s.getOutputStream());
+            in = new DataInputStream(s.getInputStream());
+            out = new DataOutputStream(s.getOutputStream());
 
             // 3o passo
             try (Scanner sc = new Scanner(System.in)) {
@@ -29,22 +31,25 @@ public class Client {
                     System.out.println(respostaAndToken[0] + "\n");
                 } while (!respostaAndToken[0].equals("Login com sucesso"));
 
-                receiveMenu(in, out, sc);
+                while(true)
+                    receiveMenu();
             }
 
         } catch (UnknownHostException e) {
             System.out.println("Sock:" + e.getMessage());
         } catch (EOFException e) {
             System.out.println("EOF:" + e.getMessage());
+            e.printStackTrace();
         } catch (IOException e) {
             System.out.println("IO:" + e.getMessage());
         }
     }
 
-    private static void receiveMenu(DataInputStream in, DataOutputStream out, Scanner sc) throws IOException {
+    private static void receiveMenu() throws IOException {
         // Receive Menu Options
-        System.out.print(in.readUTF());
-
+        String menu = in.readUTF(); // da erro aqui quando volta a receber o menu
+        System.out.print(menu);
+        Scanner sc = new Scanner(System.in);
         int opt = sc.nextInt();
         //System.out.println(opt);
         out.writeUTF(String.valueOf(opt));
@@ -64,8 +69,8 @@ public class Client {
             System.out.println(data[0]);
             //depois de mudar a passe pede uma nova autenticacao
             System.out.println("olaola");
-            receiveMenu(in, out, sc);
-            System.out.println("olaola");
+            //receiveMenu();
+            //System.out.println("olaola");
         }
     }
 }

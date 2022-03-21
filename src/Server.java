@@ -142,12 +142,11 @@ class Connection extends Thread {
             showMenu(currentUser);  //envia o menu para os clientes
 
         } catch (EOFException e) {
-            updateFile();
             System.out.println("EOF:" + e.getMessage());
         } catch (IOException e) {
-            updateFile();
             System.out.println("IO:" + e.getMessage());
         }
+        updateFile();
     }
 
     private Path createDir(User user) {
@@ -217,11 +216,8 @@ class Connection extends Thread {
             clientSocket.close();
             System.exit(0);
         } else if ("0".equals(opt)) {
-            updateFile();
             clientSocket.close();
-            return;
         }
-        showMenu(currentUser);
     }
 
     private User authentication(User currentUser) throws IOException {
@@ -250,7 +246,7 @@ class Connection extends Thread {
         return currentUser;
     }
 
-    private void changePass(User currentUser) {
+    private void changePass(User currentUser) throws IOException {
         try {
             out.writeUTF("Nova password: ");
             while (true) {
@@ -268,6 +264,7 @@ class Connection extends Thread {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        showMenu(currentUser);
     }
 
     private void updateFile() {
