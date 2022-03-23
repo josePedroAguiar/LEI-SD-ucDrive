@@ -150,7 +150,7 @@ class Connection extends Thread {
     }
 
     private Path createDir(User user) {
-        Path path = Paths.get("/home/" + user.username + "/");
+        Path path = Paths.get("./home/" + user.username + "/");
         try {
             Files.createDirectories(path);
             return path;
@@ -164,7 +164,7 @@ class Connection extends Thread {
             System.out.println("IO " + e.getMessage());
             e.printStackTrace();
         }
-        return Paths.get("/home/");
+        return Paths.get("./home/");
     }
 
     private void readUsersData() {
