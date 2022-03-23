@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="496383f7-a050-44c8-b761-25df45aa231d" name="Default Changelist" comment="Login quase na totalidade implementado">
+      <change afterPath="$PROJECT_DIR$/src/UDPClient.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/UDPServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="$APPLICATION_HOME_DIR$/plugins/maven/lib/maven3" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="264pRE3ckO762y0t3ahBKEus9Pf" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src" />
+      <recent name="$PROJECT_DIR$" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src" />
+      <recent name="$PROJECT_DIR$" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="Server" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="15" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="INCLUDE_PROVIDED_SCOPE" value="true" />
+      <option name="MAIN_CLASS_NAME" value="Server" />
+      <module name="ucDriver" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="496383f7-a050-44c8-b761-25df45aa231d" name="Default Changelist" comment="" />
+      <created>1646692702880</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1646692702880</updated>
+      <workItem from="1646692703905" duration="213000" />
+      <workItem from="1647295678596" duration="176000" />
+      <workItem from="1647295999754" duration="444000" />
+      <workItem from="1647301035774" duration="3000" />
+      <workItem from="1647517167486" duration="205000" />
+      <workItem from="1647517421606" duration="185000" />
+      <workItem from="1647519751341" duration="1478000" />
+      <workItem from="1647527753285" duration="3000" />
+      <workItem from="1647527768534" duration="707000" />
+      <workItem from="1647646314511" duration="6093000" />
+      <workItem from="1647656563966" duration="63000" />
+      <workItem from="1647656647951" duration="7282000" />
+      <workItem from="1647707679170" duration="1410000" />
+      <workItem from="1648003238192" duration="257000" />
+      <workItem from="1648003562532" duration="130000" />
+      <workItem from="1648003769054" duration="9000" />
+      <workItem from="1648003795882" duration="26000" />
+      <workItem from="1648003896155" duration="250000" />
+      <workItem from="1648004149984" duration="75000" />
+    </task>
+    <task id="LOCAL-00001" summary="Read user data in Server.java">
+      <created>1647527838562</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1647527838562</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Read user data in Server.java">
+      <created>1647662060063</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1647662060063</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Login quase na totalidade implementado">
+      <created>1647701571726</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1647701571726</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Login quase na totalidade implementado">
+      <created>1647701658470</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1647701658470</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Login quase na totalidade implementado">
+      <created>1648003616338</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1648003616338</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Login quase na totalidade implementado">
+      <created>1648003643125</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1648003643125</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Read user data in Server.java" />
+    <MESSAGE value="Login quase na totalidade implementado" />
+    <option name="LAST_COMMIT_MESSAGE" value="Login quase na totalidade implementado" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="470" y="185" key="#Inspections" timestamp="1647657911927">
+      <screen x="0" y="25" width="1680" height="1025" />
+    </state>
+    <state x="470" y="185" key="#Inspections/0.25.1680.1025@0.25.1680.1025" timestamp="1647657911927" />
+    <state x="324" y="81" key="#Project_Structure" timestamp="1647295709656">
+      <screen x="0" y="25" width="1680" height="1025" />
+    </state>
+    <state x="324" y="81" key="#Project_Structure/-2560.25.2560.1415/0.25.1680.1025@0.25.1680.1025" timestamp="1647295709656" />
+    <state x="324" y="81" key="#Project_Structure/0.25.1680.1025@0.25.1680.1025" timestamp="1646692723066" />
+    <state x="300" y="162" width="1071" height="850" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1648004202205">
+      <screen x="0" y="25" width="1680" height="1025" />
+    </state>
+    <state x="300" y="162" width="1071" height="850" key="#com.intellij.execution.impl.EditConfigurationsDialog/-561.-1415.2560.1415/0.25.1680.1025@0.25.1680.1025" timestamp="1648004202205" />
+    <state x="574" y="367" key="#com.intellij.ide.util.PackageChooserDialog" timestamp="1648004196929">
+      <screen x="0" y="25" width="1680" height="1025" />
+    </state>
+    <state x="574" y="367" key="#com.intellij.ide.util.PackageChooserDialog/-561.-1415.2560.1415/0.25.1680.1025@0.25.1680.1025" timestamp="1648004196929" />
+    <state x="573" y="321" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1648004201228">
+      <screen x="0" y="25" width="1680" height="1025" />
+    </state>
+    <state x="573" y="321" key="#com.intellij.ide.util.TreeClassChooserDialog/-561.-1415.2560.1415/0.25.1680.1025@0.25.1680.1025" timestamp="1648004201228" />
+    <state x="574" y="254" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1647652608165">
+      <screen x="0" y="25" width="1680" height="1025" />
+    </state>
+    <state x="574" y="254" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.25.1680.1025@0.25.1680.1025" timestamp="1647652608165" />
+    <state x="710" y="404" width="481" height="198" key="Github.ShareDialog" timestamp="1647296011045">
+      <screen x="0" y="25" width="1680" height="1025" />
+    </state>
+    <state x="710" y="404" width="481" height="198" key="Github.ShareDialog/-2560.25.2560.1415/0.25.1680.1025@0.25.1680.1025" timestamp="1647296011045" />
+    <state x="651" y="212" key="Github.UntrackedFilesDialog" timestamp="1647296046272">
+      <screen x="0" y="25" width="1680" height="1025" />
+    </state>
+    <state x="651" y="212" key="Github.UntrackedFilesDialog/-2560.25.2560.1415/0.25.1680.1025@0.25.1680.1025" timestamp="1647296046272" />
+    <state width="1358" height="255" key="GridCell.Tab.0.bottom" timestamp="1647732119838">
+      <screen x="0" y="25" width="1680" height="1025" />
+    </state>
+    <state width="1358" height="255" key="GridCell.Tab.0.bottom/0.25.1680.1025@0.25.1680.1025" timestamp="1647732119838" />
+    <state width="1358" height="255" key="GridCell.Tab.0.center" timestamp="1647732119837">
+      <screen x="0" y="25" width="1680" height="1025" />
+    </state>
+    <state width="1358" height="255" key="GridCell.Tab.0.center/0.25.1680.1025@0.25.1680.1025" timestamp="1647732119837" />
+    <state width="1358" height="255" key="GridCell.Tab.0.left" timestamp="1647732119837">
+      <screen x="0" y="25" width="1680" height="1025" />
+    </state>
+    <state width="1358" height="255" key="GridCell.Tab.0.left/0.25.1680.1025@0.25.1680.1025" timestamp="1647732119837" />
+    <state width="1358" height="255" key="GridCell.Tab.0.right" timestamp="1647732119838">
+      <screen x="0" y="25" width="1680" height="1025" />
+    </state>
+    <state width="1358" height="255" key="GridCell.Tab.0.right/0.25.1680.1025@0.25.1680.1025" timestamp="1647732119838" />
+    <state x="474" y="268" key="MultipleFileMergeDialog" timestamp="1647662640124">
+      <screen x="0" y="25" width="1680" height="1025" />
+    </state>
+    <state x="474" y="268" key="MultipleFileMergeDialog/0.25.1680.1025@0.25.1680.1025" timestamp="1647662640124" />
+    <state x="651" y="227" key="RollbackChangesDialog" timestamp="1647662530203">
+      <screen x="0" y="25" width="1680" height="1025" />
+    </state>
+    <state x="651" y="227" key="RollbackChangesDialog/0.25.1680.1025@0.25.1680.1025" timestamp="1647662530203" />
+    <state x="436" y="240" key="Vcs.Push.Dialog.v2" timestamp="1648003255572">
+      <screen x="0" y="25" width="1680" height="1025" />
+    </state>
+    <state x="436" y="240" key="Vcs.Push.Dialog.v2/-561.-1415.2560.1415/0.25.1680.1025@0.25.1680.1025" timestamp="1648003255572" />
+    <state x="436" y="240" key="Vcs.Push.Dialog.v2/0.25.1680.1025@0.25.1680.1025" timestamp="1647701663732" />
+    <state x="637" y="421" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1648003471009">
+      <screen x="0" y="25" width="1680" height="1025" />
+    </state>
+    <state x="637" y="421" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/-561.-1415.2560.1415/0.25.1680.1025@0.25.1680.1025" timestamp="1648003471009" />
+    <state x="637" y="421" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.25.1680.1025@0.25.1680.1025" timestamp="1647662160156" />
+    <state x="674" y="298" key="svn.repositoryBrowser" timestamp="1648003492891">
+      <screen x="0" y="25" width="1680" height="1025" />
+    </state>
+    <state x="674" y="298" key="svn.repositoryBrowser/-561.-1415.2560.1415/0.25.1680.1025@0.25.1680.1025" timestamp="1648003492891" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/Server.java</url>
+          <line>42</line>
+          <properties class="Server" method="main">
+            <option name="EMULATED" value="true" />
+          </properties>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>
