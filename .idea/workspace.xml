@@ -20,9 +20,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="496383f7-a050-44c8-b761-25df45aa231d" name="Default Changelist" comment="Login quase na totalidade implementado">
-      <change afterPath="$PROJECT_DIR$/src/UDPClient.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/UDPServer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Client.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/Client.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Connection.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/Connection.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Data.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/Data.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/RandomString.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/RandomString.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Server.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/Server.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Server.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/User.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/usersData.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/usersData.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,6 +50,9 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
@@ -58,7 +67,9 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/src" />
@@ -74,19 +85,21 @@
     <property name="project.structure.side.proportion" value="0.2" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src" />
-      <recent name="$PROJECT_DIR$" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src" />
       <recent name="$PROJECT_DIR$" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Tiago Oliveira\OneDrive - Universidade de Coimbra\3º Ano\SD\ucDrive\src\home\tmatos" />
+      <recent name="C:\Users\Tiago Oliveira\OneDrive - Universidade de Coimbra\3º Ano\SD\ucDrive\src\home\rodrigocorreia" />
+      <recent name="C:\Users\Tiago Oliveira\OneDrive - Universidade de Coimbra\3º Ano\SD\ucDrive\src\home\ritacarneiro" />
+      <recent name="C:\Users\Tiago Oliveira\OneDrive - Universidade de Coimbra\3º Ano\SD\ucDrive\src\home\ncorreia" />
+      <recent name="C:\Users\Tiago Oliveira\OneDrive - Universidade de Coimbra\3º Ano\SD\ucDrive\src\home\motagabriela" />
     </key>
   </component>
   <component name="RunManager">
     <configuration name="Server" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="ALTERNATIVE_JRE_PATH" value="15" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="INCLUDE_PROVIDED_SCOPE" value="true" />
       <option name="MAIN_CLASS_NAME" value="Server" />
       <module name="ucDriver" />
@@ -122,6 +135,7 @@
       <workItem from="1648003795882" duration="26000" />
       <workItem from="1648003896155" duration="250000" />
       <workItem from="1648004149984" duration="75000" />
+      <workItem from="1648121904863" duration="3312000" />
     </task>
     <task id="LOCAL-00001" summary="Read user data in Server.java">
       <created>1647527838562</created>
@@ -181,98 +195,10 @@
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Read user data in Server.java" />
     <MESSAGE value="Login quase na totalidade implementado" />
     <option name="LAST_COMMIT_MESSAGE" value="Login quase na totalidade implementado" />
-  </component>
-  <component name="WindowStateProjectService">
-    <state x="470" y="185" key="#Inspections" timestamp="1647657911927">
-      <screen x="0" y="25" width="1680" height="1025" />
-    </state>
-    <state x="470" y="185" key="#Inspections/0.25.1680.1025@0.25.1680.1025" timestamp="1647657911927" />
-    <state x="324" y="81" key="#Project_Structure" timestamp="1647295709656">
-      <screen x="0" y="25" width="1680" height="1025" />
-    </state>
-    <state x="324" y="81" key="#Project_Structure/-2560.25.2560.1415/0.25.1680.1025@0.25.1680.1025" timestamp="1647295709656" />
-    <state x="324" y="81" key="#Project_Structure/0.25.1680.1025@0.25.1680.1025" timestamp="1646692723066" />
-    <state x="300" y="162" width="1071" height="850" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1648004202205">
-      <screen x="0" y="25" width="1680" height="1025" />
-    </state>
-    <state x="300" y="162" width="1071" height="850" key="#com.intellij.execution.impl.EditConfigurationsDialog/-561.-1415.2560.1415/0.25.1680.1025@0.25.1680.1025" timestamp="1648004202205" />
-    <state x="574" y="367" key="#com.intellij.ide.util.PackageChooserDialog" timestamp="1648004196929">
-      <screen x="0" y="25" width="1680" height="1025" />
-    </state>
-    <state x="574" y="367" key="#com.intellij.ide.util.PackageChooserDialog/-561.-1415.2560.1415/0.25.1680.1025@0.25.1680.1025" timestamp="1648004196929" />
-    <state x="573" y="321" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1648004201228">
-      <screen x="0" y="25" width="1680" height="1025" />
-    </state>
-    <state x="573" y="321" key="#com.intellij.ide.util.TreeClassChooserDialog/-561.-1415.2560.1415/0.25.1680.1025@0.25.1680.1025" timestamp="1648004201228" />
-    <state x="574" y="254" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1647652608165">
-      <screen x="0" y="25" width="1680" height="1025" />
-    </state>
-    <state x="574" y="254" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.25.1680.1025@0.25.1680.1025" timestamp="1647652608165" />
-    <state x="710" y="404" width="481" height="198" key="Github.ShareDialog" timestamp="1647296011045">
-      <screen x="0" y="25" width="1680" height="1025" />
-    </state>
-    <state x="710" y="404" width="481" height="198" key="Github.ShareDialog/-2560.25.2560.1415/0.25.1680.1025@0.25.1680.1025" timestamp="1647296011045" />
-    <state x="651" y="212" key="Github.UntrackedFilesDialog" timestamp="1647296046272">
-      <screen x="0" y="25" width="1680" height="1025" />
-    </state>
-    <state x="651" y="212" key="Github.UntrackedFilesDialog/-2560.25.2560.1415/0.25.1680.1025@0.25.1680.1025" timestamp="1647296046272" />
-    <state width="1358" height="255" key="GridCell.Tab.0.bottom" timestamp="1647732119838">
-      <screen x="0" y="25" width="1680" height="1025" />
-    </state>
-    <state width="1358" height="255" key="GridCell.Tab.0.bottom/0.25.1680.1025@0.25.1680.1025" timestamp="1647732119838" />
-    <state width="1358" height="255" key="GridCell.Tab.0.center" timestamp="1647732119837">
-      <screen x="0" y="25" width="1680" height="1025" />
-    </state>
-    <state width="1358" height="255" key="GridCell.Tab.0.center/0.25.1680.1025@0.25.1680.1025" timestamp="1647732119837" />
-    <state width="1358" height="255" key="GridCell.Tab.0.left" timestamp="1647732119837">
-      <screen x="0" y="25" width="1680" height="1025" />
-    </state>
-    <state width="1358" height="255" key="GridCell.Tab.0.left/0.25.1680.1025@0.25.1680.1025" timestamp="1647732119837" />
-    <state width="1358" height="255" key="GridCell.Tab.0.right" timestamp="1647732119838">
-      <screen x="0" y="25" width="1680" height="1025" />
-    </state>
-    <state width="1358" height="255" key="GridCell.Tab.0.right/0.25.1680.1025@0.25.1680.1025" timestamp="1647732119838" />
-    <state x="474" y="268" key="MultipleFileMergeDialog" timestamp="1647662640124">
-      <screen x="0" y="25" width="1680" height="1025" />
-    </state>
-    <state x="474" y="268" key="MultipleFileMergeDialog/0.25.1680.1025@0.25.1680.1025" timestamp="1647662640124" />
-    <state x="651" y="227" key="RollbackChangesDialog" timestamp="1647662530203">
-      <screen x="0" y="25" width="1680" height="1025" />
-    </state>
-    <state x="651" y="227" key="RollbackChangesDialog/0.25.1680.1025@0.25.1680.1025" timestamp="1647662530203" />
-    <state x="436" y="240" key="Vcs.Push.Dialog.v2" timestamp="1648003255572">
-      <screen x="0" y="25" width="1680" height="1025" />
-    </state>
-    <state x="436" y="240" key="Vcs.Push.Dialog.v2/-561.-1415.2560.1415/0.25.1680.1025@0.25.1680.1025" timestamp="1648003255572" />
-    <state x="436" y="240" key="Vcs.Push.Dialog.v2/0.25.1680.1025@0.25.1680.1025" timestamp="1647701663732" />
-    <state x="637" y="421" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1648003471009">
-      <screen x="0" y="25" width="1680" height="1025" />
-    </state>
-    <state x="637" y="421" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/-561.-1415.2560.1415/0.25.1680.1025@0.25.1680.1025" timestamp="1648003471009" />
-    <state x="637" y="421" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.25.1680.1025@0.25.1680.1025" timestamp="1647662160156" />
-    <state x="674" y="298" key="svn.repositoryBrowser" timestamp="1648003492891">
-      <screen x="0" y="25" width="1680" height="1025" />
-    </state>
-    <state x="674" y="298" key="svn.repositoryBrowser/-561.-1415.2560.1415/0.25.1680.1025@0.25.1680.1025" timestamp="1648003492891" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/Server.java</url>
-          <line>42</line>
-          <properties class="Server" method="main">
-            <option name="EMULATED" value="true" />
-          </properties>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

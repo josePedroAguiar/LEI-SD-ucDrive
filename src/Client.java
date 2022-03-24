@@ -31,7 +31,7 @@ public class Client {
                     System.out.println(respostaAndToken[0] + "\n");
                 } while (!respostaAndToken[0].equals("Login com sucesso"));
 
-                while(true)
+                while (true)
                     receiveMenu();
             }
 
@@ -51,7 +51,8 @@ public class Client {
         System.out.print(menu);
         Scanner sc = new Scanner(System.in);
         int opt = sc.nextInt();
-        //System.out.println(opt);
+        sc.close();
+        // System.out.println(opt);
         out.writeUTF(String.valueOf(opt));
 
         if (opt == 1) {
@@ -67,10 +68,15 @@ public class Client {
                     System.out.print(data[0] + "\n" + data[1]);
             } while (!data[0].equals("Password atualizada!"));
             System.out.println(data[0]);
-            //depois de mudar a passe pede uma nova autenticacao
+            // depois de mudar a passe pede uma nova autenticacao
             System.out.println("olaola");
-            //receiveMenu();
-            //System.out.println("olaola");
+            // receiveMenu();
+            // System.out.println("olaola");
+        }
+        if (opt == 3 || opt == 5) {
+            String[] list = in.readUTF().split("\n");
+            for (String line : list)
+                System.out.println(line);
         }
     }
 }

@@ -39,6 +39,7 @@ class RandomString {
 
 public class Server {
     // TreeSet<User> tree= new TreeSet<User>(new myNameComparator());
+    static Path ServerDir;
 
     public static void main(String[] args) {
         int numero = 0;
@@ -47,11 +48,13 @@ public class Server {
         try (ServerSocket listenSocket = new ServerSocket(serverPort)) {
             System.out.println("A escuta no porto " + serverPort);
             System.out.println("LISTEN SOCKET=" + listenSocket);
+
             while (true) {
                 Socket clientSocket = listenSocket.accept(); // BLOQUEANTE
                 System.out.println("CLIENT_SOCKET (created at accept())=" + clientSocket);
                 numero++;
-                new Connection(clientSocket, numero);
+                Connection c = new Connection(clientSocket, numero);
+                ServerDir = c.createDir("MainServer");
             }
         } catch (IOException e) {
             System.out.println("Listen:" + e.getMessage());
@@ -119,7 +122,7 @@ class Connection extends Thread {
     File myObj = new File("usersData.txt");
 
     public Connection(Socket aClientSocket, int numero) {
-        readUsersData();    //abre o ficheiro com as infos dos users e guarda toda a info
+        readUsersData(); // abre o ficheiro com as infos dos users e guarda toda a info
 
         thread_number = numero;
         try {
@@ -136,21 +139,22 @@ class Connection extends Thread {
     public void run() {
         try {
 
-            User currentUser = authentication(new User()); //autentica um novo utilizador
+            User currentUser = authentication(new User()); // autentica um novo utilizador
 
             // an echo server
-            showMenu(currentUser);  //envia o menu para os clientes
+            showMenu(currentUser); // envia o menu para os clientes
 
         } catch (EOFException e) {
             System.out.println("EOF:" + e.getMessage());
+            updateFile();
         } catch (IOException e) {
             System.out.println("IO:" + e.getMessage());
+            updateFile();
         }
-        updateFile();
     }
 
-    private Path createDir(User user) {
-        Path path = Paths.get("./home/" + user.username + "/");
+    public Path createDir(String name) {
+        Path path = Paths.get("./home/" + name + "/");
         try {
             Files.createDirectories(path);
             return path;
@@ -175,7 +179,7 @@ class Connection extends Thread {
                 if (data.length() != 0 && data.charAt(0) != '#') {
                     User user = new User(data);
                     if (user.valid) {
-                        user.dir = createDir(user);
+                        user.dir = createDir(user.username);
                         hs.add(user);
                     }
                 }
@@ -209,12 +213,19 @@ class Connection extends Thread {
         if ("1".equals(opt)) {
             changePass(currentUser);
             // depois de mudar a passe fecha a ligacao e pede uma nova autenticacao
-            // clientSocket.close();
-            //authentication(new User());
-
             updateFile();
             clientSocket.close();
             System.exit(0);
+        } else if ("3".equals(opt)) {
+            System.out.println("List Server Directory " + Server.ServerDir.toString());
+            String list = listFiles(Server.ServerDir, 0, "");
+            out.writeUTF(list);
+            //showMenu(currentUser);
+        } else if ("5".equals(opt)) {
+            System.out.println("List " + currentUser.username + " Directory " + currentUser.dir.toString());
+            String list = listFiles(currentUser.dir, 0, "");
+            out.writeUTF(list);
+            //showMenu(currentUser);
         } else if ("0".equals(opt)) {
             clientSocket.close();
         }
@@ -231,7 +242,7 @@ class Connection extends Thread {
                         currentUser.athetication = true;
                         break;
                     }
-                    //System.out.println(data[1]);
+                    // System.out.println(data[1]);
 
                 }
                 if (currentUser.username.equals(data[0]) && currentUser.pass.equals(data[1])) {
@@ -264,7 +275,23 @@ class Connection extends Thread {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        showMenu(currentUser);
+        //showMenu(currentUser);
+    }
+
+    public String listFiles(Path dir, int level, String list) throws IOException {
+        File f = new File(dir.toString());
+        File[] files = f.listFiles();
+        
+        for (File file : files) {
+            if (file.isFile()) {
+                list += ".".repeat(level * 3) + " " + file.getName() + "\n";
+            }
+            else {
+                list += ".".repeat(level * 3) + " " + file.getName() + "\n";
+                list = listFiles(Paths.get(file.getAbsolutePath()), level + 1, list);
+            }
+        }
+        return list;
     }
 
     private void updateFile() {
@@ -274,7 +301,8 @@ class Connection extends Thread {
             while (iter.hasNext()) {
                 User u = iter.next();
                 String date = u.expDate.toString();
-                String info = u.ccNumber + "\t" + u.address + "\t" + u.pass + "\t" + u.department + "\t" + u.cellNumber + "\t" + u.username + "\t" + date + "\n";
+                String info = u.ccNumber + "\t" + u.address + "\t" + u.pass + "\t" + u.department + "\t" + u.cellNumber
+                        + "\t" + u.username + "\t" + date + "\n";
                 br.write(info);
             }
             System.out.println(myObj.getName() + " atualizado com sucesso!");
