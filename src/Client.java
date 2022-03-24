@@ -17,23 +17,22 @@ public class Client {
             out = new DataOutputStream(s.getOutputStream());
 
             // 3o passo
-            try (Scanner sc = new Scanner(System.in)) {
-                String resposta;
-                String[] respostaAndToken;
-                do {
-                    System.out.print("Username: ");
-                    String texto = sc.nextLine();
-                    System.out.print("Password: ");
-                    texto += "\t" + sc.nextLine();
-                    out.writeUTF(texto);
-                    resposta = in.readUTF();
-                    respostaAndToken = resposta.split("\\|");
-                    System.out.println(respostaAndToken[0] + "\n");
-                } while (!respostaAndToken[0].equals("Login com sucesso"));
-
-                while (true)
-                    receiveMenu();
-            }
+            Scanner sc = new Scanner(System.in);
+            String resposta;
+            String[] respostaAndToken;
+            do {
+                System.out.print("Username: ");
+                String texto = sc.nextLine();
+                System.out.print("Password: ");
+                texto += "\t" + sc.nextLine();
+                out.writeUTF(texto);
+                resposta = in.readUTF();
+                respostaAndToken = resposta.split("\\|");
+                System.out.println(respostaAndToken[0] + "\n");
+            } while (!respostaAndToken[0].equals("Login com sucesso"));
+            
+            while (true)
+                Menu();
 
         } catch (UnknownHostException e) {
             System.out.println("Sock:" + e.getMessage());
@@ -45,17 +44,14 @@ public class Client {
         }
     }
 
-    private static void receiveMenu() throws IOException {
-        // Receive Menu Options
-        String menu = in.readUTF(); // da erro aqui quando volta a receber o menu
-        System.out.print(menu);
+    private static void Menu() throws IOException {
         Scanner sc = new Scanner(System.in);
-        int opt = sc.nextInt();
-        sc.close();
+        String opt = sc.nextLine();
+        
         // System.out.println(opt);
         out.writeUTF(String.valueOf(opt));
 
-        if (opt == 1) {
+        if ("passwd".equals(opt)) {
             String message = in.readUTF();
             System.out.print(message);
             String[] data;
@@ -69,14 +65,19 @@ public class Client {
             } while (!data[0].equals("Password atualizada!"));
             System.out.println(data[0]);
             // depois de mudar a passe pede uma nova autenticacao
-            System.out.println("olaola");
-            // receiveMenu();
             // System.out.println("olaola");
         }
-        if (opt == 3 || opt == 5) {
+        else if ("ls -server".equals(opt) || "ls -client".equals(opt)) {
             String[] list = in.readUTF().split("\n");
             for (String line : list)
                 System.out.println(line);
+        } 
+        else if (opt.contains("cd -server") || opt.contains("cd -client")) {
+            String message = in.readUTF();
+            System.out.println(message);
+            while (message.equals("Diretoria inexistente\n")) {
+                out.writeUTF(sc.nextLine());
+            }
         }
     }
 }

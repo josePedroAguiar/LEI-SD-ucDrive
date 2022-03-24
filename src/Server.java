@@ -40,6 +40,7 @@ class RandomString {
 public class Server {
     // TreeSet<User> tree= new TreeSet<User>(new myNameComparator());
     static Path ServerDir;
+    static Path currentDir;
 
     public static void main(String[] args) {
         int numero = 0;
@@ -55,10 +56,15 @@ public class Server {
                 numero++;
                 Connection c = new Connection(clientSocket, numero);
                 ServerDir = c.createDir("MainServer");
+                currentDir = ServerDir;
             }
         } catch (IOException e) {
             System.out.println("Listen:" + e.getMessage());
         }
+    }
+
+    public static void setDirectory(Path newPath) {
+        Server.ServerDir = newPath;
     }
 }
 
@@ -73,6 +79,7 @@ class User {
     long cellNumber;
     String username;
     Data expDate;
+    Path currentDir;
 
     public User(String data) {
         String[] arrOfStr = data.split("\\t");
@@ -105,6 +112,10 @@ class User {
             valid = false;
         }
 
+    }
+
+    public void setDirectory(Path newPath) {
+        this.dir = newPath;
     }
 
     public User() {
@@ -142,7 +153,8 @@ class Connection extends Thread {
             User currentUser = authentication(new User()); // autentica um novo utilizador
 
             // an echo server
-            showMenu(currentUser); // envia o menu para os clientes
+            while (true)
+                Menu(currentUser); // envia o menu para os clientes
 
         } catch (EOFException e) {
             System.out.println("EOF:" + e.getMessage());
@@ -180,6 +192,7 @@ class Connection extends Thread {
                     User user = new User(data);
                     if (user.valid) {
                         user.dir = createDir(user.username);
+                        user.currentDir = user.dir;
                         hs.add(user);
                     }
                 }
@@ -192,41 +205,41 @@ class Connection extends Thread {
         }
     }
 
-    private void showMenu(User currentUser) throws IOException {
-        String menu = """
-                **********MENU**********
-                1- ALTERAR PASSWORD
-                2- CONFIG IP E PORTOS
-                3- LISTAR FICHEIROS DA DIRETORIA DO SERVIDOR
-                4- MUDAR DIRETORIA DO SERVIDOR
-                5- LISTAR FICHEIROS DA DIRETORIA DO CLIENTE
-                6- MUDAR DIRETORIA DO CLIENTE
-                7- DESCARREGAR FICHEIRO
-                8- CARREGAR FICHEIRO
-                9- SAIR
-                OPCAO:""";
-
-        out.writeUTF(menu);
-
+    private void Menu(User currentUser) throws IOException {
         String opt = in.readUTF();
-        System.out.println("Opcao: " + opt);
-        if ("1".equals(opt)) {
+        System.out.println("Command: " + opt);
+        if ("passwd".equals(opt)) {
             changePass(currentUser);
             // depois de mudar a passe fecha a ligacao e pede uma nova autenticacao
-            updateFile();
-            clientSocket.close();
-            System.exit(0);
-        } else if ("3".equals(opt)) {
+
+        } else if ("ls -server".equals(opt)) {
             System.out.println("List Server Directory " + Server.ServerDir.toString());
             String list = listFiles(Server.ServerDir, 0, "");
             out.writeUTF(list);
-            //showMenu(currentUser);
-        } else if ("5".equals(opt)) {
+        } else if (opt.contains("cd -server")) {
+            String[] command = opt.split(" ");
+            Path newPath = changeCurrentDir(Server.currentDir, command[2]);
+            if (newPath.compareTo(Server.currentDir) == 0) {
+                out.writeUTF("Diretoria inexistente\n");
+            } else {
+                Server.currentDir = newPath;
+                out.writeUTF("Diretoria atualizada");
+            }
+
+        } else if ("ls -client".equals(opt)) {
             System.out.println("List " + currentUser.username + " Directory " + currentUser.dir.toString());
             String list = listFiles(currentUser.dir, 0, "");
             out.writeUTF(list);
-            //showMenu(currentUser);
-        } else if ("0".equals(opt)) {
+        } else if (opt.contains("cd -client")) {
+            String[] command = opt.split(" ");
+            Path newPath = changeCurrentDir(currentUser.currentDir, command[2]);
+            if (newPath.compareTo(currentUser.currentDir) == 1) {
+                out.writeUTF("Diretoria inexistente\n");
+            } else {
+                currentUser.currentDir = newPath;
+                out.writeUTF("Diretoria atualizada\n");
+            }
+        } else if ("exit".equals(opt)) {
             clientSocket.close();
         }
     }
@@ -275,23 +288,30 @@ class Connection extends Thread {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        //showMenu(currentUser);
+
     }
 
     public String listFiles(Path dir, int level, String list) throws IOException {
         File f = new File(dir.toString());
         File[] files = f.listFiles();
-        
+
         for (File file : files) {
             if (file.isFile()) {
                 list += ".".repeat(level * 3) + " " + file.getName() + "\n";
-            }
-            else {
+            } else {
                 list += ".".repeat(level * 3) + " " + file.getName() + "\n";
                 list = listFiles(Paths.get(file.getAbsolutePath()), level + 1, list);
             }
         }
         return list;
+    }
+
+    private Path changeCurrentDir(Path Dir, String newDir) {
+        String currentDir = Dir.toString();
+        Path newPath = Paths.get(currentDir + "/" + newDir + "/");
+        if (Files.exists(newPath))
+            return newPath;
+        return Dir;
     }
 
     private void updateFile() {
