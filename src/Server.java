@@ -56,7 +56,8 @@ public class Server {
                 numero++;
                 Connection c = new Connection(clientSocket, numero);
                 root = c.createDir("MainServer");
-                currentDir = root;
+                if (currentDir == null)
+                    currentDir = root;
             }
         } catch (IOException e) {
             System.out.println("Listen:" + e.getMessage());
@@ -112,10 +113,6 @@ class User {
             valid = false;
         }
 
-    }
-
-    public void setrootectory(Path newPath) {
-        this.root = newPath;
     }
 
     public User() {
@@ -192,7 +189,8 @@ class Connection extends Thread {
                     User user = new User(data);
                     if (user.valid) {
                         user.root = createDir(user.username);
-                        user.currentDir = user.root;
+                        if (user.currentDir == null)
+                            user.currentDir = user.root;
                         hs.add(user);
                     }
                 }
@@ -220,7 +218,7 @@ class Connection extends Thread {
             String[] command;
             Path newPath;
 
-            if (opt.contains("\"")) { //tratamento para carateres especiais
+            if (opt.contains("\"")) { // tratamento para carateres especiais
                 command = opt.split("\"");
                 newPath = changeCurrentDir(Server.currentDir, command[1]);
             } else {
@@ -243,7 +241,7 @@ class Connection extends Thread {
             String[] command;
             Path newPath;
 
-            if (opt.contains("\"")) { //tratamento para carateres especiais
+            if (opt.contains("\"")) { // tratamento para carateres especiais
                 command = opt.split("\"");
                 newPath = changeCurrentDir(currentUser.currentDir, command[1]);
             } else {
@@ -326,7 +324,8 @@ class Connection extends Thread {
     private Path changeCurrentDir(Path dir, String newDir) {
         String currentDir = dir.toString();
         if (newDir.equals("..")) {
-            if (Server.currentDir.compareTo(Server.root) == 0) return dir;
+            if (Server.currentDir.compareTo(Server.root) == 0)
+                return dir;
 
             File f = new File(Server.currentDir.toString());
             Path newPath = Paths.get(f.getParent());
