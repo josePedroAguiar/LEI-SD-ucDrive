@@ -38,6 +38,48 @@ class RandomString {
 }
 
 public class Server {
+    static HashSet<User> hs = new HashSet<>();
+    static File myObj = new File("usersData.txt");
+    static private void readUsersData() {
+        try {
+            Scanner myReader = new Scanner(myObj);
+            while (myReader.hasNextLine()) {
+                String data = myReader.nextLine();
+                if (data.length() != 0 && data.charAt(0) != '#') {
+                    User user = new User(data);
+                    if (user.valid) {
+                        user.root = createDir(user.username);
+                        if (user.currentDir == null)
+                            user.currentDir = user.root;
+                        hs.add(user);
+                    }
+                }
+            }
+
+            myReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+    }
+
+    static private Path createDir(String name) {
+        Path path = Paths.get("./home/" + name + "/");
+        try {
+            Files.createDirectories(path);
+            return path;
+        } catch (NoSuchFileException e) {
+            System.out.println("Parent directory doesn't exist!");
+            e.printStackTrace();
+        } catch (FileAlreadyExistsException e) {
+            System.out.println("Directory already exists!");
+            e.printStackTrace();
+        } catch (IOException e) {
+            System.out.println("IO " + e.getMessage());
+            e.printStackTrace();
+        }
+        return Paths.get("./home/");
+    }
     // TreeSet<User> tree= new TreeSet<User>(new myNameComparator());
     static Path root;
     static Path currentDir;
@@ -46,26 +88,23 @@ public class Server {
         int numero = 0;
 
         int serverPort = 6001;
+        readUsersData(); // abre o ficheiro com as infos dos users e guarda toda a info
+
         try (ServerSocket listenSocket = new ServerSocket(serverPort)) {
             System.out.println("A escuta no porto " + serverPort);
             System.out.println("LISTEN SOCKET=" + listenSocket);
-
             while (true) {
                 Socket clientSocket = listenSocket.accept(); // BLOQUEANTE
                 System.out.println("CLIENT_SOCKET (created at accept())=" + clientSocket);
                 numero++;
-                Connection c = new Connection(clientSocket, numero);
-                root = c.createDir("MainServer");
+                new Connection(clientSocket, hs,numero);
+                root = createDir("MainServer");
                 if (currentDir == null)
                     currentDir = root;
             }
         } catch (IOException e) {
             System.out.println("Listen:" + e.getMessage());
         }
-    }
-
-    public static void setrootectory(Path newPath) {
-        Server.root = newPath;
     }
 }
 
@@ -112,11 +151,9 @@ class User {
         } else {
             valid = false;
         }
-
     }
 
     public User() {
-
     }
 }
 
@@ -126,11 +163,11 @@ class Connection extends Thread {
     DataOutputStream out;
     Socket clientSocket;
     int thread_number;
-    HashSet<User> hs = new HashSet<>();
+    HashSet<User> hs;
     File myObj = new File("usersData.txt");
 
-    public Connection(Socket aClientSocket, int numero) {
-        readUsersData(); // abre o ficheiro com as infos dos users e guarda toda a info
+    public Connection(Socket aClientSocket,HashSet<User> hs,int numero) {
+        this.hs = hs;
 
         thread_number = numero;
         try {
@@ -159,47 +196,6 @@ class Connection extends Thread {
         } catch (IOException e) {
             System.out.println("IO:" + e.getMessage());
             updateFile();
-        }
-    }
-
-    public Path createDir(String name) {
-        Path path = Paths.get("./home/" + name + "/");
-        try {
-            Files.createDirectories(path);
-            return path;
-        } catch (NoSuchFileException e) {
-            System.out.println("Parent rootectory doesn't exist!");
-            e.printStackTrace();
-        } catch (FileAlreadyExistsException e) {
-            System.out.println("rootectory already exists!");
-            e.printStackTrace();
-        } catch (IOException e) {
-            System.out.println("IO " + e.getMessage());
-            e.printStackTrace();
-        }
-        return Paths.get("./home/");
-    }
-
-    private void readUsersData() {
-        try {
-            Scanner myReader = new Scanner(myObj);
-            while (myReader.hasNextLine()) {
-                String data = myReader.nextLine();
-                if (data.length() != 0 && data.charAt(0) != '#') {
-                    User user = new User(data);
-                    if (user.valid) {
-                        user.root = createDir(user.username);
-                        if (user.currentDir == null)
-                            user.currentDir = user.root;
-                        hs.add(user);
-                    }
-                }
-            }
-
-            myReader.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
         }
     }
 
