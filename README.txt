@@ -8,3 +8,5 @@ Comandos:
     cd -client "directory" -> mudar a diretoria atual do cliente
     cd [-server / -client] .. -> muda para a diretoria "pai" da diretoria atual
     (colocar a diretoria dentro de aspas no caso de existirem caracteres "especiais", isto é, espaços, acentos...)
+
+    exit -> termina a ligação do cliente
