@@ -5,11 +5,13 @@ import java.io.*;
 public class Client {
     static DataInputStream in;
     static DataOutputStream out;
+    static Socket s;
 
     public static void main(String[] args) {
         // 1o passo - criar socket
         int serversocket = 6001;
-        try (Socket s = new Socket("localhost", serversocket)) {
+        try {
+            s = new Socket("localhost", serversocket);
             System.out.println("SOCKET=" + s);
 
             // 2o passo
@@ -30,7 +32,7 @@ public class Client {
                 respostaAndToken = resposta.split("\\|");
                 System.out.println(respostaAndToken[0] + "\n");
             } while (!respostaAndToken[0].equals("Login com sucesso"));
-            
+
             while (true)
                 Menu();
 
@@ -47,9 +49,8 @@ public class Client {
     private static void Menu() throws IOException {
         Scanner sc = new Scanner(System.in);
         String opt = sc.nextLine();
-        
-        // System.out.println(opt);
-        out.writeUTF(String.valueOf(opt));
+
+        out.writeUTF(opt);
 
         if ("passwd".equals(opt)) {
             String message = in.readUTF();
@@ -66,18 +67,13 @@ public class Client {
             System.out.println(data[0]);
             // depois de mudar a passe pede uma nova autenticacao
             // System.out.println("olaola");
-        }
-        else if ("ls -server".equals(opt) || "ls -client".equals(opt)) {
+        } else if ("ls -server".equals(opt) || "ls -client".equals(opt)) {
             String[] list = in.readUTF().split("\n");
             for (String line : list)
                 System.out.println(line);
-        } 
-        else if (opt.contains("cd -server") || opt.contains("cd -client")) {
+        } else if (opt.contains("cd -server") || opt.contains("cd -client")) {
             String message = in.readUTF();
             System.out.println(message);
-            while (message.equals("Diretoria inexistente\n")) {
-                out.writeUTF(sc.nextLine());
-            }
-        }
+        } else if (opt.equals("exit")) s.close();
     }
 }

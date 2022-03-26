@@ -39,7 +39,7 @@ class RandomString {
 
 public class Server {
     // TreeSet<User> tree= new TreeSet<User>(new myNameComparator());
-    static Path ServerDir;
+    static Path root;
     static Path currentDir;
 
     public static void main(String[] args) {
@@ -55,21 +55,20 @@ public class Server {
                 System.out.println("CLIENT_SOCKET (created at accept())=" + clientSocket);
                 numero++;
                 Connection c = new Connection(clientSocket, numero);
-                ServerDir = c.createDir("MainServer");
-                currentDir = ServerDir;
+                root = c.createDir("MainServer");
+                currentDir = root;
             }
         } catch (IOException e) {
             System.out.println("Listen:" + e.getMessage());
         }
     }
 
-    public static void setDirectory(Path newPath) {
-        Server.ServerDir = newPath;
+    public static void setrootectory(Path newPath) {
+        Server.root = newPath;
     }
 }
 
 class User {
-    Path dir;
     long ccNumber;
     boolean athetication = false;
     boolean valid;
@@ -79,6 +78,7 @@ class User {
     long cellNumber;
     String username;
     Data expDate;
+    Path root;
     Path currentDir;
 
     public User(String data) {
@@ -114,8 +114,8 @@ class User {
 
     }
 
-    public void setDirectory(Path newPath) {
-        this.dir = newPath;
+    public void setrootectory(Path newPath) {
+        this.root = newPath;
     }
 
     public User() {
@@ -171,10 +171,10 @@ class Connection extends Thread {
             Files.createDirectories(path);
             return path;
         } catch (NoSuchFileException e) {
-            System.out.println("Parent directory doesn't exist!");
+            System.out.println("Parent rootectory doesn't exist!");
             e.printStackTrace();
         } catch (FileAlreadyExistsException e) {
-            System.out.println("Directory already exists!");
+            System.out.println("rootectory already exists!");
             e.printStackTrace();
         } catch (IOException e) {
             System.out.println("IO " + e.getMessage());
@@ -191,8 +191,8 @@ class Connection extends Thread {
                 if (data.length() != 0 && data.charAt(0) != '#') {
                     User user = new User(data);
                     if (user.valid) {
-                        user.dir = createDir(user.username);
-                        user.currentDir = user.dir;
+                        user.root = createDir(user.username);
+                        user.currentDir = user.root;
                         hs.add(user);
                     }
                 }
@@ -213,31 +213,49 @@ class Connection extends Thread {
             // depois de mudar a passe fecha a ligacao e pede uma nova autenticacao
 
         } else if ("ls -server".equals(opt)) {
-            System.out.println("List Server Directory " + Server.ServerDir.toString());
-            String list = listFiles(Server.ServerDir, 0, "");
+            System.out.println("List Server rootectory " + Server.root.toString());
+            String list = listFiles(Server.root, 0, "");
             out.writeUTF(list);
         } else if (opt.contains("cd -server")) {
-            String[] command = opt.split(" ");
-            Path newPath = changeCurrentDir(Server.currentDir, command[2]);
+            String[] command;
+            Path newPath;
+
+            if (opt.contains("\"")) { //tratamento para carateres especiais
+                command = opt.split("\"");
+                newPath = changeCurrentDir(Server.currentDir, command[1]);
+            } else {
+                command = opt.split(" ");
+                newPath = changeCurrentDir(Server.currentDir, command[2]);
+            }
             if (newPath.compareTo(Server.currentDir) == 0) {
-                out.writeUTF("Diretoria inexistente\n");
+                out.writeUTF("Impossivel aceder a essa diretoria\n");
             } else {
                 Server.currentDir = newPath;
                 out.writeUTF("Diretoria atualizada");
+                System.out.println(Server.currentDir.toString());
             }
 
         } else if ("ls -client".equals(opt)) {
-            System.out.println("List " + currentUser.username + " Directory " + currentUser.dir.toString());
-            String list = listFiles(currentUser.dir, 0, "");
+            System.out.println("List " + currentUser.username + " rootectory " + currentUser.root.toString());
+            String list = listFiles(currentUser.root, 0, "");
             out.writeUTF(list);
         } else if (opt.contains("cd -client")) {
-            String[] command = opt.split(" ");
-            Path newPath = changeCurrentDir(currentUser.currentDir, command[2]);
-            if (newPath.compareTo(currentUser.currentDir) == 1) {
-                out.writeUTF("Diretoria inexistente\n");
+            String[] command;
+            Path newPath;
+
+            if (opt.contains("\"")) { //tratamento para carateres especiais
+                command = opt.split("\"");
+                newPath = changeCurrentDir(currentUser.currentDir, command[1]);
+            } else {
+                command = opt.split(" ");
+                newPath = changeCurrentDir(currentUser.currentDir, command[2]);
+            }
+            if (newPath.compareTo(currentUser.currentDir) == 0 || !Files.isDirectory(newPath)) {
+                out.writeUTF("Impossivel aceder a essa diretoria\n");
             } else {
                 currentUser.currentDir = newPath;
                 out.writeUTF("Diretoria atualizada\n");
+                System.out.println(currentUser.currentDir.toString());
             }
         } else if ("exit".equals(opt)) {
             clientSocket.close();
@@ -291,27 +309,34 @@ class Connection extends Thread {
 
     }
 
-    public String listFiles(Path dir, int level, String list) throws IOException {
-        File f = new File(dir.toString());
-        File[] files = f.listFiles();
+    public String listFiles(Path root, int level, String list) throws IOException {
+        DirectoryStream<Path> stream = Files.newDirectoryStream(root);
 
-        for (File file : files) {
-            if (file.isFile()) {
-                list += ".".repeat(level * 3) + " " + file.getName() + "\n";
+        for (Path p : stream) {
+            if (Files.isRegularFile(p)) {
+                list += ".".repeat(level * 3) + " " + p.getFileName().toString() + "\n";
             } else {
-                list += ".".repeat(level * 3) + " " + file.getName() + "\n";
-                list = listFiles(Paths.get(file.getAbsolutePath()), level + 1, list);
+                list += ".".repeat(level * 3) + " " + p.getFileName().toString() + "\n";
+                list = listFiles(p, level + 1, list);
             }
         }
         return list;
     }
 
-    private Path changeCurrentDir(Path Dir, String newDir) {
-        String currentDir = Dir.toString();
-        Path newPath = Paths.get(currentDir + "/" + newDir + "/");
-        if (Files.exists(newPath))
+    private Path changeCurrentDir(Path dir, String newDir) {
+        String currentDir = dir.toString();
+        if (newDir.equals("..")) {
+            if (Server.currentDir.compareTo(Server.root) == 0) return dir;
+
+            File f = new File(Server.currentDir.toString());
+            Path newPath = Paths.get(f.getParent());
             return newPath;
-        return Dir;
+        }
+
+        Path newPath = Paths.get(currentDir + "/" + newDir);
+        if (Files.exists(newPath) && Files.isDirectory(newPath))
+            return newPath;
+        return dir;
     }
 
     private void updateFile() {

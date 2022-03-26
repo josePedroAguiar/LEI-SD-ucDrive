@@ -21,12 +21,18 @@
   <component name="ChangeListManager">
     <list default="true" id="496383f7-a050-44c8-b761-25df45aa231d" name="Default Changelist" comment="Login quase na totalidade implementado">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.txt" beforeDir="false" afterPath="$PROJECT_DIR$/README.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Client.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/Client.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Client.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Connection.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/Connection.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Data.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/Data.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PropertyValues.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/PropertyValues.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/RandomString.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/RandomString.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ReadConfigMain.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/ReadConfigMain.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Server.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/Server.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Server.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UDPClient.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/UDPClient.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UDPServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/UDPServer.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/User.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/usersData.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/usersData.txt" afterDir="false" />
     </list>
@@ -103,6 +109,7 @@
       <option name="INCLUDE_PROVIDED_SCOPE" value="true" />
       <option name="MAIN_CLASS_NAME" value="Server" />
       <module name="ucDriver" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -136,6 +143,7 @@
       <workItem from="1648003896155" duration="250000" />
       <workItem from="1648004149984" duration="75000" />
       <workItem from="1648121904863" duration="3312000" />
+      <workItem from="1648302915754" duration="1735000" />
     </task>
     <task id="LOCAL-00001" summary="Read user data in Server.java">
       <created>1647527838562</created>
