@@ -21,11 +21,7 @@
   <component name="ChangeListManager">
     <list default="true" id="496383f7-a050-44c8-b761-25df45aa231d" name="Default Changelist" comment="Criação do ServerBackUp">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Connection.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/Connection.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ServerBackUp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ServerBackUp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UDPClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/UDPClient.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/UDPPingClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/UDPPingClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/User.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -133,7 +129,7 @@
       <workItem from="1648310644598" duration="772000" />
       <workItem from="1648311947196" duration="7725000" />
       <workItem from="1648321408207" duration="24415000" />
-      <workItem from="1648391791697" duration="4082000" />
+      <workItem from="1648391791697" duration="4543000" />
     </task>
     <task id="LOCAL-00001" summary="Read user data in Server.java">
       <created>1647527838562</created>
@@ -205,7 +201,14 @@
       <option name="project" value="LOCAL" />
       <updated>1648350511170</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Criação do ServerBackUp">
+      <created>1648396299326</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1648396299326</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -301,11 +304,11 @@
       <screen x="0" y="25" width="1680" height="1025" />
     </state>
     <state x="651" y="227" key="RollbackChangesDialog/0.25.1680.1025@0.25.1680.1025" timestamp="1647662530203" />
-    <state x="436" y="240" key="Vcs.Push.Dialog.v2" timestamp="1648350660179">
+    <state x="436" y="240" key="Vcs.Push.Dialog.v2" timestamp="1648396309724">
       <screen x="0" y="25" width="1680" height="1025" />
     </state>
     <state x="436" y="240" key="Vcs.Push.Dialog.v2/-561.-1415.2560.1415/0.25.1680.1025@0.25.1680.1025" timestamp="1648005256074" />
-    <state x="436" y="240" key="Vcs.Push.Dialog.v2/0.25.1680.1025@0.25.1680.1025" timestamp="1648350660179" />
+    <state x="436" y="240" key="Vcs.Push.Dialog.v2/0.25.1680.1025@0.25.1680.1025" timestamp="1648396309724" />
     <state x="637" y="421" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1648314966180">
       <screen x="0" y="25" width="1680" height="1025" />
     </state>

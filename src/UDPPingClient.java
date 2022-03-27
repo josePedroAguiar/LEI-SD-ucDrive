@@ -112,10 +112,10 @@ public class UDPPingClient extends Thread  {
 						}
 						else  {
 							System.out.println(
-											   "\n_____________________________________\n " +
+											   "\n_____________________________________\n" +
 
 											   "[" + time + "] Perc. of package receveid " + ((NUMBER_OF_PINGS - pakageLost) / NUMBER_OF_PINGS * 100) + "% (" + (NUMBER_OF_PINGS - pakageLost) + "/" + NUMBER_OF_PINGS + ")\n"+
-											   "\tIf you want to show the unitary prints of the pings type 'Show' or 'S'");
+											   "If you want to show the unitary prints of the pings type 'Show' or 'S'");
 						}
 						if(pakageLost>8){
 
