@@ -19,10 +19,28 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="496383f7-a050-44c8-b761-25df45aa231d" name="Default Changelist" comment="Login quase na totalidade implementado">
-      <change afterPath="$PROJECT_DIR$/src/UDPClient.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/UDPServer.java" afterDir="false" />
+    <list default="true" id="496383f7-a050-44c8-b761-25df45aa231d" name="Default Changelist" comment="correção do mkdir">
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/README.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/PropertyValues.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/README.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ReadConfigMain.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ServerBackUp.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/UDPClient.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/UDPPingClient.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/UDPPingServer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/UDPServer.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ucDrive.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/generateConfigFile.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/generateConfigFile.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Client.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/Client.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Client.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Connection.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/Connection.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/RandomString.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/RandomString.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Server.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/Server.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Server.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/User.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/usersData.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/usersData.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,6 +61,7 @@
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="MavenImportPreferences">
     <option name="generalSettings">
@@ -59,9 +78,10 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -79,8 +99,8 @@
       <recent name="$PROJECT_DIR$" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src" />
       <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/src" />
     </key>
   </component>
   <component name="RunManager">
@@ -90,6 +110,19 @@
       <option name="INCLUDE_PROVIDED_SCOPE" value="true" />
       <option name="MAIN_CLASS_NAME" value="Server" />
       <module name="ucDriver" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="CLASS" />
+      <properties />
+      <listeners />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -122,6 +155,12 @@
       <workItem from="1648003795882" duration="26000" />
       <workItem from="1648003896155" duration="250000" />
       <workItem from="1648004149984" duration="75000" />
+      <workItem from="1648005013780" duration="290000" />
+      <workItem from="1648134551775" duration="5017000" />
+      <workItem from="1648257171793" duration="1964000" />
+      <workItem from="1648310644598" duration="772000" />
+      <workItem from="1648311947196" duration="7725000" />
+      <workItem from="1648321408207" duration="23958000" />
     </task>
     <task id="LOCAL-00001" summary="Read user data in Server.java">
       <created>1647527838562</created>
@@ -165,7 +204,21 @@
       <option name="project" value="LOCAL" />
       <updated>1648003643125</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="correção do mkdir">
+      <created>1648005077960</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1648005077960</updated>
+    </task>
+    <task id="LOCAL-00008" summary="correção do mkdir">
+      <created>1648005083721</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1648005083721</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -186,7 +239,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Read user data in Server.java" />
     <MESSAGE value="Login quase na totalidade implementado" />
-    <option name="LAST_COMMIT_MESSAGE" value="Login quase na totalidade implementado" />
+    <MESSAGE value="correção do mkdir" />
+    <option name="LAST_COMMIT_MESSAGE" value="correção do mkdir" />
   </component>
   <component name="WindowStateProjectService">
     <state x="470" y="185" key="#Inspections" timestamp="1647657911927">
@@ -202,6 +256,10 @@
       <screen x="0" y="25" width="1680" height="1025" />
     </state>
     <state x="300" y="162" width="1071" height="850" key="#com.intellij.execution.impl.EditConfigurationsDialog/-561.-1415.2560.1415/0.25.1680.1025@0.25.1680.1025" timestamp="1648004202205" />
+    <state x="544" y="309" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1648334169450">
+      <screen x="0" y="25" width="1680" height="1025" />
+    </state>
+    <state x="544" y="309" key="#com.intellij.fileTypes.FileTypeChooser/0.25.1680.1025@0.25.1680.1025" timestamp="1648334169450" />
     <state x="574" y="367" key="#com.intellij.ide.util.PackageChooserDialog" timestamp="1648004196929">
       <screen x="0" y="25" width="1680" height="1025" />
     </state>
@@ -222,40 +280,49 @@
       <screen x="0" y="25" width="1680" height="1025" />
     </state>
     <state x="651" y="212" key="Github.UntrackedFilesDialog/-2560.25.2560.1415/0.25.1680.1025@0.25.1680.1025" timestamp="1647296046272" />
-    <state width="1358" height="255" key="GridCell.Tab.0.bottom" timestamp="1647732119838">
+    <state width="1358" height="254" key="GridCell.Tab.0.bottom" timestamp="1648348494386">
       <screen x="0" y="25" width="1680" height="1025" />
     </state>
-    <state width="1358" height="255" key="GridCell.Tab.0.bottom/0.25.1680.1025@0.25.1680.1025" timestamp="1647732119838" />
-    <state width="1358" height="255" key="GridCell.Tab.0.center" timestamp="1647732119837">
+    <state width="696" height="423" key="GridCell.Tab.0.bottom/-561.-1440.2560.1440/0.0.1680.1050@-561.-1440.2560.1440" timestamp="1648141521562" />
+    <state width="1358" height="254" key="GridCell.Tab.0.bottom/0.25.1680.1025@0.25.1680.1025" timestamp="1648348494386" />
+    <state width="1358" height="254" key="GridCell.Tab.0.center" timestamp="1648348494385">
       <screen x="0" y="25" width="1680" height="1025" />
     </state>
-    <state width="1358" height="255" key="GridCell.Tab.0.center/0.25.1680.1025@0.25.1680.1025" timestamp="1647732119837" />
-    <state width="1358" height="255" key="GridCell.Tab.0.left" timestamp="1647732119837">
+    <state width="696" height="423" key="GridCell.Tab.0.center/-561.-1440.2560.1440/0.0.1680.1050@-561.-1440.2560.1440" timestamp="1648141521560" />
+    <state width="1358" height="254" key="GridCell.Tab.0.center/0.25.1680.1025@0.25.1680.1025" timestamp="1648348494385" />
+    <state width="1358" height="254" key="GridCell.Tab.0.left" timestamp="1648348494385">
       <screen x="0" y="25" width="1680" height="1025" />
     </state>
-    <state width="1358" height="255" key="GridCell.Tab.0.left/0.25.1680.1025@0.25.1680.1025" timestamp="1647732119837" />
-    <state width="1358" height="255" key="GridCell.Tab.0.right" timestamp="1647732119838">
+    <state width="696" height="423" key="GridCell.Tab.0.left/-561.-1440.2560.1440/0.0.1680.1050@-561.-1440.2560.1440" timestamp="1648141521559" />
+    <state width="1358" height="254" key="GridCell.Tab.0.left/0.25.1680.1025@0.25.1680.1025" timestamp="1648348494385" />
+    <state width="1358" height="254" key="GridCell.Tab.0.right" timestamp="1648348494385">
       <screen x="0" y="25" width="1680" height="1025" />
     </state>
-    <state width="1358" height="255" key="GridCell.Tab.0.right/0.25.1680.1025@0.25.1680.1025" timestamp="1647732119838" />
-    <state x="474" y="268" key="MultipleFileMergeDialog" timestamp="1647662640124">
+    <state width="696" height="423" key="GridCell.Tab.0.right/-561.-1440.2560.1440/0.0.1680.1050@-561.-1440.2560.1440" timestamp="1648141521561" />
+    <state width="1358" height="254" key="GridCell.Tab.0.right/0.25.1680.1025@0.25.1680.1025" timestamp="1648348494385" />
+    <state x="164" y="79" key="MergeDialog" timestamp="1648005105510">
       <screen x="0" y="25" width="1680" height="1025" />
     </state>
+    <state x="164" y="79" key="MergeDialog/-561.-1415.2560.1415/0.25.1680.1025@0.25.1680.1025" timestamp="1648005105510" />
+    <state x="474" y="268" key="MultipleFileMergeDialog" timestamp="1648005113126">
+      <screen x="0" y="25" width="1680" height="1025" />
+    </state>
+    <state x="474" y="268" key="MultipleFileMergeDialog/-561.-1415.2560.1415/0.25.1680.1025@0.25.1680.1025" timestamp="1648005113126" />
     <state x="474" y="268" key="MultipleFileMergeDialog/0.25.1680.1025@0.25.1680.1025" timestamp="1647662640124" />
     <state x="651" y="227" key="RollbackChangesDialog" timestamp="1647662530203">
       <screen x="0" y="25" width="1680" height="1025" />
     </state>
     <state x="651" y="227" key="RollbackChangesDialog/0.25.1680.1025@0.25.1680.1025" timestamp="1647662530203" />
-    <state x="436" y="240" key="Vcs.Push.Dialog.v2" timestamp="1648003255572">
+    <state x="436" y="240" key="Vcs.Push.Dialog.v2" timestamp="1648005256074">
       <screen x="0" y="25" width="1680" height="1025" />
     </state>
-    <state x="436" y="240" key="Vcs.Push.Dialog.v2/-561.-1415.2560.1415/0.25.1680.1025@0.25.1680.1025" timestamp="1648003255572" />
+    <state x="436" y="240" key="Vcs.Push.Dialog.v2/-561.-1415.2560.1415/0.25.1680.1025@0.25.1680.1025" timestamp="1648005256074" />
     <state x="436" y="240" key="Vcs.Push.Dialog.v2/0.25.1680.1025@0.25.1680.1025" timestamp="1647701663732" />
-    <state x="637" y="421" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1648003471009">
+    <state x="637" y="421" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1648314966180">
       <screen x="0" y="25" width="1680" height="1025" />
     </state>
     <state x="637" y="421" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/-561.-1415.2560.1415/0.25.1680.1025@0.25.1680.1025" timestamp="1648003471009" />
-    <state x="637" y="421" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.25.1680.1025@0.25.1680.1025" timestamp="1647662160156" />
+    <state x="637" y="421" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.25.1680.1025@0.25.1680.1025" timestamp="1648314966180" />
     <state x="674" y="298" key="svn.repositoryBrowser" timestamp="1648003492891">
       <screen x="0" y="25" width="1680" height="1025" />
     </state>
@@ -264,12 +331,9 @@
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/Server.java</url>
-          <line>42</line>
-          <properties class="Server" method="main">
-            <option name="EMULATED" value="true" />
-          </properties>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/UDPPingServer.java</url>
+          <line>5</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
       </breakpoints>

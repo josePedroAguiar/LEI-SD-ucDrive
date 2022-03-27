@@ -37,7 +37,7 @@ class RandomString {
     }
 }
 
-public class Server {
+public class ServerBackUp {
     // TreeSet<User> tree= new TreeSet<User>(new myNameComparator());
     static Path root;
     static Path currentDir;
@@ -45,12 +45,13 @@ public class Server {
     public static void main(String[] args) {
         int numero = 0;
 
-        int serverPort = 6001;
+        int serverPort = 6003;
         try (ServerSocket listenSocket = new ServerSocket(serverPort)) {
             System.out.println("A escuta no porto " + serverPort);
             System.out.println("LISTEN SOCKET=" + listenSocket);
-            UDPPingServer t =new UDPPingServer();
+            UDPPingClient t= new UDPPingClient();
             while (true) {
+                System.out.println("-_-");
                 Socket clientSocket = listenSocket.accept(); // BLOQUEANTE
                 System.out.println("CLIENT_SOCKET (created at accept())=" + clientSocket);
                 numero++;
@@ -347,7 +348,7 @@ class Connection extends Thread {
                 User u = iter.next();
                 String date = u.expDate.toString();
                 String info = u.ccNumber + "\t" + u.address + "\t" + u.pass + "\t" + u.department + "\t" + u.cellNumber
-                        + "\t" + u.username + "\t" + date + "\n";
+                              + "\t" + u.username + "\t" + date + "\n";
                 br.write(info);
             }
             System.out.println(myObj.getName() + " atualizado com sucesso!");
