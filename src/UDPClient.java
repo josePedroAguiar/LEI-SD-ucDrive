@@ -23,7 +23,7 @@ public class UDPClient{
 					DatagramPacket request = new DatagramPacket(m,m.length,aHost,serverPort);
 					aSocket.send(request);
 					
-					byte[] buffer = new byte[1000];
+					byte[] buffer = new byte[1024];
 					//aSocket.setSoTimeout(10000);
 					DatagramPacket reply = new DatagramPacket(buffer, buffer.length);	
 					aSocket.receive(reply);

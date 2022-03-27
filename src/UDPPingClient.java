@@ -38,14 +38,16 @@ public class UDPPingClient extends Thread  {
 	private static final int MAX_TIMEOUT = 1000;
 	private static final int INTERVAL_BETWEEN_PING  = 30000;
 	private static final int NUMBER_OF_PINGS  =10;
-	Cmd cmd;
+	ServerBackUp server;
 
 	private static final String serverName = "localhost";
 
 	public boolean flagHideOrShow=false;
 	Scanner sc = new Scanner(System.in);
-	public UDPPingClient(){
+
+	public UDPPingClient(ServerBackUp server){
 		Cmd cmd=new Cmd(this);
+		this.server=server;
 		this.start();
 		String hideOrShow;
 
@@ -116,7 +118,9 @@ public class UDPPingClient extends Thread  {
 											   "\tIf you want to show the unitary prints of the pings type 'Show' or 'S'");
 						}
 						if(pakageLost>8){
+
 							System.out.println("Nice");
+							server.statusMainServer=false;
 							return;}
 
 						Thread.sleep(INTERVAL_BETWEEN_PING);

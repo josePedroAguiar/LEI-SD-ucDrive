@@ -19,28 +19,13 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="496383f7-a050-44c8-b761-25df45aa231d" name="Default Changelist" comment="correção do mkdir">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/README.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/PropertyValues.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/README.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ReadConfigMain.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ServerBackUp.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/UDPClient.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/UDPPingClient.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/UDPPingServer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/UDPServer.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ucDrive.iml" afterDir="false" />
+    <list default="true" id="496383f7-a050-44c8-b761-25df45aa231d" name="Default Changelist" comment="Criação do ServerBackUp">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/generateConfigFile.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/generateConfigFile.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Client.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/Client.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Client.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Connection.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/Connection.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/RandomString.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/RandomString.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Server.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/Server.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Server.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ServerBackUp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ServerBackUp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UDPClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/UDPClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UDPPingClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/UDPPingClient.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/User.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/usersData.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/usersData.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -114,19 +99,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="TEST_OBJECT" value="CLASS" />
-      <properties />
-      <listeners />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -160,7 +132,8 @@
       <workItem from="1648257171793" duration="1964000" />
       <workItem from="1648310644598" duration="772000" />
       <workItem from="1648311947196" duration="7725000" />
-      <workItem from="1648321408207" duration="23958000" />
+      <workItem from="1648321408207" duration="24415000" />
+      <workItem from="1648391791697" duration="4082000" />
     </task>
     <task id="LOCAL-00001" summary="Read user data in Server.java">
       <created>1647527838562</created>
@@ -218,7 +191,21 @@
       <option name="project" value="LOCAL" />
       <updated>1648005083721</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Criação do ServerBackUp">
+      <created>1648350479589</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1648350479589</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Criação do ServerBackUp">
+      <created>1648350511170</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1648350511170</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -240,7 +227,8 @@
     <MESSAGE value="Read user data in Server.java" />
     <MESSAGE value="Login quase na totalidade implementado" />
     <MESSAGE value="correção do mkdir" />
-    <option name="LAST_COMMIT_MESSAGE" value="correção do mkdir" />
+    <MESSAGE value="Criação do ServerBackUp" />
+    <option name="LAST_COMMIT_MESSAGE" value="Criação do ServerBackUp" />
   </component>
   <component name="WindowStateProjectService">
     <state x="470" y="185" key="#Inspections" timestamp="1647657911927">
@@ -280,26 +268,26 @@
       <screen x="0" y="25" width="1680" height="1025" />
     </state>
     <state x="651" y="212" key="Github.UntrackedFilesDialog/-2560.25.2560.1415/0.25.1680.1025@0.25.1680.1025" timestamp="1647296046272" />
-    <state width="1358" height="254" key="GridCell.Tab.0.bottom" timestamp="1648348494386">
+    <state width="1358" height="254" key="GridCell.Tab.0.bottom" timestamp="1648351101942">
       <screen x="0" y="25" width="1680" height="1025" />
     </state>
     <state width="696" height="423" key="GridCell.Tab.0.bottom/-561.-1440.2560.1440/0.0.1680.1050@-561.-1440.2560.1440" timestamp="1648141521562" />
-    <state width="1358" height="254" key="GridCell.Tab.0.bottom/0.25.1680.1025@0.25.1680.1025" timestamp="1648348494386" />
-    <state width="1358" height="254" key="GridCell.Tab.0.center" timestamp="1648348494385">
+    <state width="1358" height="254" key="GridCell.Tab.0.bottom/0.25.1680.1025@0.25.1680.1025" timestamp="1648351101942" />
+    <state width="1358" height="254" key="GridCell.Tab.0.center" timestamp="1648351101942">
       <screen x="0" y="25" width="1680" height="1025" />
     </state>
     <state width="696" height="423" key="GridCell.Tab.0.center/-561.-1440.2560.1440/0.0.1680.1050@-561.-1440.2560.1440" timestamp="1648141521560" />
-    <state width="1358" height="254" key="GridCell.Tab.0.center/0.25.1680.1025@0.25.1680.1025" timestamp="1648348494385" />
-    <state width="1358" height="254" key="GridCell.Tab.0.left" timestamp="1648348494385">
+    <state width="1358" height="254" key="GridCell.Tab.0.center/0.25.1680.1025@0.25.1680.1025" timestamp="1648351101942" />
+    <state width="1358" height="254" key="GridCell.Tab.0.left" timestamp="1648351101941">
       <screen x="0" y="25" width="1680" height="1025" />
     </state>
     <state width="696" height="423" key="GridCell.Tab.0.left/-561.-1440.2560.1440/0.0.1680.1050@-561.-1440.2560.1440" timestamp="1648141521559" />
-    <state width="1358" height="254" key="GridCell.Tab.0.left/0.25.1680.1025@0.25.1680.1025" timestamp="1648348494385" />
-    <state width="1358" height="254" key="GridCell.Tab.0.right" timestamp="1648348494385">
+    <state width="1358" height="254" key="GridCell.Tab.0.left/0.25.1680.1025@0.25.1680.1025" timestamp="1648351101941" />
+    <state width="1358" height="254" key="GridCell.Tab.0.right" timestamp="1648351101942">
       <screen x="0" y="25" width="1680" height="1025" />
     </state>
     <state width="696" height="423" key="GridCell.Tab.0.right/-561.-1440.2560.1440/0.0.1680.1050@-561.-1440.2560.1440" timestamp="1648141521561" />
-    <state width="1358" height="254" key="GridCell.Tab.0.right/0.25.1680.1025@0.25.1680.1025" timestamp="1648348494385" />
+    <state width="1358" height="254" key="GridCell.Tab.0.right/0.25.1680.1025@0.25.1680.1025" timestamp="1648351101942" />
     <state x="164" y="79" key="MergeDialog" timestamp="1648005105510">
       <screen x="0" y="25" width="1680" height="1025" />
     </state>
@@ -313,16 +301,20 @@
       <screen x="0" y="25" width="1680" height="1025" />
     </state>
     <state x="651" y="227" key="RollbackChangesDialog/0.25.1680.1025@0.25.1680.1025" timestamp="1647662530203" />
-    <state x="436" y="240" key="Vcs.Push.Dialog.v2" timestamp="1648005256074">
+    <state x="436" y="240" key="Vcs.Push.Dialog.v2" timestamp="1648350660179">
       <screen x="0" y="25" width="1680" height="1025" />
     </state>
     <state x="436" y="240" key="Vcs.Push.Dialog.v2/-561.-1415.2560.1415/0.25.1680.1025@0.25.1680.1025" timestamp="1648005256074" />
-    <state x="436" y="240" key="Vcs.Push.Dialog.v2/0.25.1680.1025@0.25.1680.1025" timestamp="1647701663732" />
+    <state x="436" y="240" key="Vcs.Push.Dialog.v2/0.25.1680.1025@0.25.1680.1025" timestamp="1648350660179" />
     <state x="637" y="421" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1648314966180">
       <screen x="0" y="25" width="1680" height="1025" />
     </state>
     <state x="637" y="421" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/-561.-1415.2560.1415/0.25.1680.1025@0.25.1680.1025" timestamp="1648003471009" />
     <state x="637" y="421" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.25.1680.1025@0.25.1680.1025" timestamp="1648314966180" />
+    <state x="621" y="396" key="git4idea.remote.GitConfigureRemotesDialog" timestamp="1648350641073">
+      <screen x="0" y="25" width="1680" height="1025" />
+    </state>
+    <state x="621" y="396" key="git4idea.remote.GitConfigureRemotesDialog/0.25.1680.1025@0.25.1680.1025" timestamp="1648350641073" />
     <state x="674" y="298" key="svn.repositoryBrowser" timestamp="1648003492891">
       <screen x="0" y="25" width="1680" height="1025" />
     </state>

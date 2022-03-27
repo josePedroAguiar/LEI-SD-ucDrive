@@ -39,9 +39,9 @@ class RandomString {
 
 public class ServerBackUp {
     // TreeSet<User> tree= new TreeSet<User>(new myNameComparator());
-    static Path root;
-    static Path currentDir;
-
+    Path root;
+    Path currentDir;
+    boolean statusMainServer =true;
     public static void main(String[] args) {
         int numero = 0;
 
@@ -49,22 +49,33 @@ public class ServerBackUp {
         try (ServerSocket listenSocket = new ServerSocket(serverPort)) {
             System.out.println("A escuta no porto " + serverPort);
             System.out.println("LISTEN SOCKET=" + listenSocket);
-            UDPPingClient t= new UDPPingClient();
+            ServerBackUp server= new  ServerBackUp();
+            UDPPingClient t= new UDPPingClient(server);
             while (true) {
-                System.out.println("-_-");
+                if(!server.statusMainServer){
+                    System.out.println(":O");
                 Socket clientSocket = listenSocket.accept(); // BLOQUEANTE
                 System.out.println("CLIENT_SOCKET (created at accept())=" + clientSocket);
                 numero++;
                 Connection c = new Connection(clientSocket, numero);
-                root = c.createDir("MainServer");
-                currentDir = root;
+                server.root = c.createDir("MainServer");
+                server.currentDir = server.root;}
+                else {
+                    try {
+                        Thread.sleep(1000);
+                    }
+                    catch (Exception e){
+
+                    }
+
+                }
             }
         } catch (IOException e) {
             System.out.println("Listen:" + e.getMessage());
         }
     }
 
-    public static void setrootectory(Path newPath) {
+    public void setrootectory(Path newPath) {
         Server.root = newPath;
     }
 }
