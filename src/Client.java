@@ -74,6 +74,13 @@ public class Client {
         } else if (opt.contains("cd -server") || opt.contains("cd -client")) {
             String message = in.readUTF();
             System.out.println(message);
-        } else if (opt.equals("exit")) s.close();
+        } else if (opt.contains("sftp-get")) {
+            //downloadFile(opt.split(" ")[1]);
+
+        } else if (opt.contains("sftp-put")) {
+            new Upload(opt.split(" ")[1]);
+
+        } else if (opt.equals("exit"))
+            s.close();
     }
 }
