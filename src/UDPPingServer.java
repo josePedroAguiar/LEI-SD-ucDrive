@@ -13,8 +13,8 @@ public class UDPPingServer extends Thread   {
 		this.start();
 		String hideOrShow;
 		do {
-			hideOrShow = sc.nextLine();
-			hideOrShow=hideOrShow.toLowerCase();
+			hideOrShow = sc.findInLine();
+			hideOrShow=hideOrShow.toLowerCase();}
 			if (hideOrShow.equals("hide")||hideOrShow.equals("h"))
 				this.flagHideOrShow=true;
 			else

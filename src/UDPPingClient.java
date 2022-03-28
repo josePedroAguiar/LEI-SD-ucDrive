@@ -4,39 +4,13 @@ import java.util.*;
 import java.io.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-class Cmd extends Thread{
-	public boolean flagHideOrShow=false;
-	UDPPingClient ping;
-	Scanner sc = new Scanner(System.in);
-
-	public Cmd(UDPPingClient ping){
-		this.ping=ping;
-		this.start();
-	}
-	public void run(){
-		do {
-			try {
 
 
-				String hideOrShow = sc.nextLine();
-				hideOrShow = hideOrShow.toLowerCase();
-				if (hideOrShow.equals("hide") || hideOrShow.equals("h"))
-					ping.flagHideOrShow = true;
-				else
-					ping.flagHideOrShow = false;
-			}
-			catch (Exception e){
-				break;}
 
-		}while (true);
-
-	}
-
-}
 public class UDPPingClient extends Thread  {
 	private static int serverPort = 6789;
 	private static final int MAX_TIMEOUT = 1000;
-	private static final int INTERVAL_BETWEEN_PING  = 30000;
+	private static final int INTERVAL_BETWEEN_PING  = 1000;
 	private static final int NUMBER_OF_PINGS  =10;
 	ServerBackUp server;
 
@@ -44,16 +18,14 @@ public class UDPPingClient extends Thread  {
 
 	public boolean flagHideOrShow=false;
 	Scanner sc = new Scanner(System.in);
+	String hideOrShow;
 
 	public UDPPingClient(ServerBackUp server){
-		Cmd cmd=new Cmd(this);
-		this.server=server;
-		this.start();
-		String hideOrShow;
-
-
+		    this.server=server;
 	}
 	public void run() {
+		//Cmd cmd=new Cmd(this);
+		//cmd.start();
 		try (DatagramSocket aSocket = new DatagramSocket()) {
 			try (Scanner sc = new Scanner(System.in)) {
 				while(true){
@@ -118,15 +90,14 @@ public class UDPPingClient extends Thread  {
 											   "If you want to show the unitary prints of the pings type 'Show' or 'S'");
 						}
 						if(pakageLost>8){
-
-							System.out.println("Nice");
+							//cmd.interrupt();
 							server.statusMainServer=false;
 							return;}
 
 						Thread.sleep(INTERVAL_BETWEEN_PING);
 					}
 					catch (Exception e) {
-						System.out.println("Foda-se");
+						System.out.println("Exception");
 					}
 				}
 			}
