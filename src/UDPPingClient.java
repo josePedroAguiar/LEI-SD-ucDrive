@@ -80,13 +80,13 @@ public class UDPPingClient extends Thread  {
 						if(!this.flagHideOrShow) {
 							System.out.println("If you want to hide the unitary prints of the pings type 'Hide' or 'H'" +
 											   "\n_____________________________________\n " +
-											   "[" + time + "] Perc. of package receveid " + ((NUMBER_OF_PINGS - pakageLost) / NUMBER_OF_PINGS * 100) + "% (" + (NUMBER_OF_PINGS - pakageLost) + "/" + NUMBER_OF_PINGS + ")");
+											   "[" + time + "] Perc. of packets  receveid " + ((NUMBER_OF_PINGS - pakageLost) / NUMBER_OF_PINGS * 100) + "% (" + (NUMBER_OF_PINGS - pakageLost) + "/" + NUMBER_OF_PINGS + ")");
 						}
 						else  {
 							System.out.println(
 											   "\n_____________________________________\n" +
 
-											   "[" + time + "] Perc. of package receveid " + ((NUMBER_OF_PINGS - pakageLost) / NUMBER_OF_PINGS * 100) + "% (" + (NUMBER_OF_PINGS - pakageLost) + "/" + NUMBER_OF_PINGS + ")\n"+
+											   "[" + time + "] Perc. of of packets receveid " + ((NUMBER_OF_PINGS - pakageLost) / NUMBER_OF_PINGS * 100) + "% (" + (NUMBER_OF_PINGS - pakageLost) + "/" + NUMBER_OF_PINGS + ")\n"+
 											   "If you want to show the unitary prints of the pings type 'Show' or 'S'");
 						}
 						if(pakageLost>8){
