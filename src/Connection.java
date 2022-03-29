@@ -10,7 +10,7 @@ class Connection extends Thread {
     Socket clientSocket;
     int thread_number;
     HashSet<User> hs;
-    File myObj = new File(Server.root.toString() + "\\info\\usersData.txt");
+    File myObj = new File(Server.root.toString() + "/info/usersData.txt");
 
     public Connection(Socket aClientSocket, HashSet<User> hs, int numero) {
         this.hs = hs;
@@ -97,15 +97,15 @@ class Connection extends Thread {
                 out.writeUTF("Diretoria atualizada\n");
                 System.out.println(currentUser.currentDir.toString());
             }
-        } else if (opt.contains("sftp-get")) {
-            //String filename = opt.split(" ")[1];
-            //downloadFile(filename, currentUser);
+        } else if (opt.contains("push")) {
+            int port = in.readInt();
+            new Upload(opt.split(" ")[1], port);
 
-        } else if (opt.contains("sftp-put")) {
+        } else if (opt.contains("pull")) {
             String filename = opt.split(" ")[1];
             String destination = Server.root.toString()
-            + Paths.get(filename).toString().replace(currentUser.currentDir.toString(), "\\usr\\" + currentUser.username);
-            new Download(filename, currentUser, destination);
+            + Paths.get(filename).toString().replace(currentUser.currentDir.toString(), "/usr/" + currentUser.username);
+            new Download(filename, destination, clientSocket);
 
         } else if ("exit".equals(opt)) {
             clientSocket.close();

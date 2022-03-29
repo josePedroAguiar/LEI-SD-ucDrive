@@ -5,19 +5,19 @@ class Upload extends Thread {
     DataInputStream in;
     DataOutputStream out;
     Socket s;
+    int UploadSocket;
+    String filename;
 
-    public Upload(String filename) throws IOException {
-        int downloadSocket = 6002;
-
+    public Upload(String filename, int UploadSocket) throws IOException {
+        this.filename = filename;
+        this.UploadSocket = UploadSocket;
         this.start();
-        try {
-            this.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
 
+    }
+
+    public void run() {
         try {
-            s = new Socket("localhost", downloadSocket);
+            s = new Socket("localhost", UploadSocket);
             System.out.println("SOCKET=" + s);
 
             in = new DataInputStream(s.getInputStream());
@@ -26,6 +26,7 @@ class Upload extends Thread {
             int bytes = 0;
 
             File file = new File(filename);
+            System.out.println("CORRE CORRE");
             out.writeLong(file.length());
             try (FileInputStream fileInputStream = new FileInputStream(file)) {
                 // break file into chunks
@@ -46,6 +47,7 @@ class Upload extends Thread {
             e.printStackTrace();
         } catch (IOException e) {
             System.out.println("IO:" + e.getMessage());
+            e.printStackTrace();
         }
     }
 }

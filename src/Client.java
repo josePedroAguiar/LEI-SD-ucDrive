@@ -1,4 +1,5 @@
 import java.net.*;
+import java.nio.file.*;
 import java.util.Scanner;
 import java.io.*;
 
@@ -74,11 +75,16 @@ public class Client {
         } else if (opt.contains("cd -server") || opt.contains("cd -client")) {
             String message = in.readUTF();
             System.out.println(message);
-        } else if (opt.contains("sftp-get")) {
-            //downloadFile(opt.split(" ")[1]);
+        } else if (opt.contains("push")) {
+            String[] ss = opt.split(" ");
+            String filename = ss[1];
+            String destination = ss[2];
+            
+            new Download(filename, destination, s);
 
-        } else if (opt.contains("sftp-put")) {
-            new Upload(opt.split(" ")[1]);
+        } else if (opt.contains("pull")) {
+            int port = in.readInt();
+            new Upload(opt.split(" ")[1], port);
 
         } else if (opt.equals("exit"))
             s.close();
