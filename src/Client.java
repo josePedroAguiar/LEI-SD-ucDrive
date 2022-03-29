@@ -1,5 +1,4 @@
 import java.net.*;
-import java.nio.file.*;
 import java.util.Scanner;
 import java.io.*;
 
@@ -78,14 +77,14 @@ public class Client {
         } else if (opt.contains("cd -server") || opt.contains("cd -client")) {
             String message = in.readUTF();
             System.out.println(message);
-        } else if (opt.contains("push")) {
+        } else if (opt.contains("pull")) {
             String[] ss = opt.split(" ");
             String filename = ss[1];
             String destination = ss[2];
             
             new Download(filename, destination, s);
 
-        } else if (opt.contains("pull")) {
+        } else if (opt.contains("push")) {
             int port = in.readInt();
             new Upload(opt.split(" ")[1], port);
 

@@ -54,8 +54,8 @@ class Connection extends Thread {
             // depois de mudar a passe fecha a ligacao e pede uma nova autenticacao
 
         } else if ("ls -server".equals(opt)) {
-            System.out.println("List Server directory " + Server.root.toString());
-            String list = listFiles(Server.root, 0, "") + "\n";
+            System.out.println("List Server directory " + Server.currentDir.toString());
+            String list = listFiles(Server.currentDir, 0, "") + "\n";
             out.writeUTF(list);
         } else if (opt.contains("cd -server")) {
             String[] command;
@@ -77,8 +77,8 @@ class Connection extends Thread {
             }
 
         } else if ("ls -client".equals(opt)) {
-            System.out.println("List " + currentUser.username + " directory " + currentUser.root.toString());
-            String list = listFiles(currentUser.root, 0, "") + "\n";
+            System.out.println("List " + currentUser.username + " directory " + currentUser.currentDir.toString());
+            String list = listFiles(currentUser.currentDir, 0, "") + "\n";
             out.writeUTF(list);
         } else if (opt.contains("cd -client")) {
             String[] command;
@@ -98,11 +98,11 @@ class Connection extends Thread {
                 out.writeUTF("Diretoria atualizada\n");
                 System.out.println(currentUser.currentDir.toString());
             }
-        } else if (opt.contains("push")) {
+        } else if (opt.contains("pull")) {
             int port = in.readInt();
             new Upload(opt.split(" ")[1], port);
 
-        } else if (opt.contains("pull")) {
+        } else if (opt.contains("push")) {
             String filename = opt.split(" ")[1];
             String destination = Server.root.toString()
             + Paths.get(filename).toString().replace(currentUser.currentDir.toString(), "/usr/" + currentUser.username);

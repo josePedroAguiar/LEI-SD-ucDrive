@@ -9,10 +9,10 @@ Comandos:
     cd [-server / -client] .. -> muda para a diretoria "pai" da diretoria atual
     (colocar a diretoria dentro de aspas no caso de existirem caracteres "especiais", isto é, espaços, acentos...)
 
-    pull [filename] -> carregar um ficheiro para o servidor
+    push [filename] [destination] -> carregar um ficheiro para o servidor
     (o cliente tem de ir para a diretoria onde se encontra o ficheiro a ser carregado)
     
-    push [filename] -> descarregar um ficheiro do servidor
-    (o cliente tem de ir para a diretoria onde quer descarregar o ficheiro)
+    pull [filename] [destination] -> descarregar um ficheiro do servidor
+    (o cliente tem de indicar a diretoria onde quer descarregar o ficheiro)
 
     exit -> termina a ligação do cliente
