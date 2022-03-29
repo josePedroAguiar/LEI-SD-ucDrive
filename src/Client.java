@@ -6,11 +6,14 @@ public class Client {
     static DataInputStream in;
     static DataOutputStream out;
     static Socket s;
+    static boolean repeat_login=false;
 
     public static void main(String[] args) {
         // 1o passo - criar socket
         int serversocket = 6001;
+        do {
         try {
+            repeat_login=false;
             s = new Socket("localhost", serversocket);
             System.out.println("SOCKET=" + s);
 
@@ -33,9 +36,9 @@ public class Client {
                 System.out.println(respostaAndToken[0] + "\n");
             } while (!respostaAndToken[0].equals("Login com sucesso"));
 
-            while (true)
-                Menu();
-
+            while (Menu());
+                
+       
         } catch (UnknownHostException e) {
             System.out.println("Sock:" + e.getMessage());
         } catch (EOFException e) {
@@ -44,9 +47,10 @@ public class Client {
         } catch (IOException e) {
             System.out.println("IO:" + e.getMessage());
         }
+         }while(repeat_login);
     }
 
-    private static void Menu() throws IOException {
+    private static boolean Menu() throws IOException {
         Scanner sc = new Scanner(System.in);
         String opt = sc.nextLine();
 
@@ -66,9 +70,9 @@ public class Client {
             } while (!data[0].equals("Password atualizada!"));
             System.out.println(data[0]);
             s.close();
+            repeat_login=true;
             System.out.println("Sessão foi terminada");
-            main(null);
-            System.exit(0);
+            return false;
             // depois de mudar a passe pede uma nova autenticacao
             // System.out.println("olaola");
         } else if ("ls -server".equals(opt) || "ls -client".equals(opt)) {
@@ -91,6 +95,8 @@ public class Client {
 
         } else if (opt.equals("exit")){
             s.close();
-            System.exit(0);}
+            return false;}
+            return true;
     }
+   
 }
