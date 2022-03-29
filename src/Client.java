@@ -66,6 +66,9 @@ public class Client {
                     System.out.print(data[0] + "\n" + data[1]);
             } while (!data[0].equals("Password atualizada!"));
             System.out.println(data[0]);
+            s.close();
+            System.out.println("Sessão foi terminada");
+            System.exit(0);
             // depois de mudar a passe pede uma nova autenticacao
             // System.out.println("olaola");
         } else if ("ls -server".equals(opt) || "ls -client".equals(opt)) {
@@ -86,7 +89,8 @@ public class Client {
             int port = in.readInt();
             new Upload(opt.split(" ")[1], port);
 
-        } else if (opt.equals("exit"))
+        } else if (opt.equals("exit")){
             s.close();
+            System.exit(0);}
     }
 }

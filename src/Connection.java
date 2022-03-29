@@ -47,9 +47,10 @@ class Connection extends Thread {
     private void Menu(User currentUser) throws IOException {
         String opt = in.readUTF();
         System.out.println("Command: " + opt);
-
+        if( currentUser.athetication){
         if ("passwd".equals(opt)) {
             changePass(currentUser);
+            currentUser.athetication=false;
             // depois de mudar a passe fecha a ligacao e pede uma nova autenticacao
 
         } else if ("ls -server".equals(opt)) {
@@ -109,7 +110,9 @@ class Connection extends Thread {
 
         } else if ("exit".equals(opt)) {
             clientSocket.close();
+            currentUser.athetication=false;
         }
+    }
     }
 
     private User authentication(User currentUser) throws IOException {
@@ -148,10 +151,12 @@ class Connection extends Thread {
                     currentUser.pass = newPass;
                     updateFile();
                     out.writeUTF("Password atualizada!\n");
+                    clientSocket.close();
                     break;
                 }
                 out.writeUTF("Password ja utilizada!\nNova password: ");
 
+               
             }
         } catch (IOException e) {
             e.printStackTrace();
