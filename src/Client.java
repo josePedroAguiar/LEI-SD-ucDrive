@@ -67,6 +67,7 @@ public class Client {
             System.out.println(data[0]);
             s.close();
             System.out.println("Sessão foi terminada");
+            main(null);
             System.exit(0);
             // depois de mudar a passe pede uma nova autenticacao
             // System.out.println("olaola");
