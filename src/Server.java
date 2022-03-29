@@ -18,8 +18,8 @@ public class Server {
                 if (data.length() != 0 && data.charAt(0) != '#') {
                     User user = new User(data);
                     if (user.valid) {
-                        user.root = createDir(user.username);
-                        createDir(root.toString().replace("./home/", "") + "/usr/" + user.username);
+                        user.root = createDir("./home/" + user.username);
+                        createDir(root.toString() + "/usr/" + user.username);
                         if (user.currentDir == null)
                             user.currentDir = user.root;
                         hs.add(user);
@@ -35,7 +35,7 @@ public class Server {
     }
 
     static private Path createDir(String name) {
-        Path path = Paths.get("./home/" + name + "/");
+        Path path = Paths.get(name + "/");
         try {
             Files.createDirectories(path);
             return path;
@@ -57,7 +57,7 @@ public class Server {
 
         int serverPort = 6001;
 
-        root = createDir("MainServer");
+        root = createDir("./MainServer");
 
         myObj = new File(Server.root.toString() + "/info/usersData.txt");
 
