@@ -54,23 +54,32 @@ class Connection extends Thread {
                 changePass(currentUser);
                 currentUser.setAuthenticated(false);
                 // depois de mudar a passe fecha a ligacao e pede uma nova autenticacao
-
+            } else if (opt.contains("config")) {
+                String[] config = opt.split(" ");
+                if (config.length == 4) {
+                    configFile(config[1], config[2], config[3], currentUser);
+                    out.writeUTF("Ficheiro endereco e porto atualizados\n");
+                } else {
+                    out.writeUTF("Impossivel atualizar o endereco e o porto\n");
+                }
             } else if ("ls -server".equals(opt)) {
                 System.out.println("List Server directory " + currentUser.getCurrentDirServer().toString());
                 String list = listFiles(currentUser.getCurrentDirServer(), 0, "") + "\n";
                 out.writeUTF(list);
             } else if (opt.contains("cd -server")) {
                 String[] command;
-                Path destination;
+                Path destination = currentUser.getCurrentDirServer();
 
                 if (opt.contains("\"")) { // tratamento para carateres especiais
                     command = opt.split("\"");
-                    destination = changeCurrentDir(currentUser.getCurrentDirServer(), command[1],
-                            currentUser.getRootServer());
+                    if (command.length == 3)
+                        destination = changeCurrentDir(currentUser.getCurrentDirServer(), command[1],
+                                currentUser.getRootServer());
                 } else {
                     command = opt.split(" ");
-                    destination = changeCurrentDir(currentUser.getCurrentDirServer(), command[2],
-                            currentUser.getRootServer());
+                    if (command.length == 3)
+                        destination = changeCurrentDir(currentUser.getCurrentDirServer(), command[2],
+                                currentUser.getRootServer());
                 }
                 if (destination.compareTo(currentUser.getCurrentDirServer()) == 0) {
                     out.writeUTF("Impossivel aceder a essa diretoria\n");
@@ -87,14 +96,16 @@ class Connection extends Thread {
                 out.writeUTF(list);
             } else if (opt.contains("cd -client")) {
                 String[] command;
-                Path destination;
+                Path destination = currentUser.getCurrentDir();
 
                 if (opt.contains("\"")) { // tratamento para carateres especiais
                     command = opt.split("\"");
-                    destination = changeCurrentDir(currentUser.getCurrentDir(), command[1], currentUser.getRoot());
+                    if (command.length == 3)
+                        destination = changeCurrentDir(currentUser.getCurrentDir(), command[1], currentUser.getRoot());
                 } else {
                     command = opt.split(" ");
-                    destination = changeCurrentDir(currentUser.getCurrentDir(), command[2], currentUser.getRoot());
+                    if (command.length == 3)
+                        destination = changeCurrentDir(currentUser.getCurrentDir(), command[2], currentUser.getRoot());
                 }
                 if (destination.compareTo(currentUser.getCurrentDir()) == 0 || !Files.isDirectory(destination)) {
                     out.writeUTF("Impossivel aceder a essa diretoria\n");
@@ -154,6 +165,24 @@ class Connection extends Thread {
                 currentUser.setAuthenticated(false);
             }
 
+        }
+    }
+
+    private void configFile(String string, String ip, String port, User u) throws IOException {
+        File configFile = new File(u.getRoot().toString() + "configIP_PORT.txt");
+        try (BufferedWriter br = new BufferedWriter(new FileWriter(configFile))) {
+            br.write("#   MainServer_host    MainServer_Port  BackUpServer_host   BackUpServer_Port\n");
+
+            if (string.equals("-main")) {
+                u.setMainServer_host(ip);
+                u.setMainServer_port(Integer.parseInt(port));
+            } else if (string.equals("-backup")) {
+                u.setBackUpServer_host(ip);
+                u.setBackUpServer_port(Integer.parseInt(port));
+            }
+            String config = u.getMainServer_host() + "\t" + u.getMainServer_port() + "\t" + u.getBackUpServer_host()
+                    + "\t" + u.getBackUpServer_port() + "\n";
+            br.write(config);
         }
     }
 

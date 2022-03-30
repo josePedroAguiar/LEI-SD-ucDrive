@@ -1,12 +1,17 @@
-import java.net.*;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.EOFException;
+import java.io.IOException;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.Scanner;
-import java.io.*;
 
 public class Client {
-    static DataInputStream in;
-    static DataOutputStream out;
-    static Socket s;
-    static boolean repeat_login = false;
+    private static DataInputStream in;
+    private static DataOutputStream out;
+    private static Socket s;
+    private static boolean repeat_login = false;
+    private static Scanner sc = new Scanner(System.in);
 
     public static void main(String[] args) {
         // 1o passo - criar socket
@@ -22,7 +27,6 @@ public class Client {
                 out = new DataOutputStream(s.getOutputStream());
 
                 // 3o passo
-                Scanner sc = new Scanner(System.in);
                 String resposta;
                 String[] respostaAndToken;
                 do {
@@ -48,10 +52,10 @@ public class Client {
                 System.out.println("IO:" + e.getMessage());
             }
         } while (repeat_login);
+        sc.close();
     }
 
     private static boolean Menu() throws IOException {
-        Scanner sc = new Scanner(System.in);
         String opt = sc.nextLine();
 
         out.writeUTF(opt);
@@ -75,6 +79,9 @@ public class Client {
             return false;
             // depois de mudar a passe pede uma nova autenticacao
             // System.out.println("olaola");
+        } else if (opt.contains("config")) {
+            String s = in.readUTF();
+            System.out.println(s);
         } else if ("ls -server".equals(opt) || "ls -client".equals(opt)) {
             String[] list = in.readUTF().split("\n");
             for (String line : list)
@@ -89,11 +96,10 @@ public class Client {
             if (input.equals("O ficheiro nao existe na diretoria atual\n")) {
                 System.out.println(input);
             } else {
-                String m=in.readUTF();
+                String m = in.readUTF();
                 int port = in.readInt();
                 new Download(input, m, port);
-                
-               
+
             }
         } else if (opt.contains("push")) {
             String input = in.readUTF();
@@ -104,7 +110,7 @@ public class Client {
                 new Upload(input, s);
             }
 
-        } else if (opt.contains("mkdir -server")){
+        } else if (opt.contains("mkdir -server")) {
             String input = in.readUTF();
             System.out.println(input);
 

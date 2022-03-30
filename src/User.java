@@ -14,6 +14,26 @@ class User {
     private Path currentDir;
     private Path rootServer;
     private Path currentDirServer;
+    private String MainServer_host;
+    private int MainServer_port;
+    private String BackUpServer_host;
+    private int BackUpServer_port;
+
+    public String getBackUpServer_host() {
+        return BackUpServer_host;
+    }
+
+    public int getBackUpServer_port() {
+        return BackUpServer_port;
+    }
+
+    public String getMainServer_host() {
+        return MainServer_host;
+    }
+
+    public int getMainServer_port() {
+        return MainServer_port;
+    }
 
     public String getUsername() {
         return username;
@@ -65,6 +85,22 @@ class User {
 
     public Data getExpDate() {
         return expDate;
+    }
+
+    public void setBackUpServer_host(String backUpServer_host) {
+        BackUpServer_host = backUpServer_host;
+    }
+
+    public void setBackUpServer_port(int backUpServer_port) {
+        BackUpServer_port = backUpServer_port;
+    }
+
+    public void setMainServer_host(String mainServer_host) {
+        MainServer_host = mainServer_host;
+    }
+
+    public void setMainServer_port(int mainServer_port) {
+        MainServer_port = mainServer_port;
     }
 
     public void setUsername(String username) {
@@ -134,7 +170,8 @@ class User {
                 setCellNumber(Long.parseLong(arrOfStr[4]));
                 String[] date = arrOfStr[6].split("/");
                 if (date.length == 3)
-                    setExpDate(new Data(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2])));
+                    setExpDate(
+                            new Data(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2])));
                 else {
                     System.out.println("ERROR: Date is invalid (i.e.: DD/M/YY-numeric)");
                     setValid(false);
