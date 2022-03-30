@@ -5,8 +5,6 @@ import java.util.*;
 
 public class Server {
     // TreeSet<User> tree= new TreeSet<User>(new myNameComparator());
-    static Path root;
-    static Path currentDir;
     static HashSet<User> hs = new HashSet<>();
     static File myObj;
 
@@ -19,9 +17,12 @@ public class Server {
                     User user = new User(data);
                     if (user.valid) {
                         user.root = createDir("./home/" + user.username);
-                        createDir(root.toString() + "/usr/" + user.username);
+                        user.rootServer = createDir("./MainServer/usr/" + user.username);
+                        createDir("./MainServer/usr/" + user.username);
                         if (user.currentDir == null)
                             user.currentDir = user.root;
+                        if (user.currentDirServer == null)
+                            user.currentDirServer = user.rootServer;
                         hs.add(user);
                     }
                 }
@@ -57,9 +58,7 @@ public class Server {
 
         int serverPort = 6001;
 
-        root = createDir("./MainServer");
-
-        myObj = new File(Server.root.toString() + "/info/usersData.txt");
+        myObj = new File("./MainServer/info/usersData.txt");
 
         readUsersData(); // abre o ficheiro com as infos dos users e guarda toda a info
         UDPPingServer t = new UDPPingServer();
@@ -71,9 +70,6 @@ public class Server {
                 System.out.println("CLIENT_SOCKET (created at accept())=" + clientSocket);
                 numero++;
                 new Connection(clientSocket, hs, numero);
-
-                if (currentDir == null)
-                    currentDir = root;
             }
         } catch (IOException e) {
             System.out.println("Listen:" + e.getMessage());

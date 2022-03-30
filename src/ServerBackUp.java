@@ -43,19 +43,41 @@ class Cmd extends Thread{
 
 public class ServerBackUp {
     // TreeSet<User> tree= new TreeSet<User>(new myNameComparator());
-    static Path root;
+    Path root;
     static Path currentDir;
     boolean statusMainServer =true;
     static HashSet<User> hs = new HashSet<>();
     static File myObj;
 
-    
+    static private void readUsersData() {
+        try {
+            Scanner myReader = new Scanner(myObj);
+            while (myReader.hasNextLine()) {
+                String data = myReader.nextLine();
+                if (data.length() != 0 && data.charAt(0) != '#') {
+                    User user = new User(data);
+                    if (user.valid) {
+                        user.root = createDir("./home/" + user.username);
+                        user.rootServer = createDir("./MainServer/usr/" + user.username);
+                        createDir("./MainServer/usr/" + user.username);
+                        if (user.currentDir == null)
+                            user.currentDir = user.root;
+                        if (user.currentDirServer == null)
+                            user.currentDirServer = user.rootServer;
+                        hs.add(user);
+                    }
+                }
+            }
 
-    public void setrootectory(Path newPath) {
-        Server.root = newPath;
+            myReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
     }
+
     static private Path createDir(String name) {
-        Path path = Paths.get("./home/" + name + "/");
+        Path path = Paths.get(name + "/");
         try {
             Files.createDirectories(path);
             return path;
@@ -78,16 +100,13 @@ public class ServerBackUp {
         int numero = 0;
         int serverPort = 6003;
 
-        root = createDir("MainServer");
-
-        myObj = new File(root.toString() + "/info/usersData.txt");
-
+        myObj = new File("./MainServer/info/usersData.txt");
+        readUsersData(); // abre o ficheiro com as infos dos users e guarda toda a info
         ServerBackUp server= new  ServerBackUp();
         UDPPingClient t= new UDPPingClient(server);
         t.start();
         t.join();
 
-        root = createDir("MainServer");
         try (ServerSocket listenSocket = new ServerSocket(serverPort)) {
             System.out.println("A escuta no porto " + serverPort);
             System.out.println("LISTEN SOCKET=" + listenSocket);
@@ -96,9 +115,6 @@ public class ServerBackUp {
                 System.out.println("CLIENT_SOCKET (created at accept())=" + clientSocket);
                 numero++;
                 new Connection(clientSocket, hs, numero);
-
-                if (currentDir == null)
-                    currentDir = root;
             }
         } catch (IOException e) {
             System.out.println("Listen:" + e.getMessage());

@@ -10,7 +10,7 @@ class Connection extends Thread {
     Socket clientSocket;
     int thread_number;
     HashSet<User> hs;
-    File myObj = new File(Server.root.toString() + "/info/usersData.txt");
+    File myObj = new File("./MainServer/info/usersData.txt");
 
     public Connection(Socket aClientSocket, HashSet<User> hs, int numero) {
         this.hs = hs;
@@ -47,72 +47,120 @@ class Connection extends Thread {
     private void Menu(User currentUser) throws IOException {
         String opt = in.readUTF();
         System.out.println("Command: " + opt);
-        if( currentUser.athetication){
-        if ("passwd".equals(opt)) {
-            changePass(currentUser);
-            currentUser.athetication=false;
-            // depois de mudar a passe fecha a ligacao e pede uma nova autenticacao
+        if (currentUser.athetication) {
+            if ("passwd".equals(opt)) {
+                changePass(currentUser);
+                currentUser.athetication = false;
+                // depois de mudar a passe fecha a ligacao e pede uma nova autenticacao
 
-        } else if ("ls -server".equals(opt)) {
-            System.out.println("List Server directory " + Server.currentDir.toString());
-            String list = listFiles(Server.currentDir, 0, "") + "\n";
-            out.writeUTF(list);
-        } else if (opt.contains("cd -server")) {
-            String[] command;
-            Path destination;
+            } else if ("ls -server".equals(opt)) {
+                System.out.println("List Server directory " + currentUser.currentDirServer.toString());
+                String list = listFiles(currentUser.currentDirServer, 0, "") + "\n";
+                out.writeUTF(list);
+            } else if (opt.contains("cd -server")) {
+                String[] command;
+                Path destination;
 
-            if (opt.contains("\"")) { // tratamento para carateres especiais
-                command = opt.split("\"");
-                destination = changeCurrentDir(Server.currentDir, command[1]);
-            } else {
-                command = opt.split(" ");
-                destination = changeCurrentDir(Server.currentDir, command[2]);
+                if (opt.contains("\"")) { // tratamento para carateres especiais
+                    command = opt.split("\"");
+                    destination = changeCurrentDir(currentUser.currentDirServer, command[1], currentUser.rootServer);
+                } else {
+                    command = opt.split(" ");
+                    destination = changeCurrentDir(currentUser.currentDirServer, command[2], currentUser.rootServer);
+                }
+                if (destination.compareTo(currentUser.currentDirServer) == 0) {
+                    out.writeUTF("Impossivel aceder a essa diretoria\n");
+                } else {
+                    currentUser.currentDirServer = destination;
+                    out.writeUTF("Diretoria atualizada");
+                    System.out.println(currentUser.currentDirServer.toString());
+                }
+
+            } else if ("ls -client".equals(opt)) {
+                System.out.println("List " + currentUser.username + " directory " + currentUser.currentDir.toString());
+                String list = listFiles(currentUser.currentDir, 0, "") + "\n";
+                out.writeUTF(list);
+            } else if (opt.contains("cd -client")) {
+                String[] command;
+                Path destination;
+
+                if (opt.contains("\"")) { // tratamento para carateres especiais
+                    command = opt.split("\"");
+                    destination = changeCurrentDir(currentUser.currentDir, command[1], currentUser.root);
+                } else {
+                    command = opt.split(" ");
+                    destination = changeCurrentDir(currentUser.currentDir, command[2], currentUser.root);
+                }
+                if (destination.compareTo(currentUser.currentDir) == 0 || !Files.isDirectory(destination)) {
+                    out.writeUTF("Impossivel aceder a essa diretoria\n");
+                } else {
+                    currentUser.currentDir = destination;
+                    out.writeUTF("Diretoria atualizada\n");
+                    System.out.println(currentUser.currentDir.toString());
+                }
+            } else if (opt.contains("pull")) {
+                String[] ss = opt.split(" ");
+                String filename = ss[1];
+                String destination = ss[2];
+
+                File f = new File(currentUser.currentDirServer.toString() + "/" + filename);
+                if (f.exists()) {
+                    out.writeUTF(currentUser.currentDirServer.toString() + "/" + filename);
+                    File fileD = new File(currentUser.currentDir.toString() + "/" + destination);
+                    fileD.createNewFile();
+                    out.writeUTF(fileD.getAbsolutePath());
+                    new Upload(currentUser.currentDirServer.toString() + "/" + filename, clientSocket);
+
+                    
+                } else {
+                    out.writeUTF("O ficheiro nao existe na diretoria atual\n");
+                }
+            } else if (opt.contains("push")) {
+                String[] ss = opt.split(" ");
+                String filename = ss[1];
+                String destination = ss[2];
+
+                File f = new File(currentUser.currentDir.toString() + "/" + filename);
+                
+                if (f.exists()) {
+                    File fileD = new File(currentUser.currentDirServer.toString() + "/" + destination);
+                    out.writeUTF(currentUser.currentDir.toString() + "/" + filename);
+                    fileD.createNewFile();
+                    int port = in.readInt();
+                    new Download(currentUser.currentDir.toString() + "/" + filename, fileD.getAbsolutePath(), port);
+                } else {
+                    out.writeUTF("O ficheiro nao existe na diretoria atual\n");
+                }
+
+            } else if (opt.contains("mkdir -server")) {
+                String[] arg = opt.split(" ");
+                if (arg.length == 3) {
+                    createDir(currentUser.currentDirServer.toString() + "/" + arg[2], currentUser);
+                    System.out.println("Directory was created");
+                    out.writeUTF("Directory was created");
+                    
+                } else {
+                    out.writeUTF("Arguments invalid (mkdir -server <path>)");
+                }
+            } else if ("exit".equals(opt)) {
+                clientSocket.close();
+                currentUser.athetication = false;
             }
-            if (destination.compareTo(Server.currentDir) == 0) {
-                out.writeUTF("Impossivel aceder a essa diretoria\n");
-            } else {
-                Server.currentDir = destination;
-                out.writeUTF("Diretoria atualizada");
-                System.out.println(Server.currentDir.toString());
-            }
 
-        } else if ("ls -client".equals(opt)) {
-            System.out.println("List " + currentUser.username + " directory " + currentUser.currentDir.toString());
-            String list = listFiles(currentUser.currentDir, 0, "") + "\n";
-            out.writeUTF(list);
-        } else if (opt.contains("cd -client")) {
-            String[] command;
-            Path destination;
-
-            if (opt.contains("\"")) { // tratamento para carateres especiais
-                command = opt.split("\"");
-                destination = changeCurrentDir(currentUser.currentDir, command[1]);
-            } else {
-                command = opt.split(" ");
-                destination = changeCurrentDir(currentUser.currentDir, command[2]);
-            }
-            if (destination.compareTo(currentUser.currentDir) == 0 || !Files.isDirectory(destination)) {
-                out.writeUTF("Impossivel aceder a essa diretoria\n");
-            } else {
-                currentUser.currentDir = destination;
-                out.writeUTF("Diretoria atualizada\n");
-                System.out.println(currentUser.currentDir.toString());
-            }
-        } else if (opt.contains("pull")) {
-            int port = in.readInt();
-            new Upload(opt.split(" ")[1], port);
-
-        } else if (opt.contains("push")) {
-            String filename = opt.split(" ")[1];
-            String destination = Server.root.toString()
-            + Paths.get(filename).toString().replace(currentUser.currentDir.toString(), "/usr/" + currentUser.username);
-            new Download(filename, destination, clientSocket);
-
-        } else if ("exit".equals(opt)) {
-            clientSocket.close();
-            currentUser.athetication=false;
         }
     }
+
+    private void createDir(String name, User currentUser) throws IOException {
+        Path path = Paths.get(name);
+        try {
+            Files.createDirectories(path);
+        } catch (NoSuchFileException e) {
+            out.writeUTF("Parent directory doesn't exist!");
+            e.printStackTrace();
+        } catch (FileAlreadyExistsException e) {
+            out.writeUTF("Directory already exists!");
+            e.printStackTrace();
+        }
     }
 
     private User authentication(User currentUser) throws IOException {
@@ -156,7 +204,6 @@ class Connection extends Thread {
                 }
                 out.writeUTF("Password ja utilizada!\nNova password: ");
 
-               
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -164,7 +211,7 @@ class Connection extends Thread {
 
     }
 
-    public String listFiles(Path root, int level, String list) throws IOException {
+    private String listFiles(Path root, int level, String list) throws IOException {
         DirectoryStream<Path> stream = Files.newDirectoryStream(root);
 
         for (Path p : stream) {
@@ -178,18 +225,17 @@ class Connection extends Thread {
         return list;
     }
 
-    private Path changeCurrentDir(Path dir, String newDir) {
-        String currentDir = dir.toString();
+    private Path changeCurrentDir(Path dir, String newDir, Path root) {
         if (newDir.equals("..")) {
-            if (Server.currentDir.compareTo(Server.root) == 0)
+            if (dir.compareTo(root) == 0)
                 return dir;
 
-            File f = new File(Server.currentDir.toString());
-            Path destination = Paths.get(f.getParent());
-            return destination;
+            File f = new File(dir.toString());
+            dir = Paths.get(f.getParent());
+            return dir;
         }
 
-        Path destination = Paths.get(currentDir + "/" + newDir);
+        Path destination = Paths.get(dir.toString() + "/" + newDir);
         if (Files.exists(destination) && Files.isDirectory(destination))
             return destination;
         return dir;

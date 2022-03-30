@@ -7,34 +7,27 @@ class Download extends Thread {
     Connection c;
     String filename;
     String destination;
-    int DownloadSocket = 0;
-    Socket prevSocket;
+    Socket s;
+    int DownloadSocket;
 
-    public Download(String filename, String destination, Socket cmd) {
+    public Download(String filename, String destination, int DownloadSocket) {
         this.filename = filename;
         this.destination = destination;
-        this.prevSocket = cmd;
+        this.DownloadSocket = DownloadSocket;
         this.start();
     }
 
     public void run() {
-        try (ServerSocket listenSocket = new ServerSocket(DownloadSocket)) {
-            DataOutputStream out1 = new DataOutputStream(prevSocket.getOutputStream());
-            out1.writeInt(listenSocket.getLocalPort()); // envia o porto aleatorio para o cliente
-
-            Socket downloadSocket = listenSocket.accept(); // BLOQUEANTE
-            System.out.println("CORRE CORRE CORRE");
-
-            this.in = new DataInputStream(downloadSocket.getInputStream());
-            this.out = new DataOutputStream(downloadSocket.getOutputStream());
-            
-        } catch (IOException e) {
-            System.out.println("Listen:" + e.getMessage());
-        }
-
-        int bytes = 0;
-        long size;
         try {
+            s = new Socket("localhost", DownloadSocket);
+            System.out.println("SOCKET=" + s);
+
+            in = new DataInputStream(s.getInputStream());
+            out = new DataOutputStream(s.getOutputStream());
+
+            int bytes = 0;
+            long size;
+
             size = in.readLong();
 
             File newF = new File(destination);
@@ -42,24 +35,31 @@ class Download extends Thread {
 
                 byte[] buffer = new byte[8 * 1024];
                 while (true) {
-                 
+
                     bytes = in.read(buffer, 0, (int) Math.min(buffer.length, size));
                     if (bytes == -1 || size <= 0)
                         break;
 
                     System.out.println(
                             "Recebendo " + filename + " (" + String.format("%.2f", ((float) bytes / size) * 100)
-                                    + " %)");
+                                    + " %),Guardando em "+destination);
                     fileOutputStream.write(buffer, 0, bytes);
                     size -= bytes; // read upto file size
                 }
             }
+
+            System.out.println();
+
+            return;
+
+        } catch (UnknownHostException e) {
+            System.out.println("Sock:" + e.getMessage());
+        } catch (EOFException e) {
+            System.out.println("EOF:" + e.getMessage());
+            e.printStackTrace();
         } catch (IOException e) {
+            System.out.println("IO:" + e.getMessage());
             e.printStackTrace();
         }
-        System.out.println();
-
-        return;
-
     }
 }

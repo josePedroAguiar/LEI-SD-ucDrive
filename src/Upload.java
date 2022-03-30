@@ -4,30 +4,41 @@ import java.io.*;
 class Upload extends Thread {
     DataInputStream in;
     DataOutputStream out;
-    Socket s;
-    int UploadSocket;
+    Connection c;
     String filename;
 
-    public Upload(String filename, int UploadSocket) throws IOException {
+    int UploadSocket = 0;
+    Socket prevSocket;
+
+    public Upload(String filename,  Socket cmd) throws IOException {
         this.filename = filename;
-        this.UploadSocket = UploadSocket;
+        this.prevSocket = cmd;
         this.start();
 
     }
 
     public void run() {
+        try (ServerSocket listenSocket = new ServerSocket(UploadSocket)) {
+            DataOutputStream out1 = new DataOutputStream(prevSocket.getOutputStream());
+            out1.writeInt(listenSocket.getLocalPort()); // envia o porto aleatorio para o cliente
+
+            Socket uploadSocket = listenSocket.accept(); // BLOQUEANTE
+            System.out.println("CORRE CORRE CORRE");
+
+            this.in = new DataInputStream(uploadSocket.getInputStream());
+            this.out = new DataOutputStream(uploadSocket.getOutputStream());
+
+        } catch (IOException e) {
+            System.out.println("Listen:" + e.getMessage());
+        }
+
+        int bytes = 0;
+
+        File file = new File(filename);
+        System.out.println("CORRE CORRE");
         try {
-            s = new Socket("localhost", UploadSocket);
-            System.out.println("SOCKET=" + s);
-
-            in = new DataInputStream(s.getInputStream());
-            out = new DataOutputStream(s.getOutputStream());
-
-            int bytes = 0;
-
-            File file = new File(filename);
-            System.out.println("CORRE CORRE");
             out.writeLong(file.length());
+
             try (FileInputStream fileInputStream = new FileInputStream(file)) {
                 // break file into chunks
                 byte[] buffer = new byte[8 * 1024];
@@ -40,13 +51,7 @@ class Upload extends Thread {
                     out.flush();
                 }
             }
-        } catch (UnknownHostException e) {
-            System.out.println("Sock:" + e.getMessage());
-        } catch (EOFException e) {
-            System.out.println("EOF:" + e.getMessage());
-            e.printStackTrace();
         } catch (IOException e) {
-            System.out.println("IO:" + e.getMessage());
             e.printStackTrace();
         }
     }

@@ -12,6 +12,8 @@ class User {
     Data expDate;
     Path root;
     Path currentDir;
+    Path rootServer;
+    Path currentDirServer;
 
     public User(String data) {
         String[] arrOfStr = data.split("\\t");
