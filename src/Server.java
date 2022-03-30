@@ -5,10 +5,48 @@ import java.util.*;
 
 public class Server {
     // TreeSet<User> tree= new TreeSet<User>(new myNameComparator());
-    static HashSet<User> hs = new HashSet<>();
-    static File myObj;
+    private  HashSet<User> hs = new HashSet<>();
+    private  File myObj;
+    public boolean statusMainServer =false;
 
-    static private void readUsersData() {
+    private int numero = 0;
+
+    public Server(int serverPortMain,int serverPortBackUp) {
+        while (true){
+        myObj = new File("./MainServer/info/usersData.txt");
+        try (ServerSocket check = new ServerSocket(serverPortBackUp)) {
+            readUsersData(); // abre o ficheiro com as infos dos users e guarda toda a info
+            System.out.println("Vai fechar");
+                check.close();
+        
+            UDPPingServer t = new UDPPingServer();
+            try (ServerSocket listenSocket = new ServerSocket(serverPortMain)) {
+                System.out.println("A escuta no porto " + serverPortMain);
+                System.out.println("LISTEN SOCKET=" + listenSocket);
+                while (true) {
+                    Socket clientSocket = listenSocket.accept(); // BLOQUEANTE
+                    System.out.println("CLIENT_SOCKET (created at accept())=" + clientSocket);
+                    numero++;
+                    new Connection(clientSocket, hs, numero);
+                }
+            } catch (IOException e) {
+                System.out.println("Listen:" + e.getMessage());
+            }
+
+        } catch (IOException e1) {
+        UDPPingClient t= new UDPPingClient(this);
+        System.out.println("Vai fechar-1");
+        t.start();
+        try {
+            t.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+        }
+    }
+
+     private void readUsersData() {
         try {
             Scanner myReader = new Scanner(myObj);
             while (myReader.hasNextLine()) {
@@ -35,7 +73,7 @@ public class Server {
         }
     }
 
-    static private Path createDir(String name) {
+     private Path createDir(String name) {
         Path path = Paths.get(name + "/");
         try {
             Files.createDirectories(path);
@@ -54,25 +92,10 @@ public class Server {
     }
 
     public static void main(String[] args) {
-        int numero = 0;
 
-        int serverPort = 6001;
+       
+        new Server(6001,6003);
 
-        myObj = new File("./MainServer/info/usersData.txt");
-
-        readUsersData(); // abre o ficheiro com as infos dos users e guarda toda a info
-        UDPPingServer t = new UDPPingServer();
-        try (ServerSocket listenSocket = new ServerSocket(serverPort)) {
-            System.out.println("A escuta no porto " + serverPort);
-            System.out.println("LISTEN SOCKET=" + listenSocket);
-            while (true) {
-                Socket clientSocket = listenSocket.accept(); // BLOQUEANTE
-                System.out.println("CLIENT_SOCKET (created at accept())=" + clientSocket);
-                numero++;
-                new Connection(clientSocket, hs, numero);
-            }
-        } catch (IOException e) {
-            System.out.println("Listen:" + e.getMessage());
-        }
     }
+
 }

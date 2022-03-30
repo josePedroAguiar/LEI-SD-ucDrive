@@ -10,9 +10,9 @@ import java.time.format.DateTimeFormatter;
 public class UDPPingClient extends Thread  {
 	private static int port = 6789;
 	private static final int MAX_TIMEOUT = 1000;
-	private static final int INTERVAL_BETWEEN_PING  = 60000;
+	private static final int INTERVAL_BETWEEN_PING  = 1000;
 	private static final int NUMBER_OF_PINGS  =10;
-	ServerBackUp server;
+	Server server;
 
 	private static final String serverName = "localhost";
 
@@ -20,7 +20,7 @@ public class UDPPingClient extends Thread  {
 	Scanner sc = new Scanner(System.in);
 	String hideOrShow;
 
-	public UDPPingClient(ServerBackUp server){
+	public UDPPingClient(Server server){
 
 		this.server=server;
 	}
