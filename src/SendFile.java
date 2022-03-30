@@ -6,9 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class SendFile implements Runnable{
-
-
+public class SendFile extends Thread{
     @Override
     public void run() {
 
@@ -20,20 +18,31 @@ public class SendFile implements Runnable{
 
 
         try {
+            int port=10001;
             String name="ReceiveFile.java";
             Path path = Paths.get(name);
             int length=(int)Files.size(path);
             BufferedInputStream bis;
-            int port=10001;
             DatagramSocket ds;
+
+            DatagramSocket first = new DatagramSocket(10001);
+            ds = new DatagramSocket(0);
+            String s= ""+ds.getLocalPort();
+            byte[] var = s.getBytes();
+            DatagramPacket dp = new DatagramPacket(var, var.length, InetAddress.getByName("127.0.0.1"),port);
+            first.send(dp);
+            first.close();
+
+
+
+
             System.out.println("_____________Change File Socket__________________");
             System.out.println("A escuta no porto " + port);
             System.out.println("__________________________________________");
-            String s=new String(name+"@"+length);
-            byte[] var = s.getBytes();
-            ds = new DatagramSocket();
+            s=new String(name+"@"+length);
+            var = s.getBytes();
             byte[] buf = new byte[1024];
-            DatagramPacket dp = new DatagramPacket(var, var.length, InetAddress.getByName("127.0.0.1"),10001);
+            dp = new DatagramPacket(var, var.length, InetAddress.getByName("127.0.0.1"),ds.getLocalPort());
             ds.send(dp);
             ds.close();
 
@@ -53,19 +62,16 @@ public class SendFile implements Runnable{
                 buf = new byte[1024];
                 buf= outputStream.toByteArray( );
                 bis.read(buf);
-                dp = new DatagramPacket(buf,buf.length, InetAddress.getByName("127.0.0.1"),10001);
+                dp = new DatagramPacket(buf,buf.length, InetAddress.getByName("127.0.0.1"),ds.getLocalPort());
                 ds.send(dp);
-                System.out.println("T_T");
             }
-            System.out.println("-_-");
-            System.out.println(i);
             if(lastPackageSize!=0){
                 outputStream = new ByteArrayOutputStream();
                 outputStream.write(allPacket,1024*i,lastPackageSize);
                 buf = new byte[lastPackageSize];
                 buf= outputStream.toByteArray( );
                 bis.read(buf);
-                dp = new DatagramPacket(buf,buf.length, InetAddress.getByName("127.0.0.1"),10001);
+                dp = new DatagramPacket(buf,buf.length, InetAddress.getByName("127.0.0.1"),ds.getLocalPort());
                 ds.send(dp);
              
              

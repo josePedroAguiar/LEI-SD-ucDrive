@@ -1,8 +1,5 @@
 // TCPServer2.java: Multithreaded server
 
-import java.net.*;
-import java.io.*;
-import java.nio.file.*;
 import java.util.*;
 
 /*class myNameComparator implements Comparator<User>
@@ -45,8 +42,6 @@ public class ServerBackUp {
    public static void main(String[] args)
             throws InterruptedException
     {
-        
-        new Server(6003,6001);
-        
+        new Server(6003,6001,"ServerBack");   
     }
 }

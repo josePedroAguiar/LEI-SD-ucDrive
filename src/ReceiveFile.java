@@ -25,17 +25,26 @@ public class ReceiveFile implements Runnable{
             DatagramPacket dp;
             byte[] buf;
             int port=10001;
-            ds = new DatagramSocket(10001);
+            ds = new DatagramSocket(0);
+            byte[] var2 = new byte[1024];
+
+            DatagramSocket first = new DatagramSocket(10001);
+            dp = new DatagramPacket(var2, var2.length);
+            first.receive(dp);
+            String s = new String(dp.getData(), 0, dp.getLength());
+            ds = new DatagramSocket(Integer.parseInt(s));
+            first.close();
+            
+
             System.out.println("_____________Change File Socket__________________");
             System.out.println("A escuta no porto " + port);
             System.out.println("__________________________________________");
-            byte[] var2 = new byte[1024];
+            var2 = new byte[1024];
             DatagramPacket var3 = new DatagramPacket(var2, var2.length);
             ds.receive(var3);
             String var4 = new String(var3.getData(), 0, var3.getLength());
             System.out.println("Server Recebeu: " + var4);
             String[] arrOfStr = var4.split("@");
-            System.out.println(arrOfStr[1]);
             long foo = Long.parseLong( arrOfStr[1]);
             int nPackage=(int)(foo/1024);
             int lastPackageSize=(int)(foo%1024);

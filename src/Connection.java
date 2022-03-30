@@ -5,17 +5,19 @@ import java.util.*;
 
 // = Thread para tratar de cada canal de comunicação com um cliente
 class Connection extends Thread {
-    DataInputStream in;
-    DataOutputStream out;
-    Socket clientSocket;
-    int thread_number;
-    HashSet<User> hs;
-    File myObj = new File("./MainServer/info/usersData.txt");
+    private DataInputStream in;
+    private DataOutputStream out;
+    private Socket clientSocket;
+    private int thread_number;
+    private HashSet<User> hs;
+    private File myObj;
+    // ArrayList<Path> filesToReplicate;
 
-    public Connection(Socket aClientSocket, HashSet<User> hs, int numero) {
+    public Connection(Socket aClientSocket, HashSet<User> hs, int numero, String path) {
+        this.myObj = new File("./" + path + "/info/usersData.txt");
         this.hs = hs;
 
-        thread_number = numero;
+        this.thread_number = numero;
         try {
             clientSocket = aClientSocket;
             in = new DataInputStream(clientSocket.getInputStream());
@@ -47,15 +49,15 @@ class Connection extends Thread {
     private void Menu(User currentUser) throws IOException {
         String opt = in.readUTF();
         System.out.println("Command: " + opt);
-        if (currentUser.athetication) {
+        if (currentUser.isAuthenticated()) {
             if ("passwd".equals(opt)) {
                 changePass(currentUser);
-                currentUser.athetication = false;
+                currentUser.setAuthenticated(false);
                 // depois de mudar a passe fecha a ligacao e pede uma nova autenticacao
 
             } else if ("ls -server".equals(opt)) {
-                System.out.println("List Server directory " + currentUser.currentDirServer.toString());
-                String list = listFiles(currentUser.currentDirServer, 0, "") + "\n";
+                System.out.println("List Server directory " + currentUser.getCurrentDirServer().toString());
+                String list = listFiles(currentUser.getCurrentDirServer(), 0, "") + "\n";
                 out.writeUTF(list);
             } else if (opt.contains("cd -server")) {
                 String[] command;
@@ -63,22 +65,25 @@ class Connection extends Thread {
 
                 if (opt.contains("\"")) { // tratamento para carateres especiais
                     command = opt.split("\"");
-                    destination = changeCurrentDir(currentUser.currentDirServer, command[1], currentUser.rootServer);
+                    destination = changeCurrentDir(currentUser.getCurrentDirServer(), command[1],
+                            currentUser.getRootServer());
                 } else {
                     command = opt.split(" ");
-                    destination = changeCurrentDir(currentUser.currentDirServer, command[2], currentUser.rootServer);
+                    destination = changeCurrentDir(currentUser.getCurrentDirServer(), command[2],
+                            currentUser.getRootServer());
                 }
-                if (destination.compareTo(currentUser.currentDirServer) == 0) {
+                if (destination.compareTo(currentUser.getCurrentDirServer()) == 0) {
                     out.writeUTF("Impossivel aceder a essa diretoria\n");
                 } else {
-                    currentUser.currentDirServer = destination;
+                    currentUser.setCurrentDirServer(destination);
                     out.writeUTF("Diretoria atualizada");
-                    System.out.println(currentUser.currentDirServer.toString());
+                    System.out.println(currentUser.getCurrentDirServer().toString());
                 }
 
             } else if ("ls -client".equals(opt)) {
-                System.out.println("List " + currentUser.username + " directory " + currentUser.currentDir.toString());
-                String list = listFiles(currentUser.currentDir, 0, "") + "\n";
+                System.out.println(
+                        "List " + currentUser.getUsername() + " directory " + currentUser.getCurrentDir().toString());
+                String list = listFiles(currentUser.getCurrentDir(), 0, "") + "\n";
                 out.writeUTF(list);
             } else if (opt.contains("cd -client")) {
                 String[] command;
@@ -86,32 +91,31 @@ class Connection extends Thread {
 
                 if (opt.contains("\"")) { // tratamento para carateres especiais
                     command = opt.split("\"");
-                    destination = changeCurrentDir(currentUser.currentDir, command[1], currentUser.root);
+                    destination = changeCurrentDir(currentUser.getCurrentDir(), command[1], currentUser.getRoot());
                 } else {
                     command = opt.split(" ");
-                    destination = changeCurrentDir(currentUser.currentDir, command[2], currentUser.root);
+                    destination = changeCurrentDir(currentUser.getCurrentDir(), command[2], currentUser.getRoot());
                 }
-                if (destination.compareTo(currentUser.currentDir) == 0 || !Files.isDirectory(destination)) {
+                if (destination.compareTo(currentUser.getCurrentDir()) == 0 || !Files.isDirectory(destination)) {
                     out.writeUTF("Impossivel aceder a essa diretoria\n");
                 } else {
-                    currentUser.currentDir = destination;
+                    currentUser.setCurrentDir(destination);
                     out.writeUTF("Diretoria atualizada\n");
-                    System.out.println(currentUser.currentDir.toString());
+                    System.out.println(currentUser.getCurrentDir().toString());
                 }
             } else if (opt.contains("pull")) {
                 String[] ss = opt.split(" ");
                 String filename = ss[1];
                 String destination = ss[2];
 
-                File f = new File(currentUser.currentDirServer.toString() + "/" + filename);
+                File f = new File(currentUser.getCurrentDirServer().toString() + "/" + filename);
                 if (f.exists()) {
-                    out.writeUTF(currentUser.currentDirServer.toString() + "/" + filename);
-                    File fileD = new File(currentUser.currentDir.toString() + "/" + destination);
+                    out.writeUTF(currentUser.getCurrentDirServer().toString() + "/" + filename);
+                    File fileD = new File(currentUser.getCurrentDir().toString() + "/" + destination);
                     fileD.createNewFile();
                     out.writeUTF(fileD.getAbsolutePath());
-                    new Upload(currentUser.currentDirServer.toString() + "/" + filename, clientSocket);
+                    new Upload(currentUser.getCurrentDirServer().toString() + "/" + filename, clientSocket);
 
-                    
                 } else {
                     out.writeUTF("O ficheiro nao existe na diretoria atual\n");
                 }
@@ -120,31 +124,34 @@ class Connection extends Thread {
                 String filename = ss[1];
                 String destination = ss[2];
 
-                File f = new File(currentUser.currentDir.toString() + "/" + filename);
-                
+                File f = new File(currentUser.getCurrentDir().toString() + "/" + filename);
+
                 if (f.exists()) {
-                    File fileD = new File(currentUser.currentDirServer.toString() + "/" + destination);
-                    out.writeUTF(currentUser.currentDir.toString() + "/" + filename);
+                    File fileD = new File(currentUser.getCurrentDirServer().toString() + "/" + destination);
+                    out.writeUTF(currentUser.getCurrentDir().toString() + "/" + filename);
                     fileD.createNewFile();
                     int port = in.readInt();
-                    new Download(currentUser.currentDir.toString() + "/" + filename, fileD.getAbsolutePath(), port);
+                    new Download(currentUser.getCurrentDir().toString() + "/" + filename, fileD.getAbsolutePath(),
+                            port);
                 } else {
                     out.writeUTF("O ficheiro nao existe na diretoria atual\n");
+                    SendFile t = new SendFile();
+                    t.start();
                 }
 
             } else if (opt.contains("mkdir -server")) {
                 String[] arg = opt.split(" ");
                 if (arg.length == 3) {
-                    createDir(currentUser.currentDirServer.toString() + "/" + arg[2], currentUser);
+                    createDir(currentUser.getCurrentDirServer().toString() + "/" + arg[2], currentUser);
                     System.out.println("Directory was created");
                     out.writeUTF("Directory was created");
-                    
+
                 } else {
                     out.writeUTF("Arguments invalid (mkdir -server <path>)");
                 }
             } else if ("exit".equals(opt)) {
                 clientSocket.close();
-                currentUser.athetication = false;
+                currentUser.setAuthenticated(false);
             }
 
         }
@@ -164,20 +171,18 @@ class Connection extends Thread {
     }
 
     private User authentication(User currentUser) throws IOException {
-        while (!currentUser.athetication) {
+        while (!currentUser.isAuthenticated()) {
             String received = in.readUTF();
             String[] data = received.split("\\t");
             if (data.length == 2) {
                 for (User h : hs) {
                     currentUser = h;
-                    if (currentUser.username.equals(data[0]) && currentUser.pass.equals(data[1])) {
-                        currentUser.athetication = true;
+                    if (currentUser.getUsername().equals(data[0]) && currentUser.getPass().equals(data[1])) {
+                        currentUser.setAuthenticated(true);
                         break;
                     }
-                    // System.out.println(data[1]);
-
                 }
-                if (currentUser.username.equals(data[0]) && currentUser.pass.equals(data[1])) {
+                if (currentUser.getUsername().equals(data[0]) && currentUser.getPass().equals(data[1])) {
                     continue;
                 }
             }
@@ -185,7 +190,7 @@ class Connection extends Thread {
             out.writeUTF("Tenta outra vez");
         }
 
-        out.writeUTF("Login com sucesso|" + RandomString.getAlphaNumericString(10) + currentUser.username);
+        out.writeUTF("Login com sucesso|" + RandomString.getAlphaNumericString(10) + currentUser.getUsername());
         return currentUser;
     }
 
@@ -195,20 +200,18 @@ class Connection extends Thread {
             while (true) {
 
                 String newPass = in.readUTF();
-                if (!newPass.equals(currentUser.pass)) {
-                    currentUser.pass = newPass;
+                if (!newPass.equals(currentUser.getPass())) {
+                    currentUser.setPass(newPass);
                     updateFile();
                     out.writeUTF("Password atualizada!\n");
                     clientSocket.close();
                     break;
                 }
                 out.writeUTF("Password ja utilizada!\nNova password: ");
-
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     private String listFiles(Path root, int level, String list) throws IOException {
@@ -247,9 +250,10 @@ class Connection extends Thread {
             br.write("#user settings\n#CCnumber\taddress\tpass\tdepartment\tcell\tuser\texpDate\n\n");
             while (iter.hasNext()) {
                 User u = iter.next();
-                String date = u.expDate.toString();
-                String info = u.ccNumber + "\t" + u.address + "\t" + u.pass + "\t" + u.department + "\t" + u.cellNumber
-                        + "\t" + u.username + "\t" + date + "\n";
+                String date = u.getExpDate().toString();
+                String info = u.getCcNumber() + "\t" + u.getAddress() + "\t" + u.getPass() + "\t" + u.getDepartment()
+                        + "\t" + u.getCellNumber()
+                        + "\t" + u.getUsername() + "\t" + date + "\n";
                 br.write(info);
             }
             System.out.println(myObj.getName() + " atualizado com sucesso!");

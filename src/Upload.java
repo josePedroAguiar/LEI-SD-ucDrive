@@ -23,7 +23,7 @@ class Upload extends Thread {
             out1.writeInt(listenSocket.getLocalPort()); // envia o porto aleatorio para o cliente
 
             Socket uploadSocket = listenSocket.accept(); // BLOQUEANTE
-            System.out.println("CORRE CORRE CORRE");
+            //System.out.println("CORRE CORRE CORRE");
 
             this.in = new DataInputStream(uploadSocket.getInputStream());
             this.out = new DataOutputStream(uploadSocket.getOutputStream());
@@ -35,7 +35,7 @@ class Upload extends Thread {
         int bytes = 0;
 
         File file = new File(filename);
-        System.out.println("CORRE CORRE");
+        //System.out.println("CORRE CORRE");
         try {
             out.writeLong(file.length());
 

@@ -84,9 +84,6 @@ public class Client {
             System.out.println(message);
 
         } else if (opt.contains("pull")) {
-            String[] ss = opt.split(" ");
-            //String filename = ss[1];
-            String destination = ss[2];
             String input = in.readUTF();
 
             if (input.equals("O ficheiro nao existe na diretoria atual\n")) {
@@ -99,9 +96,6 @@ public class Client {
                
             }
         } else if (opt.contains("push")) {
-            String[] ss = opt.split(" ");
-            // String filename = ss[1];
-            String destination = ss[2];
             String input = in.readUTF();
 
             if (input.equals("O ficheiro nao existe na diretoria atual\n")) {
