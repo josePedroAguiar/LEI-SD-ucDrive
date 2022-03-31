@@ -1,12 +1,12 @@
 #username	last_User_Dir	last_Server_Dir
 
-rodrigocorreia	.\home\rodrigocorreia	.\MainServer\usr\rodrigocorreia
-lourenco06	.\home\lourenco06	.\MainServer\usr\lourenco06
-ncorreia	.\home\ncorreia	.\MainServer\usr\ncorreia
-ritacarneiro	.\home\ritacarneiro	.\MainServer\usr\ritacarneiro
-manuel82	.\home\manuel82	.\MainServer\usr\manuel82
-tmatos	.\home\tmatos	.\MainServer\usr\tmatos
 amorimigor	.\home\amorimigor	.\MainServer\usr\amorimigor
+tmatos	.\home\tmatos	.\MainServer\usr\tmatos
+lourenco06	.\home\lourenco06	.\MainServer\usr\lourenco06
 filipa93	.\home\filipa93	.\MainServer\usr\filipa93
 leallucia	.\home\leallucia	.\MainServer\usr\leallucia
 motagabriela	.\home\motagabriela	.\MainServer\usr\motagabriela
+ncorreia	.\home\ncorreia	.\MainServer\usr\ncorreia
+rodrigocorreia	.\home\rodrigocorreia	.\MainServer\usr\rodrigocorreia
+ritacarneiro	.\home\ritacarneiro	.\MainServer\usr\ritacarneiro
+manuel82	.\home\manuel82	.\MainServer\usr\manuel82

@@ -15,7 +15,7 @@ class Upload extends Thread {
     int UploadSocket = 0;
     Socket prevSocket;
 
-    public Upload(String filename,  Socket cmd) throws IOException {
+    public Upload(String filename, Socket cmd) throws IOException {
         this.filename = filename;
         this.prevSocket = cmd;
         this.start();
@@ -28,7 +28,7 @@ class Upload extends Thread {
             out1.writeInt(listenSocket.getLocalPort()); // envia o porto aleatorio para o cliente
 
             Socket uploadSocket = listenSocket.accept(); // BLOQUEANTE
-            //System.out.println("CORRE CORRE CORRE");
+            // System.out.println("CORRE CORRE CORRE");
 
             this.in = new DataInputStream(uploadSocket.getInputStream());
             this.out = new DataOutputStream(uploadSocket.getOutputStream());
@@ -40,7 +40,7 @@ class Upload extends Thread {
         int bytes = 0;
 
         File file = new File(filename);
-        //System.out.println("CORRE CORRE");
+        // System.out.println("CORRE CORRE");
         try {
             out.writeLong(file.length());
 
@@ -51,8 +51,9 @@ class Upload extends Thread {
                 while ((bytes = fileInputStream.read(buffer)) != -1) {
                     progress += bytes;
                     out.write(buffer, 0, bytes);
-                    System.out.println("Enviando " + filename + " ("
-                            + String.format("%.2f", ((float) progress / file.length()) * 100) + " %)");
+                    if (((float) progress / file.length()) == 1.0f)
+                        System.out.println("Enviando " + filename + " ("
+                                + String.format("%.2f", ((float) progress / file.length()) * 100) + " %)");
                     out.flush();
                 }
             }

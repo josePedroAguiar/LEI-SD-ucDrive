@@ -330,7 +330,7 @@ class Connection extends Thread {
 
             while (iter.hasNext()) {
                 User u = iter.next();
-                br.write(u.getUsername() + "\t" + u.getCurrentDir() + "\t" + u.getCurrentDirServer() + "\n");
+                br.write(u.getUsername() + "\t" + u.getCurrentDir().toString() + "\t" + u.getCurrentDirServer().toString() + "\n");
             }
             System.out.println(LastDir.getName() + " atualizado com sucesso!");
         } catch (FileNotFoundException ex) {
