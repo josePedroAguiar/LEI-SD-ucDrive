@@ -26,7 +26,7 @@ class Connection extends Thread {
     private HashSet<User> hs;
     private File myObj;
     private File LastDir;
-    ArrayList<String> filesToReplicate=new  ArrayList<String>() ;
+    ArrayList<String> filesToReplicate = new ArrayList<String>();
 
     public Connection(Socket aClientSocket, HashSet<User> hs, int numero, String path) {
         this.myObj = new File("./" + path + "/info/usersData.txt");
@@ -39,7 +39,7 @@ class Connection extends Thread {
             in = new DataInputStream(clientSocket.getInputStream());
             out = new DataOutputStream(clientSocket.getOutputStream());
             this.start();
-            
+
         } catch (IOException e) {
             System.out.println("Connection:" + e.getMessage());
         }
@@ -51,16 +51,16 @@ class Connection extends Thread {
             User currentUser = authentication(new User()); // autentica um novo utilizador
 
             // an echo server
-            while (true){
+            while (true) {
                 Menu(currentUser);
-                 for (String i : this.filesToReplicate) {
-                        SendFile t = new SendFile();
-                            t.name = i;
-                            t.start();
-                            this.filesToReplicate.remove(i);
+                for (String i : this.filesToReplicate) {
+                    SendFile t = new SendFile();
+                    t.name = i;
+                    t.start();
+                    this.filesToReplicate.remove(i);
 
-            }
-                } // envia o menu para os clientes
+                }
+            } // envia o menu para os clientes
 
         } catch (EOFException e) {
             System.out.println("EOF:" + e.getMessage());
@@ -144,41 +144,49 @@ class Connection extends Thread {
                 }
             } else if (opt.contains("pull")) {
                 String[] ss = opt.split(" ");
-                String filename = ss[1];
-                String destination = ss[2];
+                if (ss.length == 3) {
+                    String filename = ss[1];
+                    String destination = ss[2];
 
-                Path filePath = Paths.get(currentUser.getCurrentDirServer().toString() + "/" + filename);
-                if (filePath.toFile().exists()) {
-                    out.writeUTF(filePath.toString());
-                    File fileD = new File(currentUser.getCurrentDir().toString() + "/" + destination);
-                    fileD.createNewFile();
-                    out.writeUTF(fileD.getAbsolutePath());
-                    new Upload(filePath.toString(), clientSocket);
+                    Path filePath = Paths.get(currentUser.getCurrentDirServer().toString() + "/" + filename);
+                    if (filePath.toFile().exists()) {
+                        out.writeUTF(filePath.toString());
+                        File fileD = new File(currentUser.getCurrentDir().toString() + "/" + destination);
+                        fileD.createNewFile();
+                        out.writeUTF(fileD.getAbsolutePath());
+                        new Upload(filePath.toString(), clientSocket);
+                    } else
+                        out.writeUTF("O ficheiro nao existe na diretoria atual\n");
 
-                } else {
-                    out.writeUTF("O ficheiro nao existe na diretoria atual\n");
-                }
+                } else
+                    out.writeUTF("Comando invalido\n");
+
             } else if (opt.contains("push")) {
                 String[] ss = opt.split(" ");
-                String filename = ss[1];
-                String destination = ss[2];
 
-                Path filePath = Paths.get(currentUser.getCurrentDir().toString() + "/" + filename);
+                if (ss.length == 3) {
+                    String filename = ss[1];
+                    String destination = ss[2];
 
-                if (filePath.toFile().exists()) {
-                    File fileD = new File(currentUser.getCurrentDirServer().toString() + "/" + destination);
-                    out.writeUTF(filePath.toString());
-                    fileD.createNewFile();
-                    int port = in.readInt();
-                    new Download(filePath.toString(), fileD.getPath(),
-                            port);
+                    Path filePath = Paths.get(currentUser.getCurrentDir().toString() + "/" + filename);
 
-                    SendFile t = new SendFile();
+                    if (filePath.toFile().exists()) {
+                        File fileD = new File(currentUser.getCurrentDirServer().toString() + "/" + destination);
+                        out.writeUTF(filePath.toString());
+                        fileD.createNewFile();
+                        int port = in.readInt();
+                        new Download(filePath.toString(), fileD.getPath(),
+                                port);
 
-                    filesToReplicate.add(new String(currentUser.getCurrentDirServer().toString() + "/" + destination));
-                } else {
-                    out.writeUTF("O ficheiro nao existe na diretoria atual\n");
-                }
+                        SendFile t = new SendFile();
+
+                        filesToReplicate
+                                .add(new String(currentUser.getCurrentDirServer().toString() + "/" + destination));
+                    } else
+                        out.writeUTF("O ficheiro nao existe na diretoria atual\n");
+
+                } else
+                    out.writeUTF("Comando invalido\n");
 
             } else if (opt.contains("mkdir -server")) {
                 String[] arg = opt.split(" ");
@@ -330,7 +338,8 @@ class Connection extends Thread {
 
             while (iter.hasNext()) {
                 User u = iter.next();
-                br.write(u.getUsername() + "\t" + u.getCurrentDir().toString() + "\t" + u.getCurrentDirServer().toString() + "\n");
+                br.write(u.getUsername() + "\t" + u.getCurrentDir().toString() + "\t"
+                        + u.getCurrentDirServer().toString() + "\n");
             }
             System.out.println(LastDir.getName() + " atualizado com sucesso!");
         } catch (FileNotFoundException ex) {

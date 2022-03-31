@@ -106,7 +106,7 @@ public class Client {
         } else if (opt.contains("pull")) {
             String input = in.readUTF();
 
-            if (input.equals("O ficheiro nao existe na diretoria atual\n")) {
+            if (input.equals("O ficheiro nao existe na diretoria atual\n") || input.equals("Comando invalido\n")) {
                 System.out.println(input);
             } else {
                 String m = in.readUTF();
@@ -117,7 +117,7 @@ public class Client {
         } else if (opt.contains("push")) {
             String input = in.readUTF();
 
-            if (input.equals("O ficheiro nao existe na diretoria atual\n")) {
+            if (input.equals("O ficheiro nao existe na diretoria atual\n") || input.equals("Comando invalido\n")) {
                 System.out.println(input);
             } else {
                 new Upload(input, s);
