@@ -8,7 +8,6 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Random;
 import java.util.Scanner;
 
 class CmdServer extends Thread {
@@ -44,12 +43,11 @@ public class UDPPingServer extends Thread {
 	private static int port = 6789;
 	// private static final int AVERAGE_DELAY = 100; // millisegundos
 	public boolean flagHideOrShow = false;
-	private static Scanner sc = new Scanner(System.in);
 
 	public UDPPingServer() {
 		this.start();
-		String hideOrShow;
 		/*
+		 * String hideOrShow;
 		 * do {
 		 * hideOrShow = sc.nextLine();
 		 * hideOrShow=hideOrShow.toLowerCase();
@@ -74,7 +72,6 @@ public class UDPPingServer extends Thread {
 					"__________________________________________");
 			System.out.println("A escuta no porto " + port);
 			System.out.println("__________________________________________");
-			Random random = new Random();
 			CmdServer cmd = new CmdServer(this);
 			cmd.start();
 			// System.out.println("Socket Datagram à escuta no porto " + port);

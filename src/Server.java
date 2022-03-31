@@ -1,7 +1,18 @@
-import java.net.*;
-import java.io.*;
-import java.nio.file.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Scanner;
 
 public class Server {
     // TreeSet<User> tree= new TreeSet<User>(new myNameComparator());
@@ -11,6 +22,7 @@ public class Server {
     private String path;
     private int numero = 0;
     private File LastDir;
+    ArrayList<String> filesToReplicate;
 
     public HashSet<User> getHs() {
         return hs;
@@ -61,7 +73,8 @@ public class Server {
     }
 
     public Server(int serverPortMain, int serverPortBackUp, String path) {
-        this.path = path;
+        setPath(path);
+        
         while (true) {
             setHs(new HashSet<>());
             setMyObj(new File("./" + path + "/info/usersData.txt"));
@@ -89,7 +102,8 @@ public class Server {
             } catch (IOException e1) {
                 readUsersData();
                 UDPPingClient t = new UDPPingClient(this);
-
+                ReceiveFile receivedT = new ReceiveFile();
+                receivedT.start();
                 t.start();
                 try {
                     t.join();

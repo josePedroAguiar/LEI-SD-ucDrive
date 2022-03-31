@@ -1,7 +1,21 @@
-import java.net.*;
-import java.io.*;
-import java.nio.file.*;
-import java.util.*;
+import java.io.BufferedWriter;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.EOFException;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.net.Socket;
+import java.nio.file.DirectoryStream;
+import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 
 // = Thread para tratar de cada canal de comunicação com um cliente
 class Connection extends Thread {
@@ -12,7 +26,7 @@ class Connection extends Thread {
     private HashSet<User> hs;
     private File myObj;
     private File LastDir;
-    // ArrayList<Path> filesToReplicate;
+    ArrayList<String> filesToReplicate=new  ArrayList<String>() ;
 
     public Connection(Socket aClientSocket, HashSet<User> hs, int numero, String path) {
         this.myObj = new File("./" + path + "/info/usersData.txt");
@@ -25,6 +39,7 @@ class Connection extends Thread {
             in = new DataInputStream(clientSocket.getInputStream());
             out = new DataOutputStream(clientSocket.getOutputStream());
             this.start();
+            
         } catch (IOException e) {
             System.out.println("Connection:" + e.getMessage());
         }
@@ -36,8 +51,16 @@ class Connection extends Thread {
             User currentUser = authentication(new User()); // autentica um novo utilizador
 
             // an echo server
-            while (true)
-                Menu(currentUser); // envia o menu para os clientes
+            while (true){
+                Menu(currentUser);
+                 for (String i : this.filesToReplicate) {
+                        SendFile t = new SendFile();
+                            t.name = i;
+                            t.start();
+                            this.filesToReplicate.remove(i);
+
+            }
+                } // envia o menu para os clientes
 
         } catch (EOFException e) {
             System.out.println("EOF:" + e.getMessage());
@@ -45,10 +68,13 @@ class Connection extends Thread {
         } catch (IOException e) {
             System.out.println("IO:" + e.getMessage());
             updateFile();
+        } catch (InterruptedException e) {
+            updateFile();
+            e.printStackTrace();
         }
     }
 
-    private void Menu(User currentUser) throws IOException {
+    private void Menu(User currentUser) throws IOException, InterruptedException {
         String opt = in.readUTF();
         System.out.println("Command: " + opt);
         if (currentUser.isAuthenticated()) {
@@ -121,13 +147,13 @@ class Connection extends Thread {
                 String filename = ss[1];
                 String destination = ss[2];
 
-                File f = new File(currentUser.getCurrentDirServer().toString() + "/" + filename);
-                if (f.exists()) {
-                    out.writeUTF(currentUser.getCurrentDirServer().toString() + "/" + filename);
+                Path filePath = Paths.get(currentUser.getCurrentDirServer().toString() + "/" + filename);
+                if (filePath.toFile().exists()) {
+                    out.writeUTF(filePath.toString());
                     File fileD = new File(currentUser.getCurrentDir().toString() + "/" + destination);
                     fileD.createNewFile();
                     out.writeUTF(fileD.getAbsolutePath());
-                    new Upload(currentUser.getCurrentDirServer().toString() + "/" + filename, clientSocket);
+                    new Upload(filePath.toString(), clientSocket);
 
                 } else {
                     out.writeUTF("O ficheiro nao existe na diretoria atual\n");
@@ -137,19 +163,21 @@ class Connection extends Thread {
                 String filename = ss[1];
                 String destination = ss[2];
 
-                File f = new File(currentUser.getCurrentDir().toString() + "/" + filename);
+                Path filePath = Paths.get(currentUser.getCurrentDir().toString() + "/" + filename);
 
-                if (f.exists()) {
+                if (filePath.toFile().exists()) {
                     File fileD = new File(currentUser.getCurrentDirServer().toString() + "/" + destination);
-                    out.writeUTF(currentUser.getCurrentDir().toString() + "/" + filename);
+                    out.writeUTF(filePath.toString());
                     fileD.createNewFile();
                     int port = in.readInt();
-                    new Download(currentUser.getCurrentDir().toString() + "/" + filename, fileD.getAbsolutePath(),
+                    new Download(filePath.toString(), fileD.getPath(),
                             port);
+
+                    SendFile t = new SendFile();
+
+                    filesToReplicate.add(new String(currentUser.getCurrentDirServer().toString() + "/" + destination));
                 } else {
                     out.writeUTF("O ficheiro nao existe na diretoria atual\n");
-                    SendFile t = new SendFile();
-                    t.start();
                 }
 
             } else if (opt.contains("mkdir -server")) {

@@ -13,46 +13,59 @@ public class Client {
     private static boolean repeat_login = false;
     private static Scanner sc = new Scanner(System.in);
 
+    private static void run() throws IOException {
+        repeat_login = false;
+        s.setSoTimeout(1000);
+        System.out.println("SOCKET=" + s);
+
+        // 2o passo
+        in = new DataInputStream(s.getInputStream());
+        out = new DataOutputStream(s.getOutputStream());
+
+        // 3o passo
+        String resposta;
+        String[] respostaAndToken;
+        do {
+            System.out.print("Username: ");
+            String texto = sc.nextLine();
+            System.out.print("Password: ");
+            texto += "\t" + sc.nextLine();
+            out.writeUTF(texto);
+            resposta = in.readUTF();
+            respostaAndToken = resposta.split("\\|");
+            System.out.println(respostaAndToken[0] + "\n");
+        } while (!respostaAndToken[0].equals("Login com sucesso"));
+
+        while (Menu())
+            ;
+    }
+
     public static void main(String[] args) {
         // 1o passo - criar socket
         int[] serversocket = { 6001, 6003 };
-        do {
-            try (Socket s = new Socket("localhost", serversocket[0])) {
-                repeat_login = false;
+        while (true) {
+            do {
+                try {
+                    s = new Socket("localhost", serversocket[0]);
+                    run();
 
-                System.out.println("SOCKET=" + s);
+                } catch (UnknownHostException e) {
+                    System.out.println("Sock:" + e.getMessage());
+                } catch (EOFException e) {
+                    System.out.println("EOF:" + e.getMessage());
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    System.out.println("IO:" + e.getMessage());
 
-                // 2o passo
-                in = new DataInputStream(s.getInputStream());
-                out = new DataOutputStream(s.getOutputStream());
-
-                // 3o passo
-                String resposta;
-                String[] respostaAndToken;
-                do {
-                    System.out.print("Username: ");
-                    String texto = sc.nextLine();
-                    System.out.print("Password: ");
-                    texto += "\t" + sc.nextLine();
-                    out.writeUTF(texto);
-                    resposta = in.readUTF();
-                    respostaAndToken = resposta.split("\\|");
-                    System.out.println(respostaAndToken[0] + "\n");
-                } while (!respostaAndToken[0].equals("Login com sucesso"));
-
-                while (Menu())
-                    ;
-
-            } catch (UnknownHostException e) {
-                System.out.println("Sock:" + e.getMessage());
-            } catch (EOFException e) {
-                System.out.println("EOF:" + e.getMessage());
-                e.printStackTrace();
-            } catch (IOException e) {
-                System.out.println("IO:" + e.getMessage());
-            }
-        } while (repeat_login);
-        sc.close();
+                    try {
+                        s = new Socket("localhost", serversocket[1]);
+                        run();
+                    } catch (IOException e1) {
+                        System.out.println("IO:" + e.getMessage());
+                    }
+                }
+            } while (repeat_login);
+        }
     }
 
     private static boolean Menu() throws IOException {
@@ -116,7 +129,7 @@ public class Client {
 
         } else if (opt.equals("exit")) {
             s.close();
-            return false;
+            System.exit(0);
         }
         return true;
     }

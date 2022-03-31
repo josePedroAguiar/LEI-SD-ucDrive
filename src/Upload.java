@@ -1,5 +1,10 @@
-import java.net.*;
-import java.io.*;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
 
 class Upload extends Thread {
     DataInputStream in;
@@ -17,7 +22,7 @@ class Upload extends Thread {
 
     }
 
-    public void run() {
+    public synchronized void run() {
         try (ServerSocket listenSocket = new ServerSocket(UploadSocket)) {
             DataOutputStream out1 = new DataOutputStream(prevSocket.getOutputStream());
             out1.writeInt(listenSocket.getLocalPort()); // envia o porto aleatorio para o cliente

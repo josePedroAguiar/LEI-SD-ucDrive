@@ -1,4 +1,4 @@
-import java.nio.file.*;
+import java.nio.file.Path;
 
 class User {
     private long ccNumber;

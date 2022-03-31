@@ -1,5 +1,11 @@
-import java.net.*;
-import java.io.*;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.EOFException;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.Socket;
+import java.net.UnknownHostException;
 
 class Download extends Thread {
     DataInputStream in;
@@ -15,9 +21,10 @@ class Download extends Thread {
         this.destination = destination;
         this.DownloadSocket = DownloadSocket;
         this.start();
+
     }
 
-    public void run() {
+    public synchronized void run() {
         try {
             s = new Socket("localhost", DownloadSocket);
             System.out.println("SOCKET=" + s);
@@ -32,7 +39,7 @@ class Download extends Thread {
 
             File newF = new File(destination);
             try (FileOutputStream fileOutputStream = new FileOutputStream(newF)) {
-
+    
                 byte[] buffer = new byte[8 * 1024];
                 while (true) {
 
@@ -42,14 +49,13 @@ class Download extends Thread {
 
                     System.out.println(
                             "Recebendo " + filename + " (" + String.format("%.2f", ((float) bytes / size) * 100)
-                                    + " %),Guardando em "+destination);
+                                    + " %), Guardando em " + destination);
                     fileOutputStream.write(buffer, 0, bytes);
                     size -= bytes; // read upto file size
                 }
             }
 
             System.out.println();
-
             return;
 
         } catch (UnknownHostException e) {
