@@ -15,11 +15,11 @@ public class Client {
 
     public static void main(String[] args) {
         // 1o passo - criar socket
-        int serversocket = 6001;
+        int[] serversocket = { 6001, 6003 };
         do {
-            try {
+            try (Socket s = new Socket("localhost", serversocket[0])) {
                 repeat_login = false;
-                s = new Socket("localhost", serversocket);
+
                 System.out.println("SOCKET=" + s);
 
                 // 2o passo

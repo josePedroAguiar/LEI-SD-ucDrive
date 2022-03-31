@@ -11,10 +11,12 @@ class Connection extends Thread {
     private int thread_number;
     private HashSet<User> hs;
     private File myObj;
+    private File LastDir;
     // ArrayList<Path> filesToReplicate;
 
     public Connection(Socket aClientSocket, HashSet<User> hs, int numero, String path) {
         this.myObj = new File("./" + path + "/info/usersData.txt");
+        this.LastDir = new File("./" + path + "/info/lastDirs.txt");
         this.hs = hs;
 
         this.thread_number = numero;
@@ -169,7 +171,7 @@ class Connection extends Thread {
     }
 
     private void configFile(String string, String ip, String port, User u) throws IOException {
-        File configFile = new File(u.getRoot().toString() + "configIP_PORT.txt");
+        File configFile = new File(u.getRoot().toString() + "/configIP_PORT.txt");
         try (BufferedWriter br = new BufferedWriter(new FileWriter(configFile))) {
             br.write("#   MainServer_host    MainServer_Port  BackUpServer_host   BackUpServer_Port\n");
 
@@ -273,7 +275,7 @@ class Connection extends Thread {
         return dir;
     }
 
-    private void updateFile() {
+    private synchronized void updateFile() {
         try (BufferedWriter br = new BufferedWriter(new FileWriter(myObj))) {
             Iterator<User> iter = hs.iterator();
             br.write("#user settings\n#CCnumber\taddress\tpass\tdepartment\tcell\tuser\texpDate\n\n");
@@ -286,6 +288,23 @@ class Connection extends Thread {
                 br.write(info);
             }
             System.out.println(myObj.getName() + " atualizado com sucesso!");
+        } catch (FileNotFoundException ex) {
+            // file does not exist
+            System.out.println("File not found!");
+        } catch (IOException ex) {
+            // I/O error
+            System.out.println("IO:" + ex);
+        }
+
+        try (BufferedWriter br = new BufferedWriter(new FileWriter(LastDir))) {
+            Iterator<User> iter = hs.iterator();
+            br.write("#username\tlast_User_Dir\tlast_Server_Dir\n\n");
+
+            while (iter.hasNext()) {
+                User u = iter.next();
+                br.write(u.getUsername() + "\t" + u.getCurrentDir() + "\t" + u.getCurrentDirServer() + "\n");
+            }
+            System.out.println(LastDir.getName() + " atualizado com sucesso!");
         } catch (FileNotFoundException ex) {
             // file does not exist
             System.out.println("File not found!");

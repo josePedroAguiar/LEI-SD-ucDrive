@@ -10,9 +10,14 @@ public class Server {
     public boolean statusMainServer = false;
     private String path;
     private int numero = 0;
+    private File LastDir;
 
     public HashSet<User> getHs() {
         return hs;
+    }
+
+    public File getLastDir() {
+        return LastDir;
     }
 
     public File getMyObj() {
@@ -29,6 +34,10 @@ public class Server {
 
     public boolean isStatusMainServer() {
         return statusMainServer;
+    }
+
+    public void setLastDir(File lastDir) {
+        LastDir = lastDir;
     }
 
     public void setHs(HashSet<User> hs) {
@@ -54,8 +63,9 @@ public class Server {
     public Server(int serverPortMain, int serverPortBackUp, String path) {
         this.path = path;
         while (true) {
-            this.hs = new HashSet<>();
-            this.myObj = new File("./" + path + "/info/usersData.txt");
+            setHs(new HashSet<>());
+            setMyObj(new File("./" + path + "/info/usersData.txt"));
+            setLastDir(new File("./" + path + "/info/lastDirs.txt"));
 
             try (ServerSocket check = new ServerSocket(serverPortBackUp)) {
                 readUsersData(); // abre o ficheiro com as infos dos users e guarda toda a info
@@ -101,10 +111,10 @@ public class Server {
                         user.setRoot(createDir("./home/" + user.getUsername()));
                         user.setRootServer(createDir("./" + this.path + "/usr/" + user.getUsername()));
                         createDir("./" + this.path + "/usr/" + user.getUsername());
-                        if (user.getCurrentDir() == null)
+                        if (!readLastDir(user)) {
                             user.setCurrentDir(user.getRoot());
-                        if (user.getCurrentDirServer() == null)
                             user.setCurrentDirServer(user.getRootServer());
+                        }
                         hs.add(user);
                     } else {
                         System.out.println("Utilizador inválido!");
@@ -117,6 +127,30 @@ public class Server {
             System.out.println("An error occurred.");
             e.printStackTrace();
         }
+    }
+
+    private boolean readLastDir(User u) {
+        if (getLastDir().exists()) {
+            try (BufferedReader br = new BufferedReader(new FileReader(getLastDir()))) {
+                String line;
+                while ((line = br.readLine()) != null) {
+                    if (line.length() != 0 && line.charAt(0) != '#') {
+                        String[] info = line.split("\t");
+                        if (u.getUsername().equals(info[0])) {
+                            u.setCurrentDir(Paths.get(info[1]));
+                            u.setCurrentDirServer(Paths.get(info[2]));
+                            return true;
+                        }
+                    }
+                }
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        // o ficheiro ainda nao existe, logo ainda nao existe diretoria anterior
+        return false;
     }
 
     private boolean CompareUsername(String name) {

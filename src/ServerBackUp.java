@@ -1,14 +1,6 @@
-// TCPServer2.java: Multithreaded server
-
 import java.util.*;
 
-/*class myNameComparator implements Comparator<User>
-{
-	public int compare(User s1, User s2)
-	{
-		return s1.username.compareTo(s2.username);
-	}
-}*/
+
 class Cmd extends Thread{
     public boolean flagHideOrShow=false;
     UDPPingClient ping;

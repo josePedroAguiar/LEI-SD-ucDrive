@@ -157,7 +157,7 @@ class User {
 
     public User(String data) {
         String[] arrOfStr = data.split("\\t");
-        // System.out.println(arrOfStr.length);
+        
         if (arrOfStr.length == 7) {
 
             setAddress(arrOfStr[1]);

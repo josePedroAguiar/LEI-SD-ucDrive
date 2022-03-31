@@ -1,0 +1,12 @@
+#username	last_User_Dir	last_Server_Dir
+
+tmatos	.\home\tmatos\pastita	.\MainServer\usr\tmatos
+filipa93	.\home\filipa93	.\MainServer\usr\filipa93
+ncorreia	.\home\ncorreia	.\MainServer\usr\ncorreia
+motagabriela	.\home\motagabriela	.\MainServer\usr\motagabriela
+amorimigor	.\home\amorimigor	.\MainServer\usr\amorimigor
+rodrigocorreia	.\home\rodrigocorreia	.\MainServer\usr\rodrigocorreia
+leallucia	.\home\leallucia	.\MainServer\usr\leallucia
+lourenco06	.\home\lourenco06	.\MainServer\usr\lourenco06
+ritacarneiro	.\home\ritacarneiro	.\MainServer\usr\ritacarneiro
+manuel82	.\home\manuel82	.\MainServer\usr\manuel82
