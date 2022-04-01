@@ -34,8 +34,8 @@ public class ReceiveFile extends Thread {
             String var4 = new String(var3.getData(), 0, var3.getLength());
             System.out.println("Server Recebeu: " + var4);
             String[] arrOfStr = var4.split("@");
-            if( arrOfStr.length==2){
-            System.out.println(arrOfStr[1]);
+            if(arrOfStr.length==2){     
+            try{
             long foo = Long.parseLong(arrOfStr[1]);
             long nPackage = (long) (foo / 1024);
             int lastPackageSize = (int) (foo % 1024);
@@ -68,6 +68,10 @@ public class ReceiveFile extends Thread {
           
             fos.flush();
             fos.close();
+        }
+        catch(NumberFormatException e){
+            ;
+        }
         }
        
        

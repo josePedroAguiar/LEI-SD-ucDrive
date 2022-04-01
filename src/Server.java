@@ -19,6 +19,7 @@ public class Server {
     private HashSet<User> hs;
     private File myObj;
     public boolean statusMainServer = false;
+    public boolean statusBackUpServer = true;
     private String path;
     private int numero = 0;
     private File LastDir;
@@ -88,7 +89,7 @@ public class Server {
                 readUsersData(); // abre o ficheiro com as infos dos users e guarda toda a info
                 check.close();
 
-                new UDPPingServer();
+                new UDPPingServer(this);
                 new SendFile(this);
               
 

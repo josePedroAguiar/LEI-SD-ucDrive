@@ -28,13 +28,14 @@ public class SendFile extends Thread {
         if(server.filesToReplicate.size()==0){
             System.out.println(server.filesToReplicate);
             try {
-                this.sleep(1000);
+                this.sleep(10000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
             continue;
             
         }
+        if(server.statusBackUpServer){
         for (int k=0;k<server.filesToReplicate.size();k++) {
         try {
             String name=server.filesToReplicate.get(k);
@@ -46,7 +47,6 @@ public class SendFile extends Thread {
             System.out.println("A escuta no porto " + port);
             System.out.println("__________________________________________");
             String s = new String(name + "@" + length);
-            System.out.println("------------------------>"+name);
             byte[] var = s.getBytes();
 
             DatagramSocket ds = new DatagramSocket();
@@ -95,6 +95,14 @@ public class SendFile extends Thread {
         }
     }
     }
+    else{
+        try {
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
 }
 
 }

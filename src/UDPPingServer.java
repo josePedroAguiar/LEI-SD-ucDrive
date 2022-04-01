@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.*;
 import java.net.SocketException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -41,10 +42,12 @@ class CmdServer extends Thread {
 
 public class UDPPingServer extends Thread {
 	private static int port = 6789;
+	public Server server;
 	// private static final int AVERAGE_DELAY = 100; // millisegundos
 	public boolean flagHideOrShow = false;
 
-	public UDPPingServer() {
+	public UDPPingServer(Server server) {
+		this.server=server;
 		this.start();
 		/*
 		 * String hideOrShow;
@@ -61,8 +64,9 @@ public class UDPPingServer extends Thread {
 	}
 
 	public void run() {
-
-		try (DatagramSocket aSocket = new DatagramSocket(port)) {
+		
+	while(true){
+			try (DatagramSocket aSocket = new DatagramSocket(port)) {
 			LocalDateTime myDateObj = LocalDateTime.now();
 			DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd MMM HH:mm:ss");
 			String time = myDateObj.format(myFormatObj);
@@ -76,10 +80,25 @@ public class UDPPingServer extends Thread {
 			cmd.start();
 			// System.out.println("Socket Datagram à escuta no porto " + port);
 			int count = 0;
+		
+			aSocket.setSoTimeout(10000);
 			while (true) {
 				byte[] buffer = new byte[1024];
 				DatagramPacket request = new DatagramPacket(buffer, buffer.length);
+				try{
 				aSocket.receive(request);
+				server.statusBackUpServer=true;
+			}
+				catch (SocketTimeoutException e2) {
+					server.statusBackUpServer=false;
+					
+					System.out.println("Timeout reached!!! " + e2);
+					
+				}
+				if(!server.statusBackUpServer)
+				break;
+
+				
 				if (!flagHideOrShow) {
 					try {
 						printData(request);
@@ -103,20 +122,16 @@ public class UDPPingServer extends Thread {
 				byte[] buf = request.getData();
 				DatagramPacket reply = new DatagramPacket(buf, buf.length, clientHost, clientPort);
 				aSocket.send(reply);
-				if (!flagHideOrShow && count == 9) {
-					System.out.println("If you want to hide the unitary prints of the pings type 'Hide' or 'H'");
-					count = 0;
-				} else if (!flagHideOrShow && count == 9) {
-					System.out.println("If you want to show the unitary prints of the pings type 'Show' or 'S'");
-					count = 0;
-				}
-				count++;
-			}
+				 }	
+		
 		} catch (SocketException e) {
 			System.out.println("Socket: " + e.getMessage());
 		} catch (IOException e) {
+			
 			System.out.println("IO: " + e.getMessage());
 		}
+	}
+	
 	}
 
 	private static void printData(DatagramPacket request) throws Exception {
