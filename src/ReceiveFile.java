@@ -10,7 +10,6 @@ import java.nio.file.Paths;
 
 public class ReceiveFile extends Thread {
 
-    @Override
     public void run() {
 
         receive();
@@ -25,6 +24,7 @@ public class ReceiveFile extends Thread {
             byte[] buf;
             int port = 10001;
             ds = new DatagramSocket(10001);
+            while(true){
             System.out.println("_____________Change File Socket__________________");
             System.out.println("A escuta no porto " + port);
             System.out.println("__________________________________________");
@@ -34,6 +34,7 @@ public class ReceiveFile extends Thread {
             String var4 = new String(var3.getData(), 0, var3.getLength());
             System.out.println("Server Recebeu: " + var4);
             String[] arrOfStr = var4.split("@");
+            if( arrOfStr.length==2){
             System.out.println(arrOfStr[1]);
             long foo = Long.parseLong(arrOfStr[1]);
             long nPackage = (long) (foo / 1024);
@@ -64,11 +65,16 @@ public class ReceiveFile extends Thread {
             }
             byte c[] = outputStream.toByteArray();
             fos.write(c);
-            ds.close();
+          
             fos.flush();
             fos.close();
+        }
+       
+       
+        }
         } catch (IOException e) {
             e.printStackTrace();
         }
+    
     }
 }

@@ -11,22 +11,42 @@ import java.nio.file.Paths;
 
 public class SendFile extends Thread {
 
-    public String name;
+    public Server server;
 
-    @Override
+    public SendFile(Server server){
+        this.server=server;
+        synchronized(server.filesToReplicate){
+        this.start();}
+    }
     public void run() {
         send();
     }
 
     public synchronized void send() {
+        while(true){
+        
+        if(server.filesToReplicate.size()==0){
+            System.out.println(server.filesToReplicate);
+            try {
+                this.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            continue;
+            
+        }
+        for (int k=0;k<server.filesToReplicate.size();k++) {
         try {
-            Path path = Paths.get(this.name);
+            String name=server.filesToReplicate.get(k);
+            Path path = Paths.get(name);
+
             int length = (int) Files.size(path);
             int port = 10001;
             System.out.println("_____________Change File Socket__________________");
             System.out.println("A escuta no porto " + port);
             System.out.println("__________________________________________");
             String s = new String(name + "@" + length);
+            System.out.println("------------------------>"+name);
             byte[] var = s.getBytes();
 
             DatagramSocket ds = new DatagramSocket();
@@ -68,11 +88,13 @@ public class SendFile extends Thread {
 
             ds.close();
             bis.close();
+            server.filesToReplicate.remove(k);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
+    }
+}
 
 }

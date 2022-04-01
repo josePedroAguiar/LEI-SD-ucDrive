@@ -22,8 +22,8 @@ public class Server {
     private String path;
     private int numero = 0;
     private File LastDir;
-    ArrayList<String> filesToReplicate;
-
+    public ArrayList<String> filesToReplicate ;
+    
     public HashSet<User> getHs() {
         return hs;
     }
@@ -73,18 +73,24 @@ public class Server {
     }
 
     public Server(int serverPortMain, int serverPortBackUp, String path) {
-        setPath(path);
-        
+        filesToReplicate=new ArrayList<>();
+        synchronized(filesToReplicate){
+        setPath(path);            
         while (true) {
+           
             setHs(new HashSet<>());
             setMyObj(new File("./" + path + "/info/usersData.txt"));
             setLastDir(new File("./" + path + "/info/lastDirs.txt"));
+
+            
 
             try (ServerSocket check = new ServerSocket(serverPortBackUp)) {
                 readUsersData(); // abre o ficheiro com as infos dos users e guarda toda a info
                 check.close();
 
                 new UDPPingServer();
+                new SendFile(this);
+              
 
                 try (ServerSocket listenSocket = new ServerSocket(serverPortMain)) {
                     System.out.println("A escuta no porto " + serverPortMain);
@@ -93,7 +99,7 @@ public class Server {
                         Socket clientSocket = listenSocket.accept(); // BLOQUEANTE
                         System.out.println("CLIENT_SOCKET (created at accept())=" + clientSocket);
                         this.numero++;
-                        new Connection(clientSocket, hs, numero, path);
+                        new Connection(clientSocket, hs, numero,this);
                     }
                 } catch (IOException e) {
                     System.out.println("Listen:" + e.getMessage());
@@ -112,6 +118,7 @@ public class Server {
                 }
             }
         }
+    }
     }
 
     private void readUsersData() {

@@ -26,11 +26,13 @@ class Connection extends Thread {
     private HashSet<User> hs;
     private File myObj;
     private File LastDir;
-    ArrayList<String> filesToReplicate = new ArrayList<String>();
+    Server server;
 
-    public Connection(Socket aClientSocket, HashSet<User> hs, int numero, String path) {
-        this.myObj = new File("./" + path + "/info/usersData.txt");
-        this.LastDir = new File("./" + path + "/info/lastDirs.txt");
+    public Connection(Socket aClientSocket, HashSet<User> hs, int numero,Server server) {
+        this.server=server;
+        synchronized(server.filesToReplicate){
+        this.myObj = new File("./" + server.getPath() + "/info/usersData.txt");
+        this.LastDir = new File("./" + server.getPath() + "/info/lastDirs.txt");
         this.hs = hs;
 
         this.thread_number = numero;
@@ -44,6 +46,7 @@ class Connection extends Thread {
             System.out.println("Connection:" + e.getMessage());
         }
     }
+    }
 
     // =============================
     public void run() {
@@ -53,13 +56,6 @@ class Connection extends Thread {
             // an echo server
             while (true) {
                 Menu(currentUser);
-                for (String i : this.filesToReplicate) {
-                    SendFile t = new SendFile();
-                    t.name = i;
-                    t.start();
-                    this.filesToReplicate.remove(i);
-
-                }
             } // envia o menu para os clientes
 
         } catch (EOFException e) {
@@ -177,11 +173,10 @@ class Connection extends Thread {
                         int port = in.readInt();
                         new Download(filePath.toString(), fileD.getPath(),
                                 port);
-
-                        SendFile t = new SendFile();
-
-                        filesToReplicate
-                                .add(new String(currentUser.getCurrentDirServer().toString() + "/" + destination));
+                     
+                        server.filesToReplicate.add(new String(currentUser.getCurrentDirServer().toString() + "/" + destination));
+                    
+                      
                     } else
                         out.writeUTF("O ficheiro nao existe na diretoria atual\n");
 
