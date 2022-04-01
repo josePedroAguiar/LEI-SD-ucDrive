@@ -319,6 +319,7 @@ class Connection extends Thread {
                 br.write(info);
             }
             System.out.println(myObj.getName() + " atualizado com sucesso!");
+            server.filesToReplicate.add(new String("./" + server.getPath() + "/info/usersData.txt"));
         } catch (FileNotFoundException ex) {
             // file does not exist
             System.out.println("File not found!");
@@ -337,6 +338,7 @@ class Connection extends Thread {
                         + u.getCurrentDirServer().toString() + "\n");
             }
             System.out.println(LastDir.getName() + " atualizado com sucesso!");
+            server.filesToReplicate.add( new String("./" + server.getPath() + "/info/lastDirs.txt"));
         } catch (FileNotFoundException ex) {
             // file does not exist
             System.out.println("File not found!");

@@ -7,7 +7,7 @@ import java.net.DatagramSocket;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-
+import java.io.File; 
 public class ReceiveFile extends Thread {
 
     public void run() {
@@ -32,7 +32,7 @@ public class ReceiveFile extends Thread {
             DatagramPacket var3 = new DatagramPacket(var2, var2.length);
             ds.receive(var3);
             String var4 = new String(var3.getData(), 0, var3.getLength());
-            System.out.println("Server Recebeu: " + var4);
+            //System.out.println("Server Recebeu: " + var4);
             String[] arrOfStr = var4.split("@");
             if(arrOfStr.length==2){     
             try{
@@ -41,13 +41,28 @@ public class ReceiveFile extends Thread {
             int lastPackageSize = (int) (foo % 1024);
 
             Path p;
-            if (arrOfStr[0].contains("MainServer"))
+            if (arrOfStr[0].contains("MainServer")){
                 p = Paths.get(arrOfStr[0].replace("MainServer", "ServerBack"));
-            else
+                File myObj = new File(arrOfStr[0].replace("MainServer", "ServerBack")); 
+                if (myObj.delete()) { 
+                    System.out.println("Deleted the file: " + myObj.getName());
+                  } else {
+                    System.out.println("Failed to delete the file.");
+                  } 
+            }
+            else{
                 p = Paths.get(arrOfStr[0].replace("ServerBack", "MainServer"));
+                File myObj = new File(arrOfStr[0].replace("ServerBack", "MainServer")); 
+                if (myObj.delete()) { 
+                    System.out.println("Deleted the file: " + myObj.getName());
+                  } else {
+                    System.out.println("Failed to delete the file.");
+                  } 
+            
+            }
             Files.createDirectories(p.getParent());
             Files.createFile(p);
-
+           
             BufferedOutputStream fos = new BufferedOutputStream(new FileOutputStream(p.toFile()));
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 

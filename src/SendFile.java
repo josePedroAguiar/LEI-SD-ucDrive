@@ -26,13 +26,14 @@ public class SendFile extends Thread {
         while(true){
         
         if(server.filesToReplicate.size()==0){
-            System.out.println(server.filesToReplicate);
+            //System.out.println(server.filesToReplicate);
             try {
-                this.sleep(10000);
+                Thread.sleep(10000);
+                continue;
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            continue;
+           
             
         }
         if(server.statusBackUpServer){

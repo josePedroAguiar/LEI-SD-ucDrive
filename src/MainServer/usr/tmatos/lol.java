@@ -111,7 +111,41 @@ public class Client {
             } else {
                 String m = in.readUTF();
                 int port = in.readInt();
-                new Download(input, m, port);
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+                ///////////////////////
 
             }
         } else if (opt.contains("push")) {
