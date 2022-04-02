@@ -14,6 +14,34 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Scanner;
 
+class Cmd extends Thread{
+    public boolean flagHideOrShow=false;
+    UDPPingClient ping;
+    Scanner sc = new Scanner(System.in);
+
+    public Cmd(UDPPingClient ping){
+        this.ping=ping;
+
+    }
+    public void run() {
+        try {
+            do {
+                String hideOrShow;
+                if((hideOrShow = sc.nextLine()).equals("")){
+                    hideOrShow = hideOrShow.toLowerCase();
+                    if (hideOrShow.equals("hide") || hideOrShow.equals("h"))
+                        ping.flagHideOrShow = true;
+                    else
+                        ping.flagHideOrShow = false;
+
+                }
+            } while ( true );
+        }
+        catch (Exception e) {
+            System.out.println("Exception handled");
+        }
+    }
+}
 public class Server {
     // TreeSet<User> tree= new TreeSet<User>(new myNameComparator());
     private HashSet<User> hs;
@@ -76,7 +104,8 @@ public class Server {
     public Server(int serverPortMain, int serverPortBackUp, String path) {
         filesToReplicate=new ArrayList<>();
         synchronized(filesToReplicate){
-        setPath(path);            
+        setPath(path);
+        int count=0;            
         while (true) {
            
             setHs(new HashSet<>());
@@ -88,12 +117,11 @@ public class Server {
             try (ServerSocket check = new ServerSocket(serverPortBackUp)) {
                 readUsersData(); // abre o ficheiro com as infos dos users e guarda toda a info
                 check.close();
-
-                new UDPPingServer(this);
-                new SendFile(this);
-              
-
+                UDPPingServer t1=new UDPPingServer(this);
+                SendFile t2=new SendFile(this);
                 try (ServerSocket listenSocket = new ServerSocket(serverPortMain)) {
+                   
+                    count=0;       
                     System.out.println("A escuta no porto " + serverPortMain);
                     System.out.println("LISTEN SOCKET=" + listenSocket);
                     while (true) {
@@ -103,7 +131,11 @@ public class Server {
                         new Connection(clientSocket, hs, numero,this);
                     }
                 } catch (IOException e) {
+                    t1.interrupt();
+                    t2.interrupt();
+                    count++;
                     System.out.println("Listen:" + e.getMessage());
+                    return;
                 }
 
             } catch (IOException e1) {
@@ -112,12 +144,23 @@ public class Server {
                 ReceiveFile receivedT = new ReceiveFile();
                 receivedT.start();
                 t.start();
+                count++;
                 try {
                     t.join();
+                    receivedT.ds.close();
+                    receivedT.interrupt();
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    t.interrupt();
+                   
+                    
                 }
             }
+            System.out.println(count);
+            if (count==2){
+               
+            break;
+            }
+          
         }
     }
     }
@@ -202,7 +245,9 @@ public class Server {
     }
 
     public static void main(String[] args) {
+        
         new Server(6001, 6003, "MainServer");
+        new Server(6003,6001,"ServerBack");   
     }
 
 }

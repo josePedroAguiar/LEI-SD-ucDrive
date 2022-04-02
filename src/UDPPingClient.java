@@ -91,8 +91,8 @@ public class UDPPingClient extends Thread  {
 						 myFormatObj = DateTimeFormatter.ofPattern("dd MMM HH:mm:ss");
 						 time = myDateObj.format(myFormatObj);
 						if(!this.flagHideOrShow) {
-							System.out.println("If you want to hide the unitary prints of the pings type 'Hide' or 'H'" +
-											   "\n_____________________________________\n " +
+							System.out.println(
+											   "_____________________________________\n " +
 											   "[" + time + "] Perc. of packets  receveid " + ((NUMBER_OF_PINGS - pakageLost) / NUMBER_OF_PINGS * 100) + "% (" + (NUMBER_OF_PINGS - pakageLost) + "/" + NUMBER_OF_PINGS + ")");
 						}
 						else  {
@@ -114,6 +114,7 @@ public class UDPPingClient extends Thread  {
 			}
 		}catch (SocketException e){
 			System.out.println("Socket: " + e.getMessage());
+			return;
 		}catch (IOException e){
 			System.out.println("IO: " + e.getMessage());
 		}

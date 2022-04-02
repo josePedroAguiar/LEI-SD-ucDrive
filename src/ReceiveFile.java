@@ -4,11 +4,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.net.Socket;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.io.File; 
 public class ReceiveFile extends Thread {
+    DatagramSocket ds;
 
     public void run() {
 
@@ -19,7 +21,7 @@ public class ReceiveFile extends Thread {
 
         try {
 
-            DatagramSocket ds;
+
             DatagramPacket dp;
             byte[] buf;
             int port = 10001;
@@ -83,6 +85,7 @@ public class ReceiveFile extends Thread {
           
             fos.flush();
             fos.close();
+
         }
         catch(NumberFormatException e){
             ;
@@ -91,7 +94,12 @@ public class ReceiveFile extends Thread {
        
        
         }
-        } catch (IOException e) {
+        } 
+        catch (SocketException e) {
+            System.out.println("Backup file socket closed!");
+          
+        }
+        catch (IOException e) {
             e.printStackTrace();
         }
     
