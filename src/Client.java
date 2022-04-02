@@ -43,13 +43,13 @@ public class Client {
     public static void main(String[] args) {
         // 1o passo - criar socket
         int[] serversocket = { 6001, 6003 };
-        int count=0;
+        int count = 0;
         while (true) {
             do {
                 try {
                     s = new Socket("localhost", serversocket[0]);
                     run();
-                    count=0;
+                    count = 0;
 
                 } catch (UnknownHostException e) {
                     System.out.println("Sock:" + e.getMessage());
@@ -63,17 +63,17 @@ public class Client {
                     try {
                         s = new Socket("localhost", serversocket[1]);
                         run();
-                        count=0;
+                        count = 0;
                     } catch (IOException e1) {
                         System.out.println("IO:" + e.getMessage());
                         count++;
                     }
                 }
             } while (repeat_login);
-            if(count==2){
+            if (count == 2) {
                 System.out.println("Não foi possivel ligar ao serviços da ucDrive");
-                 break;
-                }
+                break;
+            }
         }
     }
 
