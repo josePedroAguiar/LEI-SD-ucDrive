@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Scanner;
-
+import java.io.FileReader;
 public class Client {
     private static DataInputStream in;
     private static DataOutputStream out;
@@ -42,14 +42,55 @@ public class Client {
 
     public static void main(String[] args) {
         // 1o passo - criar socket
-        int[] serversocket = { 6001, 6003 };
-        int count = 0;
+
+        int[] serversocket={0,0};
+        String address="";
+        String address2="";
+        char[] array = new char[100];
+
+        try {
+        // Creates a reader using the FileReader
+        FileReader input = new FileReader("./home/config.txt");
+
+        // Reads characters
+        input.read(array);
+
+        String [] arrofStr = String.valueOf(array).split("\\n");
+        // Closes the reader
+        if(arrofStr.length!=4){
+        input.close();
+        System.exit(1);}
+        else
+        {
+            try{
+        int portMain=Integer.parseInt( arrofStr[0]);
+        int portSecond=Integer.parseInt( arrofStr[1]);
+        serversocket[0]=portMain; 
+        serversocket[1]=portSecond ;
+        address= arrofStr[2];
+        address2= arrofStr[3];
+    }
+        catch(Exception e){
+            System.out.println("Ficheiro configuração invalido");
+            System.exit(1);
+        }
+        ;
+        }
+        input.close();
+        }
+    
+        
+        catch(Exception e) {
+        e.getStackTrace();
+        }
+      
+        int count=0;
         while (true) {
             do {
                 try {
-                    s = new Socket("localhost", serversocket[0]);
+                    s = new Socket(address, serversocket[0]);
                     run();
-                    count = 0;
+                    count=0;
 
                 } catch (UnknownHostException e) {
                     System.out.println("Sock:" + e.getMessage());
@@ -61,19 +102,19 @@ public class Client {
                     count++;
 
                     try {
-                        s = new Socket("localhost", serversocket[1]);
+                        s = new Socket(address2, serversocket[1]);
                         run();
-                        count = 0;
+                        count=0;
                     } catch (IOException e1) {
                         System.out.println("IO:" + e.getMessage());
                         count++;
                     }
                 }
             } while (repeat_login);
-            if (count == 2) {
+            if(count>3){
                 System.out.println("Não foi possivel ligar ao serviços da ucDrive");
-                break;
-            }
+                 break;
+                }
         }
     }
 
