@@ -1,12 +1,12 @@
 #username	last_User_Dir	last_Server_Dir
 
-motagabriela	./home/motagabriela	./MainServer/usr/motagabriela
-leallucia	./home/leallucia	./MainServer/usr/leallucia
-ncorreia	./home/ncorreia	./MainServer/usr/ncorreia
-ritacarneiro	./home/ritacarneiro	./MainServer/usr/ritacarneiro
-amorimigor	./home/amorimigor	./MainServer/usr/amorimigor
-filipa93	./home/filipa93	./MainServer/usr/filipa93
-tmatos	./home/tmatos	./MainServer/usr/tmatos
 rodrigocorreia	./home/rodrigocorreia	./MainServer/usr/rodrigocorreia
-manuel82	./home/manuel82	./MainServer/usr/manuel82
+tmatos	./home/tmatos	./MainServer/usr/tmatos
+filipa93	./home/filipa93	./MainServer/usr/filipa93
+ritacarneiro	./home/ritacarneiro	./MainServer/usr/ritacarneiro
 lourenco06	./home/lourenco06	./MainServer/usr/lourenco06
+amorimigor	./home/amorimigor	./MainServer/usr/amorimigor
+manuel82	./home/manuel82	./MainServer/usr/manuel82
+motagabriela	./home/motagabriela	./MainServer/usr/motagabriela
+ncorreia	./home/ncorreia	./MainServer/usr/ncorreia
+leallucia	./home/leallucia	./MainServer/usr/leallucia
