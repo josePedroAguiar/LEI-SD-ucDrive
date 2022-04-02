@@ -31,7 +31,9 @@ public class SendFile extends Thread {
                 Thread.sleep(10000);
                 continue;
             } catch (InterruptedException e) {
-                e.printStackTrace();
+
+               System.out.println("Thread foi interrompida!");
+                return;
             }
            
             
@@ -100,7 +102,7 @@ public class SendFile extends Thread {
         try {
             Thread.sleep(10000);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+        System.out.println("Thread foi interrompida!");
         }
     }
 }

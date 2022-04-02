@@ -126,6 +126,7 @@ public class UDPPingServer extends Thread {
 		
 		} catch (SocketException e) {
 			System.out.println("Socket: " + e.getMessage());
+			return;
 		} catch (IOException e) {
 			
 			System.out.println("IO: " + e.getMessage());
