@@ -53,6 +53,10 @@ public class Server {
     private int numero = 0;
     private File LastDir;
     public ArrayList<String> filesToReplicate;
+    public String addressMain;
+    public String addressBackUp;
+    public int portMain;
+    public int portBackUp;
 
     public HashSet<User> getHs() {
         return hs;
@@ -102,7 +106,11 @@ public class Server {
         this.statusMainServer = statusMainServer;
     }
 
-    public Server(int serverPortMain, int serverPortBackUp, String path) {
+    public Server(int serverPortMain, int serverPortBackUp,String addressMain,String addressBackUp,String path) {
+        portMain=serverPortMain;
+        portBackUp=serverPortBackUp;
+        this.addressMain=addressMain;
+        this.addressBackUp=addressBackUp;
         filesToReplicate = new ArrayList<>();
         synchronized (filesToReplicate) {
             setPath(path);
@@ -244,8 +252,49 @@ public class Server {
 
     public static void main(String[] args) {
 
-        new Server(6001, 6003, "MainServer");
-        new Server(6003, 6001, "ServerBack");
+
+        int[] serversocket={0,0};
+        String address="";
+        String address2="";
+        char[] array = new char[100];
+
+        try {
+        // Creates a reader using the FileReader
+        FileReader input = new FileReader("./home/config.txt");
+
+        // Reads characters
+        input.read(array);
+
+        String [] arrofStr = String.valueOf(array).split("\\n");
+        // Closes the reader
+        if(arrofStr.length!=4){
+        input.close();
+        System.exit(1);}
+        else
+        {
+            try{
+        int portMain=Integer.parseInt( arrofStr[0]);
+        int portSecond=Integer.parseInt( arrofStr[1]);
+        serversocket[0]=portMain; 
+        serversocket[1]=portSecond ;
+        address= arrofStr[2];
+        address2= arrofStr[3];
+    }
+        catch(Exception e){
+            System.out.println("Ficheiro configuração invalido");
+            System.exit(1);
+        }
+        ;
+        }
+        input.close();
+        }
+    
+        
+        catch(Exception e) {
+        e.getStackTrace();
+        }
+        new Server( serversocket[0], serversocket[1],address,address2,"MainServer");
+        new Server( serversocket[1], serversocket[0],address,address2,"ServerBack");
     }
 
 }

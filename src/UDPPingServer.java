@@ -44,7 +44,7 @@ public class UDPPingServer extends Thread {
 	private static int port = 6789;
 	public Server server;
 	// private static final int AVERAGE_DELAY = 100; // millisegundos
-	public boolean flagHideOrShow = false;
+	public boolean flagHideOrShow = true;
 
 	public UDPPingServer(Server server) {
 		this.server = server;

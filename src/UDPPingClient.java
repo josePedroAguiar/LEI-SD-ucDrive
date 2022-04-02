@@ -17,14 +17,14 @@ public class UDPPingClient extends Thread {
 	private static final int NUMBER_OF_PINGS = 10;
 	Server server;
 
-	private static final String serverName = "localhost";
+	private String serverName;
 
 	public boolean flagHideOrShow = true;
 	Scanner sc = new Scanner(System.in);
 	String hideOrShow;
 
 	public UDPPingClient(Server server) {
-
+		serverName=server.addressMain;
 		this.server = server;
 	}
 
