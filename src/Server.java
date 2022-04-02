@@ -30,10 +30,7 @@ class Cmd extends Thread {
                 String hideOrShow;
                 if ((hideOrShow = sc.nextLine()).equals("")) {
                     hideOrShow = hideOrShow.toLowerCase();
-                    if (hideOrShow.equals("hide") || hideOrShow.equals("h"))
-                        ping.flagHideOrShow = true;
-                    else
-                        ping.flagHideOrShow = false;
+                    ping.flagHideOrShow = hideOrShow.equals("hide") || hideOrShow.equals("h");
 
                 }
             } while (true);
@@ -162,11 +159,8 @@ public class Server {
                     }
                 }
                 System.out.println(count);
-                if (count == 2) {
-
+                if (count == 2)
                     break;
-                }
-
             }
         }
     }
@@ -214,8 +208,6 @@ public class Server {
                         }
                     }
                 }
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -259,12 +251,13 @@ public class Server {
 
         try {
             // Creates a reader using the FileReader
-            FileReader input = new FileReader("./config.txt");
+            Path p = Paths.get("./config.txt");
+            FileReader input = new FileReader(p.toFile());
 
             // Reads characters
             input.read(array);
 
-            String[] arrofStr = String.valueOf(array).split("\\n");
+            String[] arrofStr = String.valueOf(array).split("\n");
             // Closes the reader
             if (arrofStr.length != 4) {
                 input.close();
@@ -279,6 +272,7 @@ public class Server {
                     address2 = arrofStr[3];
                 } catch (Exception e) {
                     System.out.println("Invalid config file");
+                    e.printStackTrace();
                     System.exit(1);
                 }
             }
