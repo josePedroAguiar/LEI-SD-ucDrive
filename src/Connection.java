@@ -13,7 +13,6 @@ import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 
@@ -28,24 +27,24 @@ class Connection extends Thread {
     private File LastDir;
     Server server;
 
-    public Connection(Socket aClientSocket, HashSet<User> hs, int numero,Server server) {
-        this.server=server;
-        synchronized(server.filesToReplicate){
-        this.myObj = new File("./" + server.getPath() + "/info/usersData.txt");
-        this.LastDir = new File("./" + server.getPath() + "/info/lastDirs.txt");
-        this.hs = hs;
+    public Connection(Socket aClientSocket, HashSet<User> hs, int numero, Server server) {
+        this.server = server;
+        synchronized (server.filesToReplicate) {
+            this.myObj = new File("./" + server.getPath() + "/info/usersData.txt");
+            this.LastDir = new File("./" + server.getPath() + "/info/lastDirs.txt");
+            this.hs = hs;
 
-        this.thread_number = numero;
-        try {
-            clientSocket = aClientSocket;
-            in = new DataInputStream(clientSocket.getInputStream());
-            out = new DataOutputStream(clientSocket.getOutputStream());
-            this.start();
+            this.thread_number = numero;
+            try {
+                clientSocket = aClientSocket;
+                in = new DataInputStream(clientSocket.getInputStream());
+                out = new DataOutputStream(clientSocket.getOutputStream());
+                this.start();
 
-        } catch (IOException e) {
-            System.out.println("Connection:" + e.getMessage());
+            } catch (IOException e) {
+                System.out.println("Connection:" + e.getMessage());
+            }
         }
-    }
     }
 
     // =============================
@@ -173,10 +172,10 @@ class Connection extends Thread {
                         int port = in.readInt();
                         new Download(filePath.toString(), fileD.getPath(),
                                 port);
-                     
-                        server.filesToReplicate.add(new String(currentUser.getCurrentDirServer().toString() + "/" + destination));
-                    
-                      
+
+                        server.filesToReplicate
+                                .add(new String(currentUser.getCurrentDirServer().toString() + "/" + destination));
+
                     } else
                         out.writeUTF("O ficheiro nao existe na diretoria atual\n");
 
@@ -344,7 +343,7 @@ class Connection extends Thread {
                         + u.getCurrentDirServer().toString() + "\n");
             }
             System.out.println(LastDir.getName() + " atualizado com sucesso!");
-            server.filesToReplicate.add( new String("./" + server.getPath() + "/info/lastDirs.txt"));
+            server.filesToReplicate.add(new String("./" + server.getPath() + "/info/lastDirs.txt"));
         } catch (FileNotFoundException ex) {
             // file does not exist
             System.out.println("File not found!");

@@ -1,7 +1,6 @@
 import java.io.Serializable;
 import java.util.Calendar;
 
-
 public class Data implements Serializable {
 
     private int dia, mes, ano;
@@ -25,7 +24,8 @@ public class Data implements Serializable {
             if (this.mes <= (Calendar.getInstance().get(Calendar.MONTH) + 1)) {
                 if (this.mes < (Calendar.getInstance().get(Calendar.MONTH) + 1))
                     erro = true;
-                if (this.mes == (Calendar.getInstance().get(Calendar.MONTH) + 1) && this.dia <= Calendar.getInstance().get(Calendar.DAY_OF_MONTH)) {
+                if (this.mes == (Calendar.getInstance().get(Calendar.MONTH) + 1)
+                        && this.dia <= Calendar.getInstance().get(Calendar.DAY_OF_MONTH)) {
                     erro = true;
                 }
             } else {
@@ -40,7 +40,8 @@ public class Data implements Serializable {
      * @param dia   argumento que recebe um inteiro que corresponde ao dia
      * @param mes   argumento que recebe um inteiro que corresponde ao mes
      * @param ano_a argumento que recebe um inteiro que corresponde ao ano
-     * @param anoR  arguemto que serve de referencia /comparaçao para a validaçao da data
+     * @param anoR  arguemto que serve de referencia /comparaçao para a validaçao da
+     *              data
      */
     public Data(int dia, int mes, int ano_a, int anoR) {
         if (!verificacaoAno(ano_a, anoR) || verificacaoDia(dia, mes, ano_a) || verificacaoMes(mes)) {
@@ -53,9 +54,9 @@ public class Data implements Serializable {
         }
     }
 
-
     private boolean verificacaoAno(int ano) {
-        return ano >= Calendar.getInstance().get(Calendar.YEAR) || ano >= (Calendar.getInstance().get(Calendar.YEAR) + 1);
+        return ano >= Calendar.getInstance().get(Calendar.YEAR)
+                || ano >= (Calendar.getInstance().get(Calendar.YEAR) + 1);
 
     }
 
@@ -64,11 +65,10 @@ public class Data implements Serializable {
 
     }
 
-
     private boolean verificacaoDia(int dia, int mes, int ano) {
         if (mes == 2 && ano % 4 != 0) {
             return dia < 1 || dia > 28;
-        } else if (mes == 2 /*&& ano % 4 == 0*/) {
+        } else if (mes == 2 /* && ano % 4 == 0 */) {
             return dia < 1 || dia > 29;
         } else {
             if (mes < 7 && mes % 2 == 0) {
@@ -96,16 +96,16 @@ public class Data implements Serializable {
         if (!erro) {
             return dia + "/" + mes + "/" + ano;
         } else {
-            return  Calendar.getInstance().get(Calendar.DAY_OF_MONTH) + "/" + Calendar.getInstance().get(Calendar.MONTH) + "/" + (Calendar.getInstance().get(Calendar.YEAR) + 1);
+            return Calendar.getInstance().get(Calendar.DAY_OF_MONTH) + "/" + Calendar.getInstance().get(Calendar.MONTH)
+                    + "/" + (Calendar.getInstance().get(Calendar.YEAR) + 1);
         }
 
     }
 
-
-//SET
+    // SET
 
     /**
-     * Metodo que atrbui o valor dado como arguemento  ao ano
+     * Metodo que atrbui o valor dado como arguemento ao ano
      *
      * @param ano Valor que vai ser atribuido
      */
@@ -114,7 +114,7 @@ public class Data implements Serializable {
     }
 
     /**
-     * Metodo que atrbui o valor dado como arguemento  ao mes
+     * Metodo que atrbui o valor dado como arguemento ao mes
      *
      * @param mes Valor que vai ser atribuido
      */
@@ -123,7 +123,7 @@ public class Data implements Serializable {
     }
 
     /**
-     * Metodo que atrbui valor dado como arguemento ao  erro
+     * Metodo que atrbui valor dado como arguemento ao erro
      *
      * @param erro Valor que vai ser atribuido
      */
@@ -141,11 +141,10 @@ public class Data implements Serializable {
         this.dia = dia;
     }
 
-
-//GETT
+    // GETT
 
     /**
-     * Metodo que devolve um valor  o ano
+     * Metodo que devolve um valor o ano
      *
      * @return Ano da data
      */
@@ -154,7 +153,7 @@ public class Data implements Serializable {
     }
 
     /**
-     * Metodo que devolve um valor  o dia
+     * Metodo que devolve um valor o dia
      *
      * @return Dia da data
      */
@@ -163,7 +162,7 @@ public class Data implements Serializable {
     }
 
     /**
-     * Metodo que devolve um valor  o mes
+     * Metodo que devolve um valor o mes
      *
      * @return Mes da data
      */
@@ -172,7 +171,7 @@ public class Data implements Serializable {
     }
 
     /**
-     * Metodo que devolve  um valor  o erro (data valida ou nao)
+     * Metodo que devolve um valor o erro (data valida ou nao)
      *
      * @return erro
      */
