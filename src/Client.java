@@ -6,6 +6,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Scanner;
 import java.io.FileReader;
+
 public class Client {
     private static DataInputStream in;
     private static DataOutputStream out;
@@ -34,7 +35,7 @@ public class Client {
             resposta = in.readUTF();
             respostaAndToken = resposta.split("\\|");
             System.out.println(respostaAndToken[0] + "\n");
-        } while (!respostaAndToken[0].equals("Login com sucesso"));
+        } while (!respostaAndToken[0].equals("Login with success!"));
 
         while (Menu())
             ;
@@ -43,54 +44,50 @@ public class Client {
     public static void main(String[] args) {
         // 1o passo - criar socket
 
-        int[] serversocket={0,0};
-        String address="";
-        String address2="";
+        int[] serversocket = { 0, 0 };
+        String address = "";
+        String address2 = "";
         char[] array = new char[100];
 
         try {
-        // Creates a reader using the FileReader
-        FileReader input = new FileReader("./home/config.txt");
+            // Creates a reader using the FileReader
+            FileReader input = new FileReader("./home/config.txt");
 
-        // Reads characters
-        input.read(array);
+            // Reads characters
+            input.read(array);
 
-        String [] arrofStr = String.valueOf(array).split("\\n");
-        // Closes the reader
-        if(arrofStr.length!=4){
-        input.close();
-        System.exit(1);}
-        else
-        {
-            try{
-        int portMain=Integer.parseInt( arrofStr[0]);
-        int portSecond=Integer.parseInt( arrofStr[1]);
-        serversocket[0]=portMain; 
-        serversocket[1]=portSecond ;
-        address= arrofStr[2];
-        address2= arrofStr[3];
-    }
-        catch(Exception e){
-            System.out.println("Ficheiro configuração invalido");
-            System.exit(1);
+            String[] arrofStr = String.valueOf(array).split("\\n");
+            // Closes the reader
+            if (arrofStr.length != 4) {
+                input.close();
+                System.exit(1);
+            } else {
+                try {
+                    int portMain = Integer.parseInt(arrofStr[0]);
+                    int portSecond = Integer.parseInt(arrofStr[1]);
+                    serversocket[0] = portMain;
+                    serversocket[1] = portSecond;
+                    address = arrofStr[2];
+                    address2 = arrofStr[3];
+                } catch (Exception e) {
+                    System.out.println("Invalid config file");
+                    System.exit(1);
+                }
+            }
+            input.close();
         }
-        ;
+
+        catch (Exception e) {
+            e.getStackTrace();
         }
-        input.close();
-        }
-    
-        
-        catch(Exception e) {
-        e.getStackTrace();
-        }
-      
-        int count=0;
+
+        int count = 0;
         while (true) {
             do {
                 try {
                     s = new Socket(address, serversocket[0]);
                     run();
-                    count=0;
+                    count = 0;
 
                 } catch (UnknownHostException e) {
                     System.out.println("Sock:" + e.getMessage());
@@ -104,17 +101,17 @@ public class Client {
                     try {
                         s = new Socket(address2, serversocket[1]);
                         run();
-                        count=0;
+                        count = 0;
                     } catch (IOException e1) {
                         System.out.println("IO:" + e.getMessage());
                         count++;
                     }
                 }
             } while (repeat_login);
-            if(count>3){
-                System.out.println("Não foi possivel ligar ao serviços da ucDrive");
-                 break;
-                }
+            if (count > 3) {
+                System.out.println("Impossible to connect to ucDrive!");
+                break;
+            }
         }
     }
 
@@ -134,11 +131,11 @@ public class Client {
                 data = in.readUTF().split("\n");
                 if (data.length == 2)
                     System.out.print(data[0] + "\n" + data[1]);
-            } while (!data[0].equals("Password atualizada!"));
+            } while (!data[0].equals("Password updated!"));
             System.out.println(data[0]);
             s.close();
             repeat_login = true;
-            System.out.println("Sessão foi terminada");
+            System.out.println("Session ended successfully!\n");
             return false;
             // depois de mudar a passe pede uma nova autenticacao
             // System.out.println("olaola");
@@ -156,7 +153,7 @@ public class Client {
         } else if (opt.contains("pull")) {
             String input = in.readUTF();
 
-            if (input.equals("O ficheiro nao existe na diretoria atual\n") || input.equals("Comando invalido\n")) {
+            if (input.equals("File doesn't exist in that directory\n") || input.equals("Invalid command\n")) {
                 System.out.println(input);
             } else {
                 String m = in.readUTF();
@@ -167,7 +164,7 @@ public class Client {
         } else if (opt.contains("push")) {
             String input = in.readUTF();
 
-            if (input.equals("O ficheiro nao existe na diretoria atual\n") || input.equals("Comando invalido\n")) {
+            if (input.equals("File doesn't exist in that directory\n") || input.equals("Invalid command\n")) {
                 System.out.println(input);
             } else {
                 new Upload(input, s);
@@ -178,6 +175,7 @@ public class Client {
             System.out.println(input);
 
         } else if (opt.equals("exit")) {
+            System.out.println("Session ended successfully!\n");
             s.close();
             System.exit(0);
         }

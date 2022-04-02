@@ -49,8 +49,8 @@ class Download extends Thread {
 
                     if (((float) bytes / size) == 1.0f)
                         System.out.println(
-                                "Recebendo " + filename + " (" + String.format("%.2f", ((float) bytes / size) * 100)
-                                        + " %). Guardando em " + destination);
+                                "Receiving " + filename + " (" + String.format("%.2f", ((float) bytes / size) * 100)
+                                        + " %). Stored in " + destination);
 
                     fileOutputStream.write(buffer, 0, bytes);
                     size -= bytes; // read upto file size

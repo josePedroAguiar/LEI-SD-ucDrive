@@ -106,11 +106,11 @@ public class Server {
         this.statusMainServer = statusMainServer;
     }
 
-    public Server(int serverPortMain, int serverPortBackUp,String addressMain,String addressBackUp,String path) {
-        portMain=serverPortMain;
-        portBackUp=serverPortBackUp;
-        this.addressMain=addressMain;
-        this.addressBackUp=addressBackUp;
+    public Server(int serverPortMain, int serverPortBackUp, String addressMain, String addressBackUp, String path) {
+        portMain = serverPortMain;
+        portBackUp = serverPortBackUp;
+        this.addressMain = addressMain;
+        this.addressBackUp = addressBackUp;
         filesToReplicate = new ArrayList<>();
         synchronized (filesToReplicate) {
             setPath(path);
@@ -129,7 +129,7 @@ public class Server {
                     try (ServerSocket listenSocket = new ServerSocket(serverPortMain)) {
 
                         count = 0;
-                        System.out.println("A escuta no porto " + serverPortMain);
+                        System.out.println("Listening in port " + serverPortMain);
                         System.out.println("LISTEN SOCKET=" + listenSocket);
                         while (true) {
                             Socket clientSocket = listenSocket.accept(); // BLOQUEANTE
@@ -188,7 +188,7 @@ public class Server {
                         }
                         hs.add(user);
                     } else {
-                        System.out.println("Utilizador inválido!");
+                        System.out.println("Invalid User!");
                     }
                 }
             }
@@ -252,49 +252,44 @@ public class Server {
 
     public static void main(String[] args) {
 
-
-        int[] serversocket={0,0};
-        String address="";
-        String address2="";
+        int[] serversocket = { 0, 0 };
+        String address = "";
+        String address2 = "";
         char[] array = new char[100];
 
         try {
-        // Creates a reader using the FileReader
-        FileReader input = new FileReader("./config.txt");
+            // Creates a reader using the FileReader
+            FileReader input = new FileReader("./config.txt");
 
-        // Reads characters
-        input.read(array);
+            // Reads characters
+            input.read(array);
 
-        String [] arrofStr = String.valueOf(array).split("\\n");
-        // Closes the reader
-        if(arrofStr.length!=4){
-        input.close();
-        System.exit(1);}
-        else
-        {
-            try{
-        int portMain=Integer.parseInt( arrofStr[0]);
-        int portSecond=Integer.parseInt( arrofStr[1]);
-        serversocket[0]=portMain; 
-        serversocket[1]=portSecond ;
-        address= arrofStr[2];
-        address2= arrofStr[3];
-    }
-        catch(Exception e){
-            System.out.println("Ficheiro configuração invalido");
-            System.exit(1);
+            String[] arrofStr = String.valueOf(array).split("\\n");
+            // Closes the reader
+            if (arrofStr.length != 4) {
+                input.close();
+                System.exit(1);
+            } else {
+                try {
+                    int portMain = Integer.parseInt(arrofStr[0]);
+                    int portSecond = Integer.parseInt(arrofStr[1]);
+                    serversocket[0] = portMain;
+                    serversocket[1] = portSecond;
+                    address = arrofStr[2];
+                    address2 = arrofStr[3];
+                } catch (Exception e) {
+                    System.out.println("Invalid config file");
+                    System.exit(1);
+                }
+            }
+            input.close();
         }
-        ;
+
+        catch (Exception e) {
+            e.getStackTrace();
         }
-        input.close();
-        }
-    
-        
-        catch(Exception e) {
-        e.getStackTrace();
-        }
-        new Server( serversocket[0], serversocket[1],address,address2,"MainServer");
-        new Server( serversocket[1], serversocket[0],address,address2,"ServerBack");
+        new Server(serversocket[0], serversocket[1], address, address2, "MainServer");
+        new Server(serversocket[1], serversocket[0], address, address2, "ServerBack");
     }
 
 }

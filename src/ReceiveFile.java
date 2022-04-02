@@ -4,7 +4,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.Socket;
 import java.net.SocketException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -26,11 +25,13 @@ public class ReceiveFile extends Thread {
             DatagramPacket dp;
             byte[] buf;
             int port = 10001;
+            System.out.println("__________________________________________\n\tSocket for File Change (UDP)" +
+                    "\n__________________________________________\\n");
+            System.out.println("Listening in port " + port);
+            System.out.println("__________________________________________");
             ds = new DatagramSocket(10001);
             while (true) {
-                System.out.println("_____________Change File Socket__________________");
-                System.out.println("A escuta no porto " + port);
-                System.out.println("__________________________________________");
+
                 byte[] var2 = new byte[1024];
                 DatagramPacket var3 = new DatagramPacket(var2, var2.length);
                 ds.receive(var3);

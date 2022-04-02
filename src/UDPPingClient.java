@@ -24,7 +24,7 @@ public class UDPPingClient extends Thread {
 	String hideOrShow;
 
 	public UDPPingClient(Server server) {
-		serverName=server.addressMain;
+		serverName = server.addressMain;
 		this.server = server;
 	}
 
@@ -35,9 +35,9 @@ public class UDPPingClient extends Thread {
 		System.out.println("[" + time + "] Socket for pings  was created");
 		try (DatagramSocket aSocket = new DatagramSocket()) {
 			System.out.println("__________________________________________\n" +
-					"				Ping Socket\n" +
+					"\tPing Socket\n" +
 					"__________________________________________");
-			System.out.println("A escuta no porto " + port);
+			System.out.println("Listening in port " + port);
 			System.out.println("__________________________________________");
 			try (Scanner sc = new Scanner(System.in)) {
 				while (true) {
@@ -98,6 +98,7 @@ public class UDPPingClient extends Thread {
 											+ (NUMBER_OF_PINGS - pakageLost) + "/" + NUMBER_OF_PINGS + ")");
 						} else {
 							System.out.println(
+								"_____________________________________\n "+
 									"[" + time + "] Perc. of of packets receveid "
 											+ ((NUMBER_OF_PINGS - pakageLost) / NUMBER_OF_PINGS * 100) + "% ("
 											+ (NUMBER_OF_PINGS - pakageLost) + "/" + NUMBER_OF_PINGS + ")");
@@ -124,26 +125,19 @@ public class UDPPingClient extends Thread {
 	}
 
 	private static void printData(DatagramPacket request, String time) throws Exception {
-		// Obtain references to the packet's array of bytes.
+
 		byte[] buf = request.getData();
 
-		// Wrap the bytes in a byte array input stream,
-		// so that you can read the data as a stream of bytes.
 		ByteArrayInputStream bais = new ByteArrayInputStream(buf);
 
-		// Wrap the byte array output stream in an input stream reader,
-		// so you can read the data as a stream of characters.
 		InputStreamReader isr = new InputStreamReader(bais);
 
-		// Wrap the input stream reader in a bufferred reader,
-		// so you can read the character data a line at a time.
-		// (A line is a sequence of chars terminated by any combination of \r and \n.)
 		BufferedReader br = new BufferedReader(isr);
 
-		// The message data is contained in a single line, so read this line.
+		
 		String line = br.readLine();
 
-		// Print host address and data received from it.
+		
 		System.out.println(
 				"[ " + time + " ] Received from " +
 						request.getAddress().getHostAddress() + ": " +

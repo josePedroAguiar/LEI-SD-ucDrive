@@ -25,6 +25,11 @@ public class SendFile extends Thread {
     }
 
     public synchronized void send() {
+        int port = 10001;
+        System.out.println("__________________________________________\n\tSocket for File Change (UDP)  " +
+                "\n__________________________________________\n");
+        System.out.println("A escuta no porto " + port);
+        System.out.println("__________________________________________");
         while (true) {
 
             if (server.filesToReplicate.size() == 0) {
@@ -34,7 +39,7 @@ public class SendFile extends Thread {
                     continue;
                 } catch (InterruptedException e) {
 
-                    System.out.println("Thread foi interrompida!");
+                    System.out.println("Thread interrupted!");
                     return;
                 }
 
@@ -46,10 +51,6 @@ public class SendFile extends Thread {
                         Path path = Paths.get(name);
 
                         int length = (int) Files.size(path);
-                        int port = 10001;
-                        System.out.println("_____________Change File Socket__________________");
-                        System.out.println("A escuta no porto " + port);
-                        System.out.println("__________________________________________");
                         String s = new String(name + "@" + length);
                         byte[] var = s.getBytes();
 
@@ -103,7 +104,7 @@ public class SendFile extends Thread {
                 try {
                     Thread.sleep(10000);
                 } catch (InterruptedException e) {
-                    System.out.println("Thread foi interrompida!");
+                    System.out.println("Thread interrupted!");
                 }
             }
         }

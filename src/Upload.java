@@ -52,7 +52,7 @@ class Upload extends Thread {
                     progress += bytes;
                     out.write(buffer, 0, bytes);
                     if (((float) progress / file.length()) == 1.0f)
-                        System.out.println("Enviando " + filename + " ("
+                        System.out.println("Sending " + filename + " ("
                                 + String.format("%.2f", ((float) progress / file.length()) * 100) + " %)");
                     out.flush();
                 }

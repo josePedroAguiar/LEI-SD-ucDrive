@@ -13,7 +13,6 @@ import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 
@@ -28,24 +27,24 @@ class Connection extends Thread {
     private File LastDir;
     Server server;
 
-    public Connection(Socket aClientSocket, HashSet<User> hs, int numero,Server server) {
-        this.server=server;
-        synchronized(server.filesToReplicate){
-        this.myObj = new File("./" + server.getPath() + "/info/usersData.txt");
-        this.LastDir = new File("./" + server.getPath() + "/info/lastDirs.txt");
-        this.hs = hs;
+    public Connection(Socket aClientSocket, HashSet<User> hs, int numero, Server server) {
+        this.server = server;
+        synchronized (server.filesToReplicate) {
+            this.myObj = new File("./" + server.getPath() + "/info/usersData.txt");
+            this.LastDir = new File("./" + server.getPath() + "/info/lastDirs.txt");
+            this.hs = hs;
 
-        this.thread_number = numero;
-        try {
-            clientSocket = aClientSocket;
-            in = new DataInputStream(clientSocket.getInputStream());
-            out = new DataOutputStream(clientSocket.getOutputStream());
-            this.start();
+            this.thread_number = numero;
+            try {
+                clientSocket = aClientSocket;
+                in = new DataInputStream(clientSocket.getInputStream());
+                out = new DataOutputStream(clientSocket.getOutputStream());
+                this.start();
 
-        } catch (IOException e) {
-            System.out.println("Connection:" + e.getMessage());
+            } catch (IOException e) {
+                System.out.println("Connection:" + e.getMessage());
+            }
         }
-    }
     }
 
     // =============================
@@ -81,7 +80,7 @@ class Connection extends Thread {
             } else if (opt.contains("config")) {
                 String[] config = opt.split(" ");
                 if (config.length == 5) {
-                    configFile(config[1], config[2], config[3],config[4], currentUser);
+                    configFile(config[1], config[2], config[3], config[4], currentUser);
                     out.writeUTF("Ficheiro endereco e porto atualizados\n");
                 } else {
                     out.writeUTF("Impossivel atualizar o endereco e o porto\n");
@@ -106,10 +105,10 @@ class Connection extends Thread {
                                 currentUser.getRootServer());
                 }
                 if (destination.compareTo(currentUser.getCurrentDirServer()) == 0) {
-                    out.writeUTF("Impossivel aceder a essa diretoria\n");
+                    out.writeUTF("Impossible to access that directory\n");
                 } else {
                     currentUser.setCurrentDirServer(destination);
-                    out.writeUTF("Diretoria atualizada");
+                    out.writeUTF("Diretory updated\n");
                     System.out.println(currentUser.getCurrentDirServer().toString());
                 }
 
@@ -132,10 +131,10 @@ class Connection extends Thread {
                         destination = changeCurrentDir(currentUser.getCurrentDir(), command[2], currentUser.getRoot());
                 }
                 if (destination.compareTo(currentUser.getCurrentDir()) == 0 || !Files.isDirectory(destination)) {
-                    out.writeUTF("Impossivel aceder a essa diretoria\n");
+                    out.writeUTF("Impossible to access that directory\n");
                 } else {
                     currentUser.setCurrentDir(destination);
-                    out.writeUTF("Diretoria atualizada\n");
+                    out.writeUTF("Diretory updated\n");
                     System.out.println(currentUser.getCurrentDir().toString());
                 }
             } else if (opt.contains("pull")) {
@@ -152,10 +151,10 @@ class Connection extends Thread {
                         out.writeUTF(fileD.getAbsolutePath());
                         new Upload(filePath.toString(), clientSocket);
                     } else
-                        out.writeUTF("O ficheiro nao existe na diretoria atual\n");
+                        out.writeUTF("File doesn't exist in that directory\n");
 
                 } else
-                    out.writeUTF("Comando invalido\n");
+                    out.writeUTF("Invalid command\n");
 
             } else if (opt.contains("push")) {
                 String[] ss = opt.split(" ");
@@ -173,15 +172,15 @@ class Connection extends Thread {
                         int port = in.readInt();
                         new Download(filePath.toString(), fileD.getPath(),
                                 port);
-                     
-                        server.filesToReplicate.add(new String(currentUser.getCurrentDirServer().toString() + "/" + destination));
-                    
-                      
+
+                        server.filesToReplicate
+                                .add(new String(currentUser.getCurrentDirServer().toString() + "/" + destination));
+
                     } else
-                        out.writeUTF("O ficheiro nao existe na diretoria atual\n");
+                        out.writeUTF("File doesn't exist in that directory\n");
 
                 } else
-                    out.writeUTF("Comando invalido\n");
+                    out.writeUTF("Invalid command\n");
 
             } else if (opt.contains("mkdir -server")) {
                 String[] arg = opt.split(" ");
@@ -201,26 +200,28 @@ class Connection extends Thread {
         }
     }
 
-    private void configFile(String ip, String port,String ip2, String port2, User u) throws IOException {
-        File configFile = new File( "./home/config.txt");
-        if (! configFile.exists()){
-        try {
+    private void configFile(String ip, String port, String ip2, String port2, User u) throws IOException {
+        File configFile = new File("./home/config.txt");
+        if (!configFile.exists()) {
+            try {
+                LastDir.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             LastDir.createNewFile();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
-        LastDir.createNewFile();}
         try (BufferedWriter br = new BufferedWriter(new FileWriter(configFile))) {
-            try{
-            u.setMainServer_host(ip);
-            u.setMainServer_port(Integer.parseInt(port));
-            u.setBackUpServer_host(ip2);
-            u.setBackUpServer_port(Integer.parseInt(port2));
-            
-            String config =  u.getMainServer_port() + "\n"+ u.getBackUpServer_port() + "\n" +u.getMainServer_host() + "\n"  + u.getBackUpServer_host();
-            br.write(config);}
-            catch(Exception e){
-                  out.writeUTF("Impossivel atualizar o endereco e o porto\n");
+            try {
+                u.setMainServer_host(ip);
+                u.setMainServer_port(Integer.parseInt(port));
+                u.setBackUpServer_host(ip2);
+                u.setBackUpServer_port(Integer.parseInt(port2));
+
+                String config = u.getMainServer_port() + "\n" + u.getBackUpServer_port() + "\n" + u.getMainServer_host()
+                        + "\n" + u.getBackUpServer_host();
+                br.write(config);
+            } catch (Exception e) {
+                out.writeUTF("Impossible to update ip and port\n");
             }
         }
     }
@@ -254,28 +255,28 @@ class Connection extends Thread {
                     continue;
                 }
             }
-            System.out.println("T[" + thread_number + "]: Utilizador nao autenticado.");
-            out.writeUTF("Tenta outra vez");
+            System.out.println("T[" + thread_number + "]: User not autenticated.");
+            out.writeUTF("Try again");
         }
 
-        out.writeUTF("Login com sucesso|" + RandomString.getAlphaNumericString(10) + currentUser.getUsername());
+        out.writeUTF("Login with success!|" + RandomString.getAlphaNumericString(10) + currentUser.getUsername());
         return currentUser;
     }
 
     private void changePass(User currentUser) throws IOException {
         try {
-            out.writeUTF("Nova password: ");
+            out.writeUTF("New password: ");
             while (true) {
 
                 String newPass = in.readUTF();
                 if (!newPass.equals(currentUser.getPass())) {
                     currentUser.setPass(newPass);
                     updateFile();
-                    out.writeUTF("Password atualizada!\n");
+                    out.writeUTF("Password updated!");
                     clientSocket.close();
                     break;
                 }
-                out.writeUTF("Password ja utilizada!\nNova password: ");
+                out.writeUTF("Password already used!\nNew password: ");
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -312,6 +313,7 @@ class Connection extends Thread {
         return dir;
     }
 
+    // update Files userData pathData
     private synchronized void updateFile() {
         try (BufferedWriter br = new BufferedWriter(new FileWriter(myObj))) {
             Iterator<User> iter = hs.iterator();
@@ -324,7 +326,7 @@ class Connection extends Thread {
                         + "\t" + u.getUsername() + "\t" + date + "\n";
                 br.write(info);
             }
-            System.out.println(myObj.getName() + " atualizado com sucesso!");
+            System.out.println(myObj.getName() + " updated with success!");
             server.filesToReplicate.add(new String("./" + server.getPath() + "/info/usersData.txt"));
         } catch (FileNotFoundException ex) {
             // file does not exist
@@ -343,8 +345,8 @@ class Connection extends Thread {
                 br.write(u.getUsername() + "\t" + u.getCurrentDir().toString() + "\t"
                         + u.getCurrentDirServer().toString() + "\n");
             }
-            System.out.println(LastDir.getName() + " atualizado com sucesso!");
-            server.filesToReplicate.add( new String("./" + server.getPath() + "/info/lastDirs.txt"));
+            System.out.println(LastDir.getName() + " updated with success!");
+            server.filesToReplicate.add(new String("./" + server.getPath() + "/info/lastDirs.txt"));
         } catch (FileNotFoundException ex) {
             // file does not exist
             System.out.println("File not found!");
