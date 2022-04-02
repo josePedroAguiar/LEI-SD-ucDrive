@@ -260,7 +260,7 @@ public class Server {
 
         try {
         // Creates a reader using the FileReader
-        FileReader input = new FileReader("./home/config.txt");
+        FileReader input = new FileReader("./config.txt");
 
         // Reads characters
         input.read(array);
