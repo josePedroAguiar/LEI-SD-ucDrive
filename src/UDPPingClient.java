@@ -125,19 +125,11 @@ public class UDPPingClient extends Thread {
 	}
 
 	private static void printData(DatagramPacket request, String time) throws Exception {
-
 		byte[] buf = request.getData();
-
 		ByteArrayInputStream bais = new ByteArrayInputStream(buf);
-
 		InputStreamReader isr = new InputStreamReader(bais);
-
 		BufferedReader br = new BufferedReader(isr);
-
-		
-		String line = br.readLine();
-
-		
+		String line = br.readLine();		
 		System.out.println(
 				"[ " + time + " ] Received from " +
 						request.getAddress().getHostAddress() + ": " +
