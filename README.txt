@@ -12,9 +12,9 @@ Guia de instalação da plataforma ucDrive:
         java Client (corre o terminal do cliente)
 
     NOTA:
-    -> Ambos os ficheiros .jar podem ser corridos sem nenhuma ordem específica, no entanto é recomendado
-    correr primeiro o ficheiro ucDrive.jar. Caso corra o ficheiro terminal.jar em primeiro lugar o 
-    terminal do cliente irá ficar em espera até ligar o servidor (ucDrive.jar). 
+    -> É recomendado correr primeiro o ficheiro ucDrive.jar. Caso corra o ficheiro terminal.jar em primeiro
+    lugar o terminal do cliente irá receber uma mensagem de erro a informar que não é possível conectar a
+    nenhum servidor. 
 
 
     AVISO:
