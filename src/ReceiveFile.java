@@ -9,6 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.io.File; 
+import java.net.SocketException;
 public class ReceiveFile extends Thread {
     DatagramSocket ds;
 

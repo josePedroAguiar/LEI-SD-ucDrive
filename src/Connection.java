@@ -80,8 +80,8 @@ class Connection extends Thread {
                 // depois de mudar a passe fecha a ligacao e pede uma nova autenticacao
             } else if (opt.contains("config")) {
                 String[] config = opt.split(" ");
-                if (config.length == 4) {
-                    configFile(config[1], config[2], config[3], currentUser);
+                if (config.length == 5) {
+                    configFile(config[1], config[2], config[3],config[4], currentUser);
                     out.writeUTF("Ficheiro endereco e porto atualizados\n");
                 } else {
                     out.writeUTF("Impossivel atualizar o endereco e o porto\n");
@@ -201,22 +201,28 @@ class Connection extends Thread {
         }
     }
 
-    private void configFile(String string, String ip, String port, User u) throws IOException {
-        File configFile = new File(u.getRoot().toString() + "/configIP_PORT.txt");
-        try (BufferedWriter br = new BufferedWriter(new FileWriter(configFile))) {
-            br.write("#   MainServer_host    MainServer_Port  BackUpServer_host   BackUpServer_Port\n");
-
-            if (string.equals("-main")) {
-                u.setMainServer_host(ip);
-                u.setMainServer_port(Integer.parseInt(port));
-            } else if (string.equals("-backup")) {
-                u.setBackUpServer_host(ip);
-                u.setBackUpServer_port(Integer.parseInt(port));
-            }
-            String config = u.getMainServer_host() + "\t" + u.getMainServer_port() + "\t" + u.getBackUpServer_host()
-                    + "\t" + u.getBackUpServer_port() + "\n";
-            br.write(config);
+    private void configFile(String ip, String port,String ip2, String port2, User u) throws IOException {
+        File configFile = new File( "./home/config.txt");
+        if (! configFile.exists()){
+        try {
+            LastDir.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        LastDir.createNewFile();}
+       
+            try{
+            u.setMainServer_host(ip);
+            u.setMainServer_port(Integer.parseInt(port));
+            u.setBackUpServer_host(ip2);
+            u.setBackUpServer_port(Integer.parseInt(port2));
+            try (BufferedWriter br = new BufferedWriter(new FileWriter(configFile))) {
+            String config =  u.getMainServer_port() + "\n"+ u.getBackUpServer_port() + "\n" +u.getMainServer_host() + "\n"  + u.getBackUpServer_host();
+            br.write(config);}}
+            catch(Exception e){
+                out.writeUTF("Impossivel atualizar o endereco e o porto\n");
+            }
+      
     }
 
     private void createDir(String name, User currentUser) throws IOException {

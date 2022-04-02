@@ -11,40 +11,11 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
-class CmdServer extends Thread {
-	public boolean flagHideOrShow = false;
-	UDPPingServer ping;
-	Scanner sc = new Scanner(System.in);
-
-	public CmdServer(UDPPingServer ping) {
-		this.ping = ping;
-
-	}
-
-	public void run() {
-		try {
-			do {
-				String hideOrShow;
-				if ((hideOrShow = sc.nextLine()).equals("")) {
-					hideOrShow = hideOrShow.toLowerCase();
-					if (hideOrShow.equals("hide") || hideOrShow.equals("h"))
-						ping.flagHideOrShow = true;
-					else
-						ping.flagHideOrShow = false;
-
-				}
-			} while (true);
-		} catch (Exception e) {
-			System.out.println("Exception handled");
-		}
-	}
-}
-
 public class UDPPingServer extends Thread {
 	private static int port = 6789;
 	public Server server;
 	// private static final int AVERAGE_DELAY = 100; // millisegundos
-	public boolean flagHideOrShow = false;
+	public boolean flagHideOrShow = true;
 
 	public UDPPingServer(Server server) {
 		this.server=server;
@@ -76,8 +47,8 @@ public class UDPPingServer extends Thread {
 					"__________________________________________");
 			System.out.println("A escuta no porto " + port);
 			System.out.println("__________________________________________");
-			CmdServer cmd = new CmdServer(this);
-			cmd.start();
+			//CmdServer cmd = new CmdServer(this);
+			//cmd.start();
 			// System.out.println("Socket Datagram à escuta no porto " + port);
 			int count = 0;
 		

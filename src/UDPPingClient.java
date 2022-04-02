@@ -93,11 +93,11 @@ public class UDPPingClient extends Thread  {
 						if(!this.flagHideOrShow) {
 							System.out.println(
 											   "_____________________________________\n " +
-											   "[" + time + "] Perc. of packets  receveid " + ((NUMBER_OF_PINGS - pakageLost) / NUMBER_OF_PINGS * 100) + "% (" + (NUMBER_OF_PINGS - pakageLost) + "/" + NUMBER_OF_PINGS + ")");
+											   "[" + time + "] Perc. of packets  receveid " + ( String.format("%.0f",((double)(NUMBER_OF_PINGS - pakageLost) / NUMBER_OF_PINGS) * 100)) + "% (" + (NUMBER_OF_PINGS - pakageLost) + "/" + NUMBER_OF_PINGS + ")");
 						}
 						else  {
 							System.out.println(
-											   "[" + time + "] Perc. of of packets receveid " + ((NUMBER_OF_PINGS - pakageLost) / NUMBER_OF_PINGS * 100) + "% (" + (NUMBER_OF_PINGS - pakageLost) + "/" + NUMBER_OF_PINGS + ")");
+											   "[" + time + "] Perc. of of packets receveid " + ( String.format("%.0f",((double)(NUMBER_OF_PINGS - pakageLost) / NUMBER_OF_PINGS) * 100))+ "% (" + (NUMBER_OF_PINGS - pakageLost) + "/" + NUMBER_OF_PINGS + ")");
 											   //"If you want to show the unitary prints of the pings type 'Show' or 'S'");
 						}
 						if(pakageLost>8){
